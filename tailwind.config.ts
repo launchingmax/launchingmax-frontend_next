@@ -46,7 +46,7 @@ const config = {
       ringColor: BorderColor,
       fontSize: TypographyExtends, //usage: text-display-2xl  text-text-sm
       fontWeight: FontWeightExtend, //usage: font-regular
-      colors: ColorExtends,
+      colors: ColorExtends, // all colors of "Launching Max" are here !!!!!!!!
       borderRadius: RadiusExtend, //usage: rounded-md
       spacing: SpacingExtend, //usage : border-spacing-0
       gap: SpaceExtend,

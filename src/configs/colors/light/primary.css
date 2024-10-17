@@ -1,197 +1,415 @@
 :root {
   /* Light Primary colors shade */
-  --primary: 208 48% 63%;
+  --primary: var("--primary-500");
   --primary-foreground: 0 0% 0%;
 
-  --primary-50: 0 0% 100%;
+  --primary-50: 208 48% 94%;
   --primary-50-foreground: 0 0% 0%;
 
-  --primary-100: 208 48% 94%;
+  --primary-100: 209 49% 88%;
   --primary-100-foreground: 0 0% 0%;
 
-  --primary-200: 209 49% 88%;
+  --primary-150: 209 49% 82%;
+  --primary-150-foreground: 0 0% 0%;
+
+  --primary-200: 210 49% 75%;
   --primary-200-foreground: 0 0% 0%;
 
-  --primary-300: 209 49% 82%;
+  --primary-300: 208 48% 63%;
   --primary-300-foreground: 0 0% 0%;
 
-  --primary-400: 210 49% 75%;
-  --primary-400-foreground: 0 0% 0%;
+  --primary-400: 209 48% 51%;
+  --primary-400-foreground: 0 0% 100%;
 
-  --primary-500: 208 48% 63%;
-  --primary-500-foreground: 0 0% 0%;
+  --primary-500: 209 78% 38%;
+  --primary-500-foreground: 0 0% 100%;
 
-  --primary-600: 209 48% 51%;
-  --primary-600-foreground: 0 0% 0%;
+  --primary-600: 209 77% 31%;
+  --primary-600-foreground: 0 0% 100%;
 
-  --primary-700: 209 78% 38%;
+  --primary-700: 208 78% 23%;
   --primary-700-foreground: 0 0% 100%;
 
-  --primary-800: 209 77% 31%;
+  --primary-800: 210 77% 15%;
   --primary-800-foreground: 0 0% 100%;
 
-  --primary-900: 208 78% 23%;
+  --primary-850: 209 76% 12%;
+  --primary-850-foreground: 0 0% 100%;
+
+  --primary-900: 209 79% 8%;
   --primary-900-foreground: 0 0% 100%;
 
-  --primary-950: 210 77% 15%;
+  --primary-950: 208 79% 4%;
   --primary-950-foreground: 0 0% 100%;
 
   /*************************************
               Brand
     **************************************/
-  --brand: 260 77% 70%;
+  --brand: var("--brand-500");
   --brand-foreground: 0 0% 100%;
 
-  --brand-25: 264 100% 99%;
-  --brand-25-foreground: var(--brand-700);
+  --brand-50: 208 48% 94%;
+  --brand-50-foreground: 0 0% 0%;
 
-  --brand-50: 264 100% 98%;
-  --brand-50-foreground: var(--brand-700);
+  --brand-100: 209 49% 88%;
+  --brand-100-foreground: 0 0% 0%;
 
-  --brand-100: 267 100% 96%;
-  --brand-100-foreground: var(--brand-700);
+  --brand-150: 209 49% 82%;
+  --brand-150-foreground: 0 0% 0%;
 
-  --brand-200: 268 95% 92%;
-  --brand-200-foreground: var(--brand-700);
+  --brand-200: 210 49% 75%;
+  --brand-200-foreground: 0 0% 0%;
 
-  --brand-300: 265 89% 86%;
-  --brand-300-foreground: var(--brand-700);
+  --brand-300: 208 48% 63%;
+  --brand-300-foreground: 0 0% 0%;
 
-  --brand-400: 262 85% 77%;
+  --brand-400: 209 48% 51%;
   --brand-400-foreground: 0 0% 100%;
 
-  --brand-500: var(--brand);
+  --brand-500: 209 78% 38%;
   --brand-500-foreground: 0 0% 100%;
 
-  --brand-600: 259 63% 59%;
+  --brand-600: 209 77% 31%;
   --brand-600-foreground: 0 0% 100%;
 
-  --brand-700: 258 54% 52%;
+  --brand-700: 208 78% 23%;
   --brand-700-foreground: 0 0% 100%;
 
-  --brand-800: 256 48% 42%;
+  --brand-800: 210 77% 15%;
   --brand-800-foreground: 0 0% 100%;
 
-  --brand-900: 254 45% 34%;
+  --brand-850: 209 76% 12%;
+  --brand-850-foreground: 0 0% 100%;
+
+  --brand-900: 209 79% 8%;
   --brand-900-foreground: 0 0% 100%;
 
-  --brand-950: 254 54% 24%;
+  --brand-950: 208 79% 4%;
   --brand-950-foreground: 0 0% 100%;
 
   /*************************************
               Error 
     **************************************/
-  --error: 0 100% 50%;
+  --error: var("--error-500");
   --error-foreground: 0 0% 0%;
 
-  --error-50: 0 86% 97%;
+  --error-50: 0 100% 97%;
   --error-50-foreground: 0 0% 0%;
 
-  --error-100: 0 93% 94%;
+  --error-100: 0 100% 94%;
   --error-100-foreground: 0 0% 0%;
 
-  --error-200: 0 96% 89%;
+  --error-150: 0 100% 91%;
+  --error-150-foreground: 0 0% 0%;
+
+  --error-200: 0 100% 88%;
   --error-200-foreground: 0 0% 0%;
 
-  --error-300: 0 94% 82%;
+  --error-300: ;
   --error-300-foreground: 0 0% 0%;
 
-  --error-400: 0 91% 71%;
+  --error-400: 0 100% 77%;
   --error-400-foreground: 0 0% 0%;
 
-  --error-500: 0 84% 60%;
+  --error-500: 0 100% 71%;
   --error-500-foreground: 0 0% 0%;
 
-  --error-600: 0 72% 51%;
+  --error-600: 0 54% 57%;
   --error-600-foreground: 0 0% 100%;
 
-  --error-700: 0 74% 42%;
+  --error-700: 0 41% 43%;
   --error-700-foreground: 0 0% 100%;
 
-  --error-800: 0 70% 35%;
+  --error-800: 0 41% 28%;
   --error-800-foreground: 0 0% 100%;
 
-  --error-900: 0 63% 31%;
+  --error-850: 0 41% 21%;
+  --error-850-foreground: 0 0% 100%;
+
+  --error-900: 0 42% 14%;
   --error-900-foreground: 0 0% 100%;
 
-  --error-950: 0 75% 15%;
+  --error-950: 0 41% 7%;
   --error-950-foreground: 0 0% 100%;
 
   /*************************************
               Warning
     **************************************/
-  --warning: 45 93% 47%;
+  --warning: var("--warning-500");
   --warning-foreground: 0 0% 0%;
 
-  --warning-50: 55 92% 95%;
+  --warning-50: 40 100% 97%;
   --warning-50-foreground: 0 0% 0%;
 
-  --warning-100: 55 97% 88%;
+  --warning-100: 43 100% 94%;
   --warning-100-foreground: 0 0% 0%;
 
-  --warning-200: 53 98% 77%;
+  --warning-150: 42 100% 91%;
+  --warning-150-foreground: 0 0% 0%;
+
+  --warning-200: 42 100% 88%;
   --warning-200-foreground: 0 0% 0%;
 
-  --warning-300: 50 98% 64%;
+  --warning-300: 42 100% 82%;
   --warning-300-foreground: 0 0% 0%;
 
-  --warning-400: 48 96% 53%;
+  --warning-400: 42 100% 76%;
   --warning-400-foreground: 0 0% 0%;
 
-  --warning-500: 45 93% 47%;
+  --warning-500: 42 100% 70%;
   --warning-500-foreground: 0 0% 0%;
 
-  --warning-600: 41 96% 40%;
-  --warning-600-foreground: 0 0% 0%;
+  --warning-600: 42 54% 56%;
+  --warning-600-foreground: 0 0% 100%;
 
-  --warning-700: 35 92% 33%;
+  --warning-700: 42 43% 42%;
   --warning-700-foreground: 0 0% 100%;
 
-  --warning-800: 32 81% 29%;
+  --warning-800: 42 43% 28%;
   --warning-800-foreground: 0 0% 100%;
 
-  --warning-900: 28 73% 26%;
+  --warning-850: 42 43% 21%;
+  --warning-850-foreground: 0 0% 100%;
+
+  --warning-900: 43 44% 14%;
   --warning-900-foreground: 0 0% 100%;
 
-  --warning-950: 26 83% 14%;
+  --warning-950: 41 44% 7%;
   --warning-950-foreground: 0 0% 100%;
 
   /*************************************
               Success
     **************************************/
-  --success: 142 71% 45%;
+  --success: var("--success-500");
   --success-foreground: 0 0% 0%;
 
-  --success-50: 138 76% 97%;
+  --success-50: 165 46% 95%;
   --success-50-foreground: 0 0% 0%;
 
-  --success-100: 141 84% 93%;
+  --success-100: 166 42% 90%;
   --success-100-foreground: 0 0% 0%;
 
-  --success-200: 141 79% 85%;
+  --success-150: 166 44% 85%;
+  --success-150-foreground: 0 0% 0%;
+
+  --success-200: 165 44% 80%;
   --success-200-foreground: 0 0% 0%;
 
-  --success-300: 142 77% 73%;
+  --success-300: 167 44% 69%;
   --success-300-foreground: 0 0% 0%;
 
-  --success-400: 142 69% 58%;
+  --success-400: 166 44% 59%;
   --success-400-foreground: 0 0% 0%;
 
-  --success-500: 142 71% 45%;
-  --success-500-foreground: 0 0% 0%;
+  --success-500: 166 45% 49%;
+  --success-500-foreground: 0 0% 100%;
 
-  --success-600: 142 76% 36%;
-  --success-600-foreground: 0 0% 0%;
+  --success-600: 166 45% 39%;
+  --success-600-foreground: 0 0% 100%;
 
-  --success-700: 142 72% 29%;
+  --success-700: 167 45% 29%;
   --success-700-foreground: 0 0% 100%;
 
-  --success-800: 143 64% 24%;
+  --success-800: 165 45% 20%;
   --success-800-foreground: 0 0% 100%;
 
-  --success-900: 144 61% 20%;
+  --success-850: 166 45% 15%;
+  --success-850-foreground: 0 0% 100%;
+
+  --success-900: 166 44% 10%;
   --success-900-foreground: 0 0% 100%;
 
-  --success-950: 145 80% 10%;
+  --success-950: 169 44% 5%;
   --success-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Launching Gray
+    **************************************/
+
+  --launchingGray: var("--launchingGray-500");
+  --launchingGray-foreground: 0 0% 0%;
+
+  --launchingGray-50: 198 71% 97%;
+  --launchingGray-50-foreground: 0 0% 0%;
+
+  --launchingGray-100: 199 70% 95%;
+  --launchingGray-100-foreground: 0 0% 0%;
+
+  --launchingGray-150: 199 71% 92%;
+  --launchingGray-150-foreground: 0 0% 0%;
+
+  --launchingGray-200: 198 71% 89%;
+  --launchingGray-200-foreground: 0 0% 0%;
+
+  --launchingGray-300: 198 69% 84%;
+  --launchingGray-300-foreground: 0 0% 0%;
+
+  --launchingGray-400: 198 69% 78%;
+  --launchingGray-400-foreground: 0 0% 0%;
+
+  --launchingGray-500: 198 70% 73%;
+  --launchingGray-500-foreground: 0 0% 0%;
+
+  --launchingGray-600: 198 36% 58%;
+  --launchingGray-600-foreground: 0 0% 0%;
+
+  --launchingGray-700: 198 26% 44%;
+  --launchingGray-700-foreground: 0 0% 100%;
+
+  --launchingGray-800: 198 26% 29%;
+  --launchingGray-800-foreground: 0 0% 100%;
+
+  --launchingGray-850: 197 26% 22%;
+  --launchingGray-850-foreground: 0 0% 100%;
+
+  --launchingGray-900: 199 25% 15%;
+  --launchingGray-900-foreground: 0 0% 100%;
+
+  --launchingGray-950: 193 24% 7%;
+  --launchingGray-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Mauve Gray
+    **************************************/
+
+  --mauve: var("--mauve-500");
+  --mauve-foreground: 0 0% 0%;
+
+  --mauve-50: 315 31% 95%;
+  --mauve-50-foreground: 0 0% 0%;
+
+  --mauve-100: 308 30% 89%;
+  --mauve-100-foreground: 0 0% 0%;
+
+  --mauve-150: 310 30% 84%;
+  --mauve-150-foreground: 0 0% 0%;
+
+  --mauve-200: 308 30% 79%;
+  --mauve-200-foreground: 0 0% 0%;
+
+  --mauve-300: 309 29% 68%;
+  --mauve-300-foreground: 0 0% 0%;
+
+  --mauve-400: 309 29% 58%;
+  --mauve-400-foreground: 0 0% 100%;
+
+  --mauve-500: 308 33% 47%;
+  --mauve-500-foreground: 0 0% 100%;
+
+  --mauve-600: 309 33% 38%;
+  --mauve-600-foreground: 0 0% 100%;
+
+  --mauve-700: 309 32% 28%;
+  --mauve-700-foreground: 0 0% 100%;
+
+  --mauve-800: 308 33% 19%;
+  --mauve-800-foreground: 0 0% 100%;
+
+  --mauve-850: 308 33% 14%;
+  --mauve-850-foreground: 0 0% 100%;
+
+  --mauve-900: 308 33% 9%;
+  --mauve-900-foreground: 0 0% 100%;
+
+  --mauve-950: 308 33% 5%;
+  --mauve-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Light Blue
+    **************************************/
+
+  --lightBlue: var("--lightBlue-500");
+  --lightBlue-foreground: 0 0% 0%;
+
+  --lightBlue-50: 180 3% 94%;
+  --lightBlue-50-foreground: 0 0% 0%;
+
+  --lightBlue-100: 240 2% 89%;
+  --lightBlue-100-foreground: 0 0% 0%;
+
+  --lightBlue-150: 210 2% 83%;
+  --lightBlue-150-foreground: 0 0% 0%;
+
+  --lightBlue-200: 240 2% 78%;
+  --lightBlue-200-foreground: 0 0% 0%;
+
+  --lightBlue-300: 225 2% 66%;
+  --lightBlue-300-foreground: 0 0% 0%;
+
+  --lightBlue-400: 228 2% 55%;
+  --lightBlue-400-foreground: 0 0% 100%;
+
+  --lightBlue-500: 230 3% 44%;
+  --lightBlue-500-foreground: 0 0% 100%;
+
+  --lightBlue-600: 228 3% 35%;
+  --lightBlue-600-foreground: 0 0% 100%;
+
+  --lightBlue-700: 225 3% 26%;
+  --lightBlue-700-foreground: 0 0% 100%;
+
+  --lightBlue-800: 240 2% 18%;
+  --lightBlue-800-foreground: 0 0% 100%;
+
+  --lightBlue-850: 240 3% 13%;
+  --lightBlue-850-foreground: 0 0% 100%;
+
+  --lightBlue-900: 240 2% 9%;
+  --lightBlue-900-foreground: 0 0% 100%;
+
+  --lightBlue-950: 240 4% 5%;
+  --lightBlue-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Indigo
+    **************************************/
+
+  --indigo: var("--indigo-500");
+  --indigo-foreground: 0 0% 0%;
+
+  --indigo-50: 240 8% 92%;
+  --indigo-50-foreground: 0 0% 0%;
+
+  --indigo-100: 248 10% 85%;
+  --indigo-100-foreground: 0 0% 0%;
+
+  --indigo-150: 245 9% 77%;
+  --indigo-150-foreground: 0 0% 0%;
+
+  --indigo-200: 248 10% 69%;
+  --indigo-200-foreground: 0 0% 0%;
+
+  --indigo-300: 248 9% 54%;
+  --indigo-300-foreground: 0 0% 100%;
+
+  --indigo-400: 248 15% 39%;
+  --indigo-400-foreground: 0 0% 100%;
+
+  --indigo-500: 248 31% 23%;
+  --indigo-500-foreground: 0 0% 100%;
+
+  --indigo-600: 248 31% 19%;
+  --indigo-600-foreground: 0 0% 100%;
+
+  --indigo-700: 248 31% 14%;
+  --indigo-700-foreground: 0 0% 100%;
+
+  --indigo-800: 248 32% 9%;
+  --indigo-800-foreground: 0 0% 100%;
+
+  --indigo-850: 251 31% 7%;
+  --indigo-850-foreground: 0 0% 100%;
+
+  --indigo-900: 248 33% 5%;
+  --indigo-900-foreground: 0 0% 100%;
+
+  --indigo-950: 255 33% 2%;
+  --indigo-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Black & Dashboard
+    **************************************/
+
+  --black: 0 0% 1%;
+  --backgroundDashboard: 210 80% 96%;
 }
