@@ -118,6 +118,12 @@ function Home() {
               {t("appName")}
             </Button>
           </div>
+
+          <img
+            width={80}
+            height={80}
+            src={"/assets/icons/LaunchingMax-logo.svg"}
+          />
         </div>
       </div>
     </main>
