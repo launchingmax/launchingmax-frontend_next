@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { AppContants } from "@/lib/constants";
 import { Session } from "parse";
-import Fetch from "@/configs/api/apiConfig";
+import Fetch from "@/configs/api/fetch";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Toaster as soonerToaster } from "@/components/ui/sonner";
@@ -44,8 +44,8 @@ export default function SignInPage() {
     try {
       setIsLoading(true);
       const body = { username: values.username, password: values.password };
-      const res = await Fetch({ url: "login", method: "POST", body: body });
-      setCookie(AppContants.ParseSessionCookieName, res.sessionToken);
+      const res = await Fetch({ url: "v2/auth", method: "PUT", body: body });
+      setCookie(AppContants.ParseSessionCookieName, res.clientID);
       redirect();
       console.log(" mm -- login new  ---   ", res);
     } catch (err: any) {

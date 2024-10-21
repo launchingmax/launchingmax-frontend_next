@@ -13,6 +13,7 @@ interface IFetch {
   cache?: cacheTypes;
   next?: NextFetchRequestConfig;
   token?: string;
+  params?: Object;
 }
 
 const Fetch = async ({
@@ -22,25 +23,21 @@ const Fetch = async ({
   cache = "default",
   next,
   token,
+  params,
 }: IFetch) => {
   //   try {
   const myHeaders = {
-    "X-Parse-Application-Id": process.env.NEXT_PUBLIC_PARSE_APP_ID,
-    "X-Parse-REST-API-Key": process.env.NEXT_PUBLIC_PARSE_REST_API_KEY,
-    "X-Parse-Session-Token": token,
+    Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_PARSE_ADDRESS}/${url}`,
-    {
-      method: method,
-      //@ts-ignore
-      headers: myHeaders,
-      body: JSON.stringify(body),
-      cache: cache,
-      next: next,
-    }
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_API}/${url}`, {
+    method: method,
+    //@ts-ignore
+    headers: myHeaders,
+    body: JSON.stringify(body),
+    cache: cache,
+    next: next,
+  });
 
   //console.log(" reeees ---   ", response);
 

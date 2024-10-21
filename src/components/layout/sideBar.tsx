@@ -1,81 +1,62 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-
-import {
-  CgAbstract,
-  CgAirplane,
-  CgBell,
-  CgCoffee,
-  CgMoon,
-  CgSun,
-  CgTemplate,
-} from "react-icons/cg";
-
+import { useEffect, useState } from "react";
 import LaunchinMaxLogo from "../../../public/assets/icons/LaunchingMax-logo.svg";
 import MenuItem from "./menuItem";
-import { merge } from "lodash-es";
+import AnimatedText from "@/lib/helper";
+import Fetch from "@/configs/api/fetch";
+import { getCookie } from "cookies-next";
+import { AppContants } from "@/lib/constants";
+import { CgArrowLongDownE, CgSun } from "react-icons/cg";
+import { IMenu, IMenuItem } from "@/lib/models/user-level.model";
+import { title } from "process";
+import useGenerateLayout from "./hook/useGenerateLayout";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { userDetail } = useGenerateLayout();
 
-  const variants = {
-    fInit: {
-      opacity: 1,
-      translateY: "70rem",
-      scale: 0.7,
+  const [theme, setTheme] = useState<string>("");
+  const myTheme = localStorage.getItem("theme");
+
+  const variants = {};
+
+  const menuItems1: IMenu[] = [
+    { title: "111", subMenus: [{ title: "sub 1", link: "/components" }] },
+    {
+      title: "222",
+      subMenus: [
+        { title: "sub 11", link: "/components" },
+        { title: "sub 11", link: "/components" },
+        { title: "sub 11", link: "/components" },
+      ],
     },
-
-    formAnimate: {
-      opacity: 1,
-      transition: {
-        duration: 1,
-      },
-    },
-  };
-
-  const AnimatedText = ({
-    text,
-    isOpen,
-    className,
-  }: {
-    text: string;
-    isOpen: boolean;
-    className?: string;
-  }) => {
-    return (
-      <div className="flex">
-        <motion.span
-          initial={{ opacity: 0 }} // Start hidden
-          animate={{ opacity: isOpen ? 1 : 0 }} // Fade in
-          exit={{ opacity: 0 }} // Fade out
-          transition={{
-            duration: 0.5,
-            delay: isOpen ? 0.2 : 0.1, // Sequential delay for entrance and reverse for exit
-          }}
-          className={`inline-block ${className}`}
-        >
-          {text}
-        </motion.span>
-      </div>
-    );
-  };
-
-  const menuItems = [
-    { title: "test11 11", link: "#" },
-    { title: "test22222", link: "#" },
-    { title: "test 3", link: "#" },
-    { title: "test 4", link: "#" },
-    { title: "test 5", link: "#" },
-    { title: "test 6", link: "#" },
+    { title: "333" },
+    { title: "444" },
   ];
 
-  console.log("-------", LaunchinMaxLogo, typeof LaunchinMaxLogo);
+  const menuItems2 = [
+    { title: "test22", link: "#" },
+    { title: "test22222", link: "#" },
+    { title: "test 22", link: "#" },
+    { title: "test 2222", link: "#" },
+  ];
+
+  const menuItems3 = [
+    { title: "account", link: "#" },
+    { title: "logout", link: "#" },
+  ];
+
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+
+  const toggleSubmenu = () => {
+    setIsSubmenuOpen(!isSubmenuOpen);
+  };
 
   return (
     <motion.div
-      initial={{ width: "15.625rem" }} // Initial width of the sidebar
+      initial={{ width: "15.625rem", padding: "1.5rem" }} // Initial width of the sidebar
       animate={{
         width: isCollapsed ? "5.25rem" : "15.625rem",
         padding: isCollapsed ? "0 0.75rem" : "0 1.5rem",
@@ -87,7 +68,7 @@ const Sidebar = () => {
         duration: 0.5,
         ease: "easeInOut",
       }} // Smooth spring animation
-      className={`relative hidden md:block flex-col w-64 bg-white dark:bg-launchingBlue-8.5 left-0 rounded-xl py-6`}
+      className={`relative hidden md:block w-64 bg-white dark:bg-launchingBlue-8.5  rounded-xl`}
     >
       <motion.div
         animate={{
@@ -100,20 +81,23 @@ const Sidebar = () => {
           duration: 0.5,
           ease: "easeInOut",
         }} // Smooth spring animation
-        className={`absolute -right-3 top-8 w-6 h-6 bg-launchingBlue-5 rounded-full  bg-white dark:bg-launchingBlue-8.5`}
+        className={`absolute -right-3 top-8 flex items-center justify-center `}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        {isCollapsed ? (
-          <img src={"/assets/icons/menu-expand.svg"} />
+        {/* {theme == "light" ? (
+          isCollapsed ? ( */}
+        <img src={"/assets/icons/menu-expand.svg"} />
+        {/* ) : (
+            <img src={"/assets/icons/menu-collapse.svg"} />
+          )
+        ) : isCollapsed ? (
+          <img src={"/assets/icons/menu-expand-dark.svg"} />
         ) : (
-          <img src={"/assets/icons/menu-collapse.svg"} />
-        )}
+          <img src={"/assets/icons/menu-collapse-dark.svg"} />
+        )} */}
       </motion.div>
 
-      <div className=" flex justify-start items-center h-16 rounded-xl text-launchingBlue-5 text-text-xl font-bold gap-2 px-2 ">
-        {/* <CgBell className="fixed ml-2" /> */}
-        {/* <img src={LaunchinMaxLogo} /> */}
-        {/* {LaunchinMaxLogo} */}
+      <div className=" flex justify-start items-center h-16 rounded-xl text-launchingBlue-5 dark:text-white text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
         <img
           className=""
           width={40}
@@ -121,24 +105,50 @@ const Sidebar = () => {
           src={"/assets/icons/LaunchingMax-logo.svg"}
         />
 
-        <AnimatePresence>
-          {!isCollapsed && (
-            <AnimatedText text="Launching" isOpen={!isCollapsed} />
-          )}
-        </AnimatePresence>
+        <div className="flex flex-row">
+          <AnimatePresence>
+            {!isCollapsed && (
+              <AnimatedText text="Launching" isCollapsed={isCollapsed} />
+            )}
+          </AnimatePresence>
 
-        <AnimatePresence>
-          {!isCollapsed && (
-            <AnimatedText
-              text="Max"
-              isOpen={!isCollapsed}
-              className="text-lightBlue-5"
-            />
-          )}
-        </AnimatePresence>
+          <AnimatePresence>
+            {!isCollapsed && (
+              <AnimatedText
+                text="Max"
+                isCollapsed={isCollapsed}
+                className="text-lightBlue-5 dark:text-white"
+              />
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
-      <MenuItem items={menuItems} isCollapsed={isCollapsed} />
+      <div className="place-content-between h-[calc(100vh-9rem)] flex flex-col justify-between overflow-y-auto overflow-x-hidden">
+        <div>
+          <MenuItem
+            items={userDetail?.user?.level?.access?.menus}
+            isCollapsed={isCollapsed}
+            className="top-0"
+          />
+        </div>
+
+        <div className="">
+          <MenuItem
+            items={menuItems2}
+            isCollapsed={isCollapsed}
+            className=" "
+            showSeparator
+          />
+
+          <MenuItem
+            items={menuItems3}
+            isCollapsed={isCollapsed}
+            className=""
+            showSeparator
+          />
+        </div>
+      </div>
     </motion.div>
   );
 };

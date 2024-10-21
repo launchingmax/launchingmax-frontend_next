@@ -1,4 +1,4 @@
-import Fetch from "@/configs/api/apiConfig";
+import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
 
 import { cookies } from "next/headers";

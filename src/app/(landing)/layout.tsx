@@ -1,3 +1,4 @@
+import NavBar from "@/components/layout/navBar";
 import SideBar from "@/components/layout/sideBar";
 
 export default function LandingLayout({
@@ -12,9 +13,7 @@ export default function LandingLayout({
 
       {/* <!-- Main content --> */}
       <div className="flex flex-col flex-1 gap-6">
-        <div className="sticky top-0 block bg-white dark:bg-launchingBlue-8.5 border-gray-200 p-[1rem] rounded-xl">
-          aaa
-        </div>
+        <NavBar />
         <div className="overflow-y-auto bg-white dark:bg-launchingBlue-8.5 rounded-xl">
           {children}
         </div>
