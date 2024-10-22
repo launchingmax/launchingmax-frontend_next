@@ -126,17 +126,12 @@ export interface Endpoint {
   v1_auth_get?: string | number | null;
 }
 
-export interface IMenuItem {
-  title: string;
-  link: string;
-}
-
 export interface IMenu {
   title: string;
-
   default?: boolean;
-
-  subMenus?: IMenuItem[];
+  icon?: string;
+  link?: string;
+  subMenus?: IMenu[];
 }
 
 export interface IAccess {

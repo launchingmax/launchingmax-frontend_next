@@ -3,20 +3,25 @@ import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { CgArrowLongDownE, CgMoon, CgSun } from "react-icons/cg";
 import { Separator } from "../ui/separator";
-import { IMenu, IMenuItem } from "@/lib/models/user-level.model";
+import { IMenu } from "@/lib/models/user-level.model";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const MenuItem = ({
   items,
   isCollapsed,
   className,
+  toggleCollapse,
   showSeparator = false,
+  openMultiple = true,
 }: {
   items?: IMenu[];
   isCollapsed: boolean;
   className?: string;
+  toggleCollapse?: () => void;
   showSeparator?: boolean;
+  openMultiple?: boolean;
 }) => {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState<{
     [key: string]: boolean;
@@ -25,12 +30,12 @@ const MenuItem = ({
   const toggleSubmenu = (menu: string) => {
     setIsSubmenuOpen((prev: any) => ({
       ...prev,
-      [menu]: !prev[menu] ?? true,
+      [menu]: !prev[menu],
     }));
   };
 
   return (
-    <div className="w-full  bg-white dark:bg-launchingBlack text-white">
+    <div className="w-full  text-white">
       {/* Menu Items */}
       {showSeparator && <Separator />}
       <ul className="space-y-1">
@@ -40,22 +45,27 @@ const MenuItem = ({
               className={`group flex items-center justify-between cursor-pointer hover:bg-launchingBlue-4 p-2 rounded h-10 ${
                 item.subMenus ? "" : "space-x-2"
               }`}
-              onClick={() => item.subMenus && toggleSubmenu(item.title)}
+              onClick={() => {
+                item.subMenus && toggleSubmenu(item.title);
+                isCollapsed && toggleCollapse && toggleCollapse();
+              }}
             >
               <div className="flex items-center space-x-2 group">
-                <CgMoon className="text-launchingBlac group-hover:text-fg-white" />
-                <AnimatePresence>
-                  {!isCollapsed && (
-                    <AnimatedText
-                      text={item.title}
-                      isCollapsed={isCollapsed}
-                      className="group-hover:text-fg-white text-launchingBlack font-semibold"
-                    />
-                  )}
-                </AnimatePresence>
+                {item.icon && (
+                  <Icon className="text-2xl text-gray-400" icon={item.icon} />
+                )}
+
+                {!isCollapsed && (
+                  <AnimatedText
+                    text={item.title}
+                    isCollapsed={isCollapsed}
+                    className="group-hover:text-fg-white text-launchingBlack font-semibold line-clamp-1"
+                  />
+                )}
               </div>
-              {item.subMenus && (
-                <CgArrowLongDownE
+              {item.subMenus && !isCollapsed && (
+                <Icon
+                  icon={"solar:double-alt-arrow-down-bold-duotone"}
                   className={`transition-transform duration-300 ${
                     isSubmenuOpen[item.title] ? "rotate-180" : "rotate-0"
                   }`}
@@ -64,35 +74,40 @@ const MenuItem = ({
             </div>
 
             {/* Submenu */}
-            {item.subMenus && isSubmenuOpen[item.title] && (
+            {item.subMenus && (
               <motion.ul
-                className=" mt-2 pt-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                className={`overflow-hidden ${
+                  isSubmenuOpen[item.title] && "pb-1"
+                }`}
+                initial={
+                  isSubmenuOpen[item.title] && !isCollapsed
+                    ? { opacity: 1, height: "auto" }
+                    : { height: 0 }
+                }
+                animate={
+                  isSubmenuOpen[item.title] && !isCollapsed
+                    ? { opacity: 1, height: "auto" }
+                    : { height: 0 }
+                }
                 transition={{ duration: 0.5 }}
               >
-                {item.subMenus.map((subItem: IMenuItem, subIndex) => (
-                  <Link href={subItem.link}>
-                    <AnimatePresence>
-                      <li
-                        key={subIndex}
-                        className="group flex items-center space-x-2 cursor-pointer ml-6 rounded hover:underline hover:text-launchingGray-6"
+                {item.subMenus.map((subItem: IMenu, subIndex) => (
+                  <Link href={subItem.link ?? "#"} key={subIndex}>
+                    <li
+                      key={subIndex}
+                      className={`-mt-2 pt-4 group flex items-center cursor-pointer ml-6  hover:underline hover:text-launchingGray-6 ${
+                        !isCollapsed &&
+                        "border-l border-b border-l-gray-300 border-b-gray-300 rounded-bl-lg"
+                      }`}
+                    >
+                      {subItem.icon && <Icon icon={subItem.icon} />}
+
+                      <span
+                        className={`-mb-2 line-clamp-1 group-hover:text-launchingGray-6 ml-1.5 bg-primary-alt !w-full text-lightBlue-4 px-2 text-sm`}
                       >
-                        <img
-                          className="-mt-4"
-                          width={5}
-                          height={5}
-                          src={"/assets/icons/VectorMenu.svg"}
-                        />
-                        {!isCollapsed && (
-                          <AnimatedText
-                            text={subItem.title}
-                            isCollapsed={isCollapsed}
-                            className="group-hover:text-launchingGray-6 text-lightBlue-4 font-semibold p-2 "
-                          />
-                        )}
-                      </li>
-                    </AnimatePresence>
+                        {subItem.title}
+                      </span>
+                    </li>
                   </Link>
                 ))}
               </motion.ul>

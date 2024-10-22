@@ -1,16 +1,23 @@
+import NavBar from "@/components/layout/navBar";
+import SideBar from "@/components/layout/sideBar";
+
 export default function DashboardLayout({
-  children,
+  children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
 }) {
-  console.log(" mm 220 - - -  dashboard layout  ");
-
   return (
-    <section>
-      <div className="w-[100%] h-lvh bg-amber-200 flex justify-center place-items-center">
-        {/* <Template key={11}>{children}</Template> */}
-        {children}
+    <div className="flex h-screen  p-6 gap-6">
+      {/* <!-- sidebar --> */}
+      <SideBar />
+
+      {/* <!-- Main content --> */}
+      <div className="flex flex-col flex-1 gap-6">
+        <NavBar />
+        <div className="overflow-y-auto bg-primary-alt rounded-xl">
+          {children}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

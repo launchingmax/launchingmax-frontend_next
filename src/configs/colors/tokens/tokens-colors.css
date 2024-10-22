@@ -2,7 +2,7 @@
   /*************************************
                 Text Token 
     **************************************/
-  --text-primary: var(--gray-900);
+  --text-primary: var(--primary-500);
   --text-primary_on-brand: var(--white);
 
   --text-secondary: var(--gray-700);
@@ -80,7 +80,7 @@
   /*************************************
                 Background Token 
     **************************************/
-  --bg-primary: var(--white);
+  --bg-primary: var(--blue-100);
   --bg-primary_alt: var(--white);
   --bg-primary_hover: var(--gray-50);
 

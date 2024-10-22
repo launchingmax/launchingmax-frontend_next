@@ -226,47 +226,47 @@
               Launching Gray
     **************************************/
 
-  --launchingGray: var("--launchingGray-500");
-  --launchingGray-foreground: 0 0% 0%;
+  --blue: var("--blue-500");
+  --blue-foreground: 0 0% 0%;
 
-  --launchingGray-50: 198 71% 97%;
-  --launchingGray-50-foreground: 0 0% 0%;
+  --blue-50: 198 71% 97%;
+  --blue-50-foreground: 0 0% 0%;
 
-  --launchingGray-100: 199 70% 95%;
-  --launchingGray-100-foreground: 0 0% 0%;
+  --blue-100: 199 70% 95%;
+  --blue-100-foreground: 0 0% 0%;
 
-  --launchingGray-150: 199 71% 92%;
-  --launchingGray-150-foreground: 0 0% 0%;
+  --blue-150: 199 71% 92%;
+  --blue-150-foreground: 0 0% 0%;
 
-  --launchingGray-200: 198 71% 89%;
-  --launchingGray-200-foreground: 0 0% 0%;
+  --blue-200: 198 71% 89%;
+  --blue-200-foreground: 0 0% 0%;
 
-  --launchingGray-300: 198 69% 84%;
-  --launchingGray-300-foreground: 0 0% 0%;
+  --blue-300: 198 69% 84%;
+  --blue-300-foreground: 0 0% 0%;
 
-  --launchingGray-400: 198 69% 78%;
-  --launchingGray-400-foreground: 0 0% 0%;
+  --blue-400: 198 69% 78%;
+  --blue-400-foreground: 0 0% 0%;
 
-  --launchingGray-500: 198 70% 73%;
-  --launchingGray-500-foreground: 0 0% 0%;
+  --blue-500: 198 70% 73%;
+  --blue-500-foreground: 0 0% 0%;
 
-  --launchingGray-600: 198 36% 58%;
-  --launchingGray-600-foreground: 0 0% 0%;
+  --blue-600: 198 36% 58%;
+  --blue-600-foreground: 0 0% 0%;
 
-  --launchingGray-700: 198 26% 44%;
-  --launchingGray-700-foreground: 0 0% 100%;
+  --blue-700: 198 26% 44%;
+  --blue-700-foreground: 0 0% 100%;
 
-  --launchingGray-800: 198 26% 29%;
-  --launchingGray-800-foreground: 0 0% 100%;
+  --blue-800: 198 26% 29%;
+  --blue-800-foreground: 0 0% 100%;
 
-  --launchingGray-850: 197 26% 22%;
-  --launchingGray-850-foreground: 0 0% 100%;
+  --blue-850: 197 26% 22%;
+  --blue-850-foreground: 0 0% 100%;
 
-  --launchingGray-900: 199 25% 15%;
-  --launchingGray-900-foreground: 0 0% 100%;
+  --blue-900: 199 25% 15%;
+  --blue-900-foreground: 0 0% 100%;
 
-  --launchingGray-950: 193 24% 7%;
-  --launchingGray-950-foreground: 0 0% 100%;
+  --blue-950: 193 24% 7%;
+  --blue-950-foreground: 0 0% 100%;
 
   /*************************************
               Mauve Gray
@@ -318,47 +318,47 @@
               Light Blue
     **************************************/
 
-  --lightBlue: var("--lightBlue-500");
-  --lightBlue-foreground: 0 0% 0%;
+  --gray: var("--gray-500");
+  --gray-foreground: 0 0% 0%;
 
-  --lightBlue-50: 180 3% 94%;
-  --lightBlue-50-foreground: 0 0% 0%;
+  --gray-50: 180 3% 94%;
+  --gray-50-foreground: 0 0% 0%;
 
-  --lightBlue-100: 240 2% 89%;
-  --lightBlue-100-foreground: 0 0% 0%;
+  --gray-100: 240 2% 89%;
+  --gray-100-foreground: 0 0% 0%;
 
-  --lightBlue-150: 210 2% 83%;
-  --lightBlue-150-foreground: 0 0% 0%;
+  --gray-150: 210 2% 83%;
+  --gray-150-foreground: 0 0% 0%;
 
-  --lightBlue-200: 240 2% 78%;
-  --lightBlue-200-foreground: 0 0% 0%;
+  --gray-200: 240 2% 78%;
+  --gray-200-foreground: 0 0% 0%;
 
-  --lightBlue-300: 225 2% 66%;
-  --lightBlue-300-foreground: 0 0% 0%;
+  --gray-300: 225 2% 66%;
+  --gray-300-foreground: 0 0% 0%;
 
-  --lightBlue-400: 228 2% 55%;
-  --lightBlue-400-foreground: 0 0% 100%;
+  --gray-400: 228 2% 55%;
+  --gray-400-foreground: 0 0% 100%;
 
-  --lightBlue-500: 230 3% 44%;
-  --lightBlue-500-foreground: 0 0% 100%;
+  --gray-500: 230 3% 44%;
+  --gray-500-foreground: 0 0% 100%;
 
-  --lightBlue-600: 228 3% 35%;
-  --lightBlue-600-foreground: 0 0% 100%;
+  --gray-600: 228 3% 35%;
+  --gray-600-foreground: 0 0% 100%;
 
-  --lightBlue-700: 225 3% 26%;
-  --lightBlue-700-foreground: 0 0% 100%;
+  --gray-700: 225 3% 26%;
+  --gray-700-foreground: 0 0% 100%;
 
-  --lightBlue-800: 240 2% 18%;
-  --lightBlue-800-foreground: 0 0% 100%;
+  --gray-800: 240 2% 18%;
+  --gray-800-foreground: 0 0% 100%;
 
-  --lightBlue-850: 240 3% 13%;
-  --lightBlue-850-foreground: 0 0% 100%;
+  --gray-850: 240 3% 13%;
+  --gray-850-foreground: 0 0% 100%;
 
-  --lightBlue-900: 240 2% 9%;
-  --lightBlue-900-foreground: 0 0% 100%;
+  --gray-900: 240 2% 9%;
+  --gray-900-foreground: 0 0% 100%;
 
-  --lightBlue-950: 240 4% 5%;
-  --lightBlue-950-foreground: 0 0% 100%;
+  --gray-950: 240 4% 5%;
+  --gray-950-foreground: 0 0% 100%;
 
   /*************************************
               Indigo

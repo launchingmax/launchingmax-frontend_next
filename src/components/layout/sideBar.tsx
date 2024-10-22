@@ -9,9 +9,10 @@ import Fetch from "@/configs/api/fetch";
 import { getCookie } from "cookies-next";
 import { AppContants } from "@/lib/constants";
 import { CgArrowLongDownE, CgSun } from "react-icons/cg";
-import { IMenu, IMenuItem } from "@/lib/models/user-level.model";
+import { IMenu } from "@/lib/models/user-level.model";
 import { title } from "process";
 import useGenerateLayout from "./hook/useGenerateLayout";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -68,7 +69,7 @@ const Sidebar = () => {
         duration: 0.5,
         ease: "easeInOut",
       }} // Smooth spring animation
-      className={`relative hidden md:block w-64 bg-white dark:bg-launchingBlue-8.5  rounded-xl`}
+      className={`relative hidden md:block w-64 bg-primary-alt  rounded-xl`}
     >
       <motion.div
         animate={{
@@ -86,7 +87,7 @@ const Sidebar = () => {
       >
         {/* {theme == "light" ? (
           isCollapsed ? ( */}
-        <img src={"/assets/icons/menu-expand.svg"} />
+        <Icon icon="akar-icons:triangle-left-fill" />
         {/* ) : (
             <img src={"/assets/icons/menu-collapse.svg"} />
           )
@@ -97,7 +98,7 @@ const Sidebar = () => {
         )} */}
       </motion.div>
 
-      <div className=" flex justify-start items-center h-16 rounded-xl text-launchingBlue-5 dark:text-white text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
+      <div className=" flex justify-start items-center h-16 rounded-xl text-primary text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
         <img
           className=""
           width={40}
@@ -108,7 +109,11 @@ const Sidebar = () => {
         <div className="flex flex-row">
           <AnimatePresence>
             {!isCollapsed && (
-              <AnimatedText text="Launching" isCollapsed={isCollapsed} />
+              <AnimatedText
+                text="Launching"
+                className="text-primary"
+                isCollapsed={isCollapsed}
+              />
             )}
           </AnimatePresence>
 
@@ -117,25 +122,26 @@ const Sidebar = () => {
               <AnimatedText
                 text="Max"
                 isCollapsed={isCollapsed}
-                className="text-lightBlue-5 dark:text-white"
+                className="text-gray-500 dark:text-white"
               />
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      <div className="place-content-between h-[calc(100vh-9rem)] flex flex-col justify-between overflow-y-auto overflow-x-hidden">
+      <div className="place-content-between h-[calc(100vh-9rem)] flex flex-col justify-between overflow-y-auto scroll-hidden overflow-x-hidden">
         <div>
           <MenuItem
             items={userDetail?.user?.level?.access?.menus}
             isCollapsed={isCollapsed}
+            toggleCollapse={() => setIsCollapsed(!isCollapsed)}
             className="top-0"
           />
         </div>
 
         <div className="">
           <MenuItem
-            items={menuItems2}
+            items={menuItems1}
             isCollapsed={isCollapsed}
             className=" "
             showSeparator

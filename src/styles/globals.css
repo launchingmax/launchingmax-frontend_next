@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @import "../configs/colors/light/theme.css";
-@import "../configs/colors/dark/theme.css";
 @import "../configs/colors/tokens/tokens-colors.css";
 @import "../configs/colors/tokens/tokens-colors-dark.css";
 @import "../configs/ui/spacing/spacing.css";
@@ -16,6 +15,10 @@
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
+}
+/* width */
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
 }
 
 /* Track */
