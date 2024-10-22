@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import { Icon } from "@iconify/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Props {
   useSwitch?: boolean;
@@ -19,23 +19,17 @@ interface Props {
 const ThemeToggler: React.FC<Props> = ({ useSwitch = true }) => {
   const { theme, setTheme } = useTheme();
 
-  React.useEffect(() => {
-    console.log(" theme changed . . ");
-  }, [theme]);
-
   return useSwitch ? (
     <div className=" place-content-center">
       <Icon
         onClick={() => setTheme("light")}
-        color="var(--peach-5)"
         icon="solar:sun-bold-duotone"
-        className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100 absolute"
+        className=" rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100 absolute text-2xl cursor-pointer text-yellow-500"
       />
       <Icon
         onClick={() => setTheme("dark")}
-        color="var(--primary)"
         icon="solar:cloudy-moon-bold-duotone"
-        className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0"
+        className="rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0 text-2xl cursor-pointer text-primary"
       />
       <span className="sr-only">Toggle theme</span>
     </div>

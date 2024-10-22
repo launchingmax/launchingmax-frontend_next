@@ -38,11 +38,11 @@ const MenuItem = ({
     <div className="w-full  text-white">
       {/* Menu Items */}
       {showSeparator && <Separator />}
-      <ul className="space-y-1">
+      <ul className="space-y-2  my-3">
         {items?.map((item: IMenu, index) => (
           <li key={index}>
             <div
-              className={`group flex items-center justify-between cursor-pointer hover:bg-launchingBlue-4 p-2 rounded h-10 ${
+              className={`relative group flex items-center justify-between cursor-pointer hover:bg-launchingBlue-4 p-2 rounded h-10 ${
                 item.subMenus ? "" : "space-x-2"
               }`}
               onClick={() => {
@@ -50,23 +50,27 @@ const MenuItem = ({
                 isCollapsed && toggleCollapse && toggleCollapse();
               }}
             >
-              <div className="flex items-center space-x-2 group">
+              <div className="flex items-center space-x-8 group">
                 {item.icon && (
-                  <Icon className="text-2xl text-gray-400" icon={item.icon} />
-                )}
-
-                {!isCollapsed && (
-                  <AnimatedText
-                    text={item.title}
-                    isCollapsed={isCollapsed}
-                    className="group-hover:text-fg-white text-launchingBlack font-semibold line-clamp-1"
+                  <Icon
+                    className="text-2xl text-gray-400 absolute"
+                    icon={item.icon}
                   />
                 )}
+                <AnimatePresence>
+                  {!isCollapsed && (
+                    <AnimatedText
+                      text={item.title}
+                      isCollapsed={isCollapsed}
+                      className="group-hover:text-fg-white text-launchingBlack font-semibold line-clamp-1 overflow-x-hidden"
+                    />
+                  )}
+                </AnimatePresence>
               </div>
               {item.subMenus && !isCollapsed && (
                 <Icon
                   icon={"solar:double-alt-arrow-down-bold-duotone"}
-                  className={`transition-transform duration-300 ${
+                  className={`transition-transform duration-300 group-hover:text-fg-white ${
                     isSubmenuOpen[item.title] ? "rotate-180" : "rotate-0"
                   }`}
                 />

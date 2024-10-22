@@ -113,12 +113,12 @@ export default function SignInPage() {
     <Suspense fallback={"Loading"}>
       <div className="h-dvh flex justify-center items-center">
         <div className="w-[50%] h-[70%] bg-slate-500 rounded-2xl flex-row justify-center p-[50px] overflow-y-auto">
-          <Button className="bg-yellow-400 text-blue-950" onClick={showToast}>
+          {/* <Button className="bg-yellow-400 text-blue-950" onClick={showToast}>
             Toast
           </Button>
           <Button className="bg-yellow-400 text-blue-950" onClick={showSooner}>
             Sooner
-          </Button>
+          </Button> */}
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,8 +1,12 @@
 "use client";
 import Loading from "@/components/molecules/LoadingWrapper";
+import Fetch from "@/configs/api/fetch";
 import i18n from "@/configs/i18next/i18n";
 import "@/configs/parse/parse-browser";
+import { AppContants } from "@/lib/constants";
+import { IUserResponse } from "@/lib/models/user.model";
 import { DirectionProvider } from "@radix-ui/react-direction";
+import { getCookie } from "cookies-next";
 import React, {
   createContext,
   Suspense,
@@ -16,6 +20,7 @@ interface ContextData {
   showLoading: (show: boolean) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
+  userDetail?: IUserResponse;
 }
 
 const defaultValue: ContextData = {
@@ -33,6 +38,23 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [userDetail, setUserDetail] = useState<IUserResponse>();
+
+  const fetchData = async () => {
+    const res: IUserResponse = await Fetch({
+      url: "v1/auth",
+      method: "GET",
+      cache: "force-cache",
+      next: { revalidate: 1 },
+      token: getCookie(AppContants.ParseSessionCookieName),
+    });
+    setUserDetail(res);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const showLoading = (show: boolean) => {
     setIsLoading(show);
   };
@@ -45,6 +67,7 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
         showLoading,
         isLoading,
         setIsLoading,
+        userDetail,
       }}
     >
       <I18nextProvider i18n={i18n}>

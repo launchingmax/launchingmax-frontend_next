@@ -14,7 +14,7 @@ export default function DashboardLayout({
       {/* <!-- Main content --> */}
       <div className="flex flex-col flex-1 gap-6">
         <NavBar />
-        <div className="overflow-y-auto bg-primary-alt rounded-xl">
+        <div className="overflow-y-auto bg-primary-alt rounded-xl h-full">
           {children}
         </div>
       </div>

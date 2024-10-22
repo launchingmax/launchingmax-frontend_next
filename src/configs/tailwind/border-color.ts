@@ -12,7 +12,7 @@ const BorderColor: ResolvableTo<RecursiveKeyValuePair> = {
   },
   brand: {
     DEFAULT: "hsl(var(--brand-500))",
-    alt: "hsl(var(--brand-600))",
+    alt: "hsl(var(--border-brand_alt))",
   },
   error: {
     DEFAULT: "hsl(var(--error-500))",

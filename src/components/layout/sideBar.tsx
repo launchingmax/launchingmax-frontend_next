@@ -1,59 +1,26 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import LaunchinMaxLogo from "../../../public/assets/icons/LaunchingMax-logo.svg";
+import { useState } from "react";
 import MenuItem from "./menuItem";
 import AnimatedText from "@/lib/helper";
-import Fetch from "@/configs/api/fetch";
-import { getCookie } from "cookies-next";
-import { AppContants } from "@/lib/constants";
-import { CgArrowLongDownE, CgSun } from "react-icons/cg";
-import { IMenu } from "@/lib/models/user-level.model";
-import { title } from "process";
-import useGenerateLayout from "./hook/useGenerateLayout";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useGlobal } from "@/contexts/GlobalLayout";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { userDetail } = useGenerateLayout();
+  const { userDetail } = useGlobal();
 
-  const [theme, setTheme] = useState<string>("");
-  const myTheme = localStorage.getItem("theme");
-
-  const variants = {};
-
-  const menuItems1: IMenu[] = [
-    { title: "111", subMenus: [{ title: "sub 1", link: "/components" }] },
-    {
-      title: "222",
-      subMenus: [
-        { title: "sub 11", link: "/components" },
-        { title: "sub 11", link: "/components" },
-        { title: "sub 11", link: "/components" },
-      ],
-    },
-    { title: "333" },
-    { title: "444" },
+  const menuItems = [
+    { title: "Ticket", link: "#", icon: "solar:mailbox-bold-duotone" },
+    { title: "Help", link: "#", icon: "solar:question-circle-bold-duotone" },
+    { title: "Get in touch", link: "#", icon: "solar:dialog-bold-duotone" },
   ];
 
-  const menuItems2 = [
-    { title: "test22", link: "#" },
-    { title: "test22222", link: "#" },
-    { title: "test 22", link: "#" },
-    { title: "test 2222", link: "#" },
+  const menuItemsAccount = [
+    { title: "Account", link: "#", icon: "solar:user-rounded-bold-duotone" },
+    { title: "Logout", link: "#", icon: "solar:exit-bold-duotone" },
   ];
-
-  const menuItems3 = [
-    { title: "account", link: "#" },
-    { title: "logout", link: "#" },
-  ];
-
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-
-  const toggleSubmenu = () => {
-    setIsSubmenuOpen(!isSubmenuOpen);
-  };
 
   return (
     <motion.div
@@ -82,20 +49,20 @@ const Sidebar = () => {
           duration: 0.5,
           ease: "easeInOut",
         }} // Smooth spring animation
-        className={`absolute -right-3 top-8 flex items-center justify-center `}
+        className={`absolute -right-3 top-8 flex items-center justify-center bg-primary-alt w-6 h-6 rounded-full border dark:border-launchingBlue-7`}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        {/* {theme == "light" ? (
-          isCollapsed ? ( */}
-        <Icon icon="akar-icons:triangle-left-fill" />
-        {/* ) : (
-            <img src={"/assets/icons/menu-collapse.svg"} />
-          )
-        ) : isCollapsed ? (
-          <img src={"/assets/icons/menu-expand-dark.svg"} />
+        {isCollapsed ? (
+          <Icon
+            icon="akar-icons:triangle-left-fill"
+            className="text-gray-400 cursor-pointer"
+          />
         ) : (
-          <img src={"/assets/icons/menu-collapse-dark.svg"} />
-        )} */}
+          <Icon
+            icon="akar-icons:triangle-right-fill"
+            className="text-gray-400 cursor-pointer"
+          />
+        )}
       </motion.div>
 
       <div className=" flex justify-start items-center h-16 rounded-xl text-primary text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
@@ -141,14 +108,14 @@ const Sidebar = () => {
 
         <div className="">
           <MenuItem
-            items={menuItems1}
+            items={menuItems}
             isCollapsed={isCollapsed}
             className=" "
             showSeparator
           />
 
           <MenuItem
-            items={menuItems3}
+            items={menuItemsAccount}
             isCollapsed={isCollapsed}
             className=""
             showSeparator

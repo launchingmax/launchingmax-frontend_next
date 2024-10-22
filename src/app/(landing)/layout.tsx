@@ -6,18 +6,5 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex h-screen bg-backgroundDashboard dark:bg-launchingBlack p-6 gap-6">
-      {/* <!-- sidebar --> */}
-      <SideBar />
-
-      {/* <!-- Main content --> */}
-      <div className="flex flex-col flex-1 gap-6">
-        <NavBar />
-        <div className="overflow-y-auto bg-white dark:bg-launchingBlue-8.5 rounded-xl">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
+  return <>{children}</>;
 }

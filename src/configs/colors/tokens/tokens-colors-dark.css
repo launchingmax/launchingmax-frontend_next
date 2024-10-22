@@ -43,7 +43,7 @@
   --border-disabled_subtle: var(--gray-800);
 
   --border-brand: var(--brand-400);
-  --border-brand_alt: var(--gray-700);
+  --border-brand_alt: var(--primary-850);
 
   --border-error: var(--error-400);
   --border-error_subtle: var(--error-400);
