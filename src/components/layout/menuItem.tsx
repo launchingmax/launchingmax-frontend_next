@@ -53,7 +53,7 @@ const MenuItem = ({
               <div className="flex items-center space-x-8 group">
                 {item.icon && (
                   <Icon
-                    className="text-2xl text-gray-400 absolute"
+                    className="text-2xl group-hover:text-fg-white text-gray-400 absolute"
                     icon={item.icon}
                   />
                 )}
