@@ -312,14 +312,14 @@
   --button-primary-fg_hover: var(--white);
 
   /*************************************
-     Components Button Secondary Token 
+     Components Button Secondary Token    //--- according to launcing max color
   **************************************/
-  --button-secondary-bg: var(--gray-dark-900);
-  --button-secondary-bg_hover: var(--gray-dark-800);
-  --button-secondary-fg: var(--gray-dark-300);
-  --button-secondary-fg_hover: var(--gray-dark-100);
-  --button-secondary-border: var(--gray-dark-700);
-  --button-secondary-border_hover: var(--gray-dark-700);
+  --button-secondary-bg: var(--brand-800);
+  --button-secondary-bg_hover: var(--brand-80);
+  --button-secondary-fg: var(--brand-80);
+  --button-secondary-fg_hover: var(--brand-80);
+  --button-secondary-border: var(--brand-80);
+  --button-secondary-border_hover: var(--brand-80);
 
   /*************************************
     Components Button Secondary Color Token 

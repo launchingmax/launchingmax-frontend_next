@@ -6,7 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { startCase } from "lodash-es";
 import React from "react";
 import { CgMoon, CgSun } from "react-icons/cg";
-import { SelectOptions } from "../../../../public/data/select-data";
 import { LanguageSwitcher } from "@/components/languageSwitcher";
 import { useTranslation } from "react-i18next";
 
@@ -84,7 +83,7 @@ const components: Coms = {
   },
   Select: {
     Component: MySelect,
-    props: { options: SelectOptions, placeholder: "Select One" },
+    props: { options: [], placeholder: "Select One" },
     shapes: {
       selectSize: [{ name: "sm" }, { name: "md" }],
     },

@@ -312,24 +312,24 @@
   --button-primary-fg_hover: var(--white);
 
   /*************************************
-     Components Button Secondary Token 
+     Components Button Secondary Token  //--- according to launcing max color
   **************************************/
-  --button-secondary-bg: var(--white);
-  --button-secondary-bg_hover: var(--gray-50);
-  --button-secondary-fg: var(--gray-700);
-  --button-secondary-fg_hover: var(--gray-800);
-  --button-secondary-border: var(--gray-300);
-  --button-secondary-border_hover: var(--gray-300);
+  --button-secondary-color-bg: var(--primary-50);
+  --button-secondary-color-border_hover: var(--primary-500);
+  --button-secondary-color-fg: var(--primary-500);
+  --button-secondary-color-fg_hover: var(--primary-500);
+  --button-secondary-color-border: var(--primary-500);
+  --button-secondary-color-bg_hover: var(--primary-500);
 
   /*************************************
     Components Button Secondary Color Token 
   **************************************/
-  --button-secondary-color-bg: var(--white);
+  --button-secondary-color-bg: var(--brand-50);
   --button-secondary-color-bg_hover: var(--brand-50);
-  --button-secondary-color-fg: var(--brand-700);
-  --button-secondary-color-fg_hover: var(--brand-800);
-  --button-secondary-color-border: var(--brand-300);
-  --button-secondary-color-border_hover: var(--brand-300);
+  --button-secondary-color-fg: var(--brand-500);
+  --button-secondary-color-fg_hover: var(--brand-500);
+  --button-secondary-color-border: var(--brand-00);
+  --button-secondary-color-border_hover: var(--brand-500);
 
   /*************************************
     Components Button Primary Error Token 

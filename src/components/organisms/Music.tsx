@@ -3,6 +3,7 @@ import { AppContants } from "@/lib/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import DashSection from "./dashboard/DashSection";
 
 const Music = () => {
   const token = getCookie(AppContants.ParseSessionCookieName);
