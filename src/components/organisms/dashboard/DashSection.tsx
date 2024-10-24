@@ -16,6 +16,7 @@ export interface IProps {
   backUrl?: string;
   renderBackBtn?: (url?: string) => React.ReactNode;
   className?: string;
+  showHorizontalLine?: boolean;
 }
 
 /**
@@ -30,11 +31,12 @@ const DashSection: React.FC<IProps> = ({
   cta,
   heading,
   renderBackBtn,
+  showHorizontalLine = true,
 }) => {
   return (
-    <section className={cn("flex flex-col w-full", className)}>
+    <section className={cn("flex flex-col w-full z-50", className)}>
       {/* Title of the section */}
-      <div className="flex items-center w-full gap-x-6">
+      <div className="flex items-center w-full gap-x-6 bg-white dark:bg-launchingBlack">
         {/* Back Url buttton */}
         {backUrl &&
           (renderBackBtn ? (
@@ -43,7 +45,7 @@ const DashSection: React.FC<IProps> = ({
             <Link href={`${"/" + trimStart(backUrl, "/")}`}>
               <Icon
                 icon="solar:square-alt-arrow-left-bold-duotone"
-                className="h-8 w-8 text-launchingBlue-5"
+                className="h-8 w-8 text-launchingBlue-5 dark:text-launchingBlue-2"
               />
             </Link>
           ))}
@@ -57,18 +59,20 @@ const DashSection: React.FC<IProps> = ({
           heading
         )}
 
-        <span className="flex items-center flex-grow">
-          <div
-            className="w-0 h-0 translate-x-1 
+        {showHorizontalLine && (
+          <span className="flex items-center flex-grow">
+            <div
+              className="w-0 h-0 translate-x-1 
               border-t-[8px] border-t-transparent
               border-l-[10px] border-l-launchingBlue-5 dark:border-l-white
               border-b-[8px] border-b-transparent"
-          />
-          <hr
-            className=" h-0.5  flex-grow bg-gradient-to-r
+            />
+            <hr
+              className=" h-0.5  flex-grow bg-gradient-to-r
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded md:my-10 "
-          />
-        </span>
+            />
+          </span>
+        )}
 
         {cta instanceof ILink ? (
           <Link href={cta.href}>

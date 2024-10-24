@@ -4,6 +4,7 @@ import { StartupStatus } from "../constants/startup.enum";
 import { IAssignee } from "../submodels/assignee";
 import { ITeam } from "../submodels/Team";
 import { IBrainStorming, IVisualBranding } from "./all-roadmaps";
+import { IIdea } from "./idea.model";
 
 export interface IPlacement {
   country: String;
@@ -32,7 +33,9 @@ export interface BaseIdea {
 }
 
 export interface IStartup extends BaseIdea {
-  idea: string;
+  _id?: string;
+
+  idea: IIdea;
 
   owner: string;
 

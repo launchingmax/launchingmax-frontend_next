@@ -24,7 +24,7 @@ const Music = () => {
     fetchMusic();
   }, []);
 
-  console.log("music ", music);
+  //console.log("music ", music);
 
   return (
     <div className="flex items-center w-[21.125rem] h-[3rem] bg-launchingBlue-05 dark:bg-launchingBlue-7 rounded-md">

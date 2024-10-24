@@ -1,3 +1,5 @@
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+
 type cacheTypes =
   | "default"
   | "no-store"
@@ -12,7 +14,7 @@ interface IFetch {
   body?: Object;
   cache?: cacheTypes;
   next?: NextFetchRequestConfig;
-  token?: string;
+  token?: string | RequestCookie;
   params?: Object;
 }
 
