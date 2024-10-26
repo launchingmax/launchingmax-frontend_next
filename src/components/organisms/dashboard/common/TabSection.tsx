@@ -28,13 +28,15 @@ const TabSection: React.FC<ITabSection> = ({
   return (
     <div className="flex justify-around w-full py-2 bg-white dark:bg-launchingBlack">
       <Tabs
-        defaultValue={activeTab}
+        defaultValue={activeTab ?? tabItems[0]}
         onValueChange={(value: any) => renderTab(value)}
         className={cn("", className)}
       >
         <TabsList className="flex flex-row space-x-12 w-full">
           {tabItems?.map((item: string) => (
-            <TabsTrigger value={item}>{item}</TabsTrigger>
+            <TabsTrigger key={item} value={item}>
+              {item}
+            </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>

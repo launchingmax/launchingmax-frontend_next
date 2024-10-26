@@ -17,7 +17,6 @@ const NavBar = () => {
           <Avatar>
             <AvatarImage
               src={`${process.env.NEXT_PUBLIC_AVATAR_API}/${userDetail?.user.profile}`}
-              alt="@shadcn"
             />
             <AvatarFallback className="bg-primary-4">
               {userDetail?.user.firstName.charAt(0)}

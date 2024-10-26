@@ -34,9 +34,9 @@ const DashSection: React.FC<IProps> = ({
   showHorizontalLine = true,
 }) => {
   return (
-    <section className={cn("flex flex-col w-full z-50", className)}>
+    <section className={cn("flex flex-col w-full relative p-0 m-0", className)}>
       {/* Title of the section */}
-      <div className="flex items-center w-full gap-x-6 bg-white dark:bg-launchingBlack">
+      <div className="flex items-center w-full gap-x-6 sticky -top-1 pt-6 bg-white dark:bg-launchingBlack z-50">
         {/* Back Url buttton */}
         {backUrl &&
           (renderBackBtn ? (

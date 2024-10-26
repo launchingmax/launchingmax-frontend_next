@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { motion } from "framer-motion";
 
 const Overview = () => {
   return (
     <div className="p-4">
       <div className="w-full flex justify-start">
         <div
-          className="w-2/3 h-auto px-16 pb-20  object-cover bg-center rounded-xl z-0"
+          className="absoluteh-auto w-2/3 inset-0 bg-cover bg-center rounded-xl z-0"
           style={{
-            backgroundImage:
-              "url(http://localhost:3000/assets/icons/testtest.png)",
-            // backgroundRepeat: "no-repeat",
+            backgroundImage: `url(http://localhost:3000/assets/icons/testtest.png)`,
           }}
         />
 
@@ -73,7 +73,12 @@ const Overview = () => {
         migration experience.
       </p>
 
-      <Button className="flex self-center ">Send Request</Button>
+      <div className=" flex justify-center w-full mt-6">
+        <Button className="flex py-3 px-[7rem] gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88]">
+          Send Request
+          <Icon icon="solar:square-arrow-right-bold" className="text-xl" />
+        </Button>
+      </div>
     </div>
   );
 };

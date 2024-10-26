@@ -1,3 +1,4 @@
+import { trimStart } from "lodash-es";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 type cacheTypes =
@@ -32,14 +33,18 @@ const Fetch = async ({
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_API}/${url}`, {
-    method: method,
-    //@ts-ignore
-    headers: myHeaders,
-    body: JSON.stringify(body),
-    cache: cache,
-    next: next,
-  });
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/")}`,
+    {
+      method: method,
+      //@ts-ignore
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      cache: cache,
+      next: next,
+    }
+  );
 
   //console.log(" reeees ---   ", response);
 
