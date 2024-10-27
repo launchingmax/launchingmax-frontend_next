@@ -12,6 +12,12 @@
 @import "../configs//ui/typography/typogeraphy.css";
 @import "../configs//ui/typography/fontWeight.css";
 
+.scroll-cubic {
+  /* scroll-behavior: smooth; */
+  transition: all 1s;
+  transition-timing-function: 1s cubic-bezier(0.03, 0.51, 0.74, -0.53);
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 6px;

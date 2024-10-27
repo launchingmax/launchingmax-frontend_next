@@ -1,41 +1,29 @@
+import { encodeQueryString } from "@/lib/helper";
 import { trimStart } from "lodash-es";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
-type cacheTypes =
-  | "default"
-  | "no-store"
-  | "reload"
-  | "no-cache"
-  | "force-cache"
-  | "only-if-cached";
+type cacheTypes = "default" | "no-store" | "reload" | "no-cache" | "force-cache" | "only-if-cached";
 
-interface IFetch {
+export interface IFetch {
   url: string;
   method: "GET" | "POST" | "DELETE" | "PUT";
   body?: Object;
   cache?: cacheTypes;
   next?: NextFetchRequestConfig;
   token?: string | RequestCookie;
-  params?: Object;
+  params?: any;
 }
 
-const Fetch = async ({
-  url,
-  method,
-  body,
-  cache = "default",
-  next,
-  token,
-  params,
-}: IFetch) => {
+const Fetch = async ({ url, method, body, cache = "default", next, token, params }: IFetch) => {
   //   try {
   const myHeaders = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
 
+  // console.log(" mm 2020 -- -  url - - -    ", url);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/")}`,
+    `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/") + encodeQueryString(params)}`,
     {
       method: method,
       //@ts-ignore

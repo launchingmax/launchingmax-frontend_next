@@ -28,15 +28,9 @@ export default function AnimatedText({
 }
 
 export function encodeQueryString(params: any) {
-  const keys = Object.keys(params);
-  return keys.length
-    ? "?" +
-        keys
-          .map(
-            (key) =>
-              encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
-          )
-          .join("&")
+  const keys = params && Object.keys(params);
+  return keys && keys.length
+    ? "?" + keys.map((key: any) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key])).join("&")
     : "";
 }
 

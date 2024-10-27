@@ -29,6 +29,9 @@ const config = {
       },
     },
     extend: {
+      transitionTimingFunction: {
+        "scroll-cubic": "1s cubic-bezier(.2,.43,0,-0.8)",
+      },
       screens: {
         xs: "0px",
         sm: "480px",

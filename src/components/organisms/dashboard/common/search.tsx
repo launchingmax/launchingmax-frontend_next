@@ -1,3 +1,4 @@
+"use client";
 import { Field } from "@/components/atoms/Field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -25,18 +26,13 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender }) => {
           <Separator orientation="vertical" className="h-6" />
 
           <FormProvider {...form}>
-            <form
-              onSubmit={form.handleSubmit(() =>
-                console.log("mm 10 -  submited !!!")
-              )}
-            >
+            <form onSubmit={form.handleSubmit(() => console.log("mm 10 -  submited !!!"))}>
               <Field
                 name={"input1"}
                 Input={Input}
                 InputProps={{
                   placeholder: "Search it...",
-                  className:
-                    "border-0  focus-within:outline-none focus-within:border-0 focus-within:ring-0",
+                  className: "border-0  focus-within:outline-none focus-within:border-0 focus-within:ring-0",
                 }}
               />
             </form>

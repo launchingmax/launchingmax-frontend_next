@@ -12,7 +12,9 @@ export interface IVisualBranding extends DynamicObj {
   logo?: string;
 }
 
-export interface IWebsite extends DynamicObj {}
+export interface IWebsite extends DynamicObj {
+  website?: string;
+}
 
 export interface IPCT extends DynamicObj {}
 
@@ -24,7 +26,16 @@ export interface ICV extends DynamicObj {}
 
 export interface IBusinessModel extends DynamicObj {}
 
-export interface IBusinessPlan extends DynamicObj {}
+export interface IBusinessPlan extends DynamicObj {
+  investmentFee?: number;
+  minStartupValue?: number;
+  maxStartupValue?: number;
+  industry?: string;
+  tags?: string;
+  country?: string;
+  market?: string;
+  businessPlan?: string;
+}
 
 export interface ICompletion extends DynamicObj {}
 
