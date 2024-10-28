@@ -7,7 +7,7 @@ export const ColorExtends = {
    **** Launching MAx Color ****
    ****************************/
 
-  launchingBlack: "hsl(var(--black))",
+  launchingBlack: "hsl(var(--launchingBlack))",
 
   backgroundDashboard: "hsl(var(--backgroundDashboard))",
 

@@ -76,7 +76,7 @@ export default async function InvestorPage() {
       >
         <div className=" w-[100%] grid grid-cols-2 gap-6 ">
           {res?.items?.map((item: IStartup) => (
-            <Link href={`${"/" + trimStart(`/dashboard/investor/${item._id}/#Overview`, "/")}`}>
+            <Link href={`${"/" + trimStart(`/dashboard/investors/${item._id}/#Overview`, "/")}`}>
               <StartupCard key={item._id} startup={item} />
             </Link>
           ))}

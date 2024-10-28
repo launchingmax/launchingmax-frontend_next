@@ -53,44 +53,23 @@ const Sidebar = () => {
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         {isCollapsed ? (
-          <Icon
-            icon="akar-icons:triangle-left-fill"
-            className="text-gray-400 cursor-pointer"
-          />
+          <Icon icon="akar-icons:triangle-left-fill" className="text-gray-400 cursor-pointer" />
         ) : (
-          <Icon
-            icon="akar-icons:triangle-right-fill"
-            className="text-gray-400 cursor-pointer"
-          />
+          <Icon icon="akar-icons:triangle-right-fill" className="text-gray-400 cursor-pointer" />
         )}
       </motion.div>
 
       <div className=" flex justify-start items-center h-16 rounded-xl text-primary text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
-        <img
-          className=""
-          width={40}
-          height={40}
-          src={"/assets/icons/LaunchingMax-logo.svg"}
-        />
+        <img className="" width={40} height={40} src={"/assets/icons/LaunchingMax-logo.svg"} />
 
         <div className="flex flex-row">
           <AnimatePresence>
-            {!isCollapsed && (
-              <AnimatedText
-                text="Launching"
-                className="text-primary"
-                isCollapsed={isCollapsed}
-              />
-            )}
+            {!isCollapsed && <AnimatedText text="Launching" className="text-primary" isCollapsed={isCollapsed} />}
           </AnimatePresence>
 
           <AnimatePresence>
             {!isCollapsed && (
-              <AnimatedText
-                text="Max"
-                isCollapsed={isCollapsed}
-                className="text-gray-500 dark:text-white"
-              />
+              <AnimatedText text="Max" isCollapsed={isCollapsed} className="text-gray-500 dark:text-white" />
             )}
           </AnimatePresence>
         </div>
@@ -107,19 +86,9 @@ const Sidebar = () => {
         </div>
 
         <div className="">
-          <MenuItem
-            items={menuItems}
-            isCollapsed={isCollapsed}
-            className=" "
-            showSeparator
-          />
+          <MenuItem items={menuItems} isCollapsed={isCollapsed} className=" " showSeparator />
 
-          <MenuItem
-            items={menuItemsAccount}
-            isCollapsed={isCollapsed}
-            className=""
-            showSeparator
-          />
+          <MenuItem items={menuItemsAccount} isCollapsed={isCollapsed} className="" showSeparator />
         </div>
       </div>
     </motion.div>

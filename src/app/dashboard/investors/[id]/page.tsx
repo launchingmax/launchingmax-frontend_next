@@ -37,8 +37,8 @@ const StartupDetail = async ({ params: { id } }: any) => {
 
   return (
     <main>
-      <div className=" bg-white dark:bg-launchingBlack">
-        <ScrollTab tabs={tabs} backUrl="dashboard/investor" />
+      <div className=" bg-white dark:bg-launchingBlue-8.5">
+        <ScrollTab tabs={tabs} backUrl="dashboard/investors" />
         {/* Content of the page with sections */}
         <div className="space-y-8  b-0 scroll-cubic">
           {/* Add padding top to prevent content from hiding behind the sticky tabs */}

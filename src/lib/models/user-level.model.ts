@@ -130,7 +130,7 @@ export interface IMenu {
   title: string;
   default?: boolean;
   icon?: string;
-  link?: string;
+  link: string;
   subMenus?: IMenu[];
 }
 

@@ -35,7 +35,7 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn }) => {
   }, [router]);
 
   return (
-    <div className=" sticky flex flex-col  w-full gap-x-6 top-0 pb-3 bg-white dark:bg-launchingBlack z-50">
+    <div className=" sticky flex flex-col  w-full gap-x-6 top-0 pb-3 bg-white dark:bg-launchingBlue-8.5 z-50">
       <div className="flex justify-center items-center py-2">
         {backUrl &&
           (renderBackBtn ? (

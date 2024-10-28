@@ -1,7 +1,7 @@
 // app/page.tsx
 export default function Home() {
   return (
-    <div className="h-screen overflow-y-scroll scroll-smooth  scroll-cubic ">
+    <div className="h-screen overflow-y-scroll scroll-smooth !ease-[cubic-bezier(.21,1.77,.64,-0.46)]">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full bg-white p-4 z-10 flex space-x-4">
         <a href="#section1" className="px-3 py-2 bg-blue-500 text-white rounded-md">
