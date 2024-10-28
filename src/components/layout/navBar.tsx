@@ -11,8 +11,8 @@ const NavBar = () => {
   const { userDetail } = useGlobal();
 
   return (
-    <div className="sticky top-0 flex justify-between bg-primary-alt rounded-xl py-2 pr-2 pl-3">
-      <div className="flex items-center ">
+    <div className="sticky top-0 flex justify-between items-center bg-primary-alt md:rounded-xl py-4 px-6 md:py-2 md:px-3">
+      <div className="flex items-center overflow-hidden w-full">
         <div className="relative">
           <div className="absolute right-0 bottom-0 z-20 w-3 h-3 bg-green-400 rounded-full border-[2px] border-brand-alt"></div>
 
@@ -49,7 +49,7 @@ const NavBar = () => {
         <Icon icon="solar:refresh-bold-duotone" className="text-mauve-5 text-2xl cursor-pointer " />
       </div>
 
-      <div className="flex justify-center gap-4 items-center">
+      <div className="absolute hidden md:flex justify-center gap-4 items-center  right-1 bg-white dark:bg-launchingBlue-8.5">
         <ThemeToggler />
 
         <Icon icon="solar:bell-bold-duotone" className="text-2xl text-primary cursor-pointer" />

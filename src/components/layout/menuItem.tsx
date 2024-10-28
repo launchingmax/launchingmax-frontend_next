@@ -54,7 +54,7 @@ const MenuItem = ({
             <li key={index} className="">
               {/* <Link href={item.subMenus ? "#" : `dashboard/${item.title.toLowerCase()}`} replace key={index}> */}
               <div
-                className={`relative group flex items-center justify-between cursor-pointer  p-2 rounded h-10 ${
+                className={`relative group flex items-center justify-between cursor-pointer p-2 rounded h-10 ${
                   item.subMenus ? "" : "space-x-2"
                 } ${
                   isActive

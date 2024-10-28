@@ -26,7 +26,7 @@ const Sidebar = () => {
     <motion.div
       initial={{ width: "15.625rem", padding: "1.5rem" }} // Initial width of the sidebar
       animate={{
-        width: isCollapsed ? "5.25rem" : "15.625rem",
+        width: isCollapsed ? "4.25rem" : "15.625rem",
         padding: isCollapsed ? "0 0.75rem" : "0 1.5rem",
       }}
       transition={{
@@ -49,7 +49,7 @@ const Sidebar = () => {
           duration: 0.5,
           ease: "easeInOut",
         }} // Smooth spring animation
-        className={`absolute -right-3 top-8 flex items-center justify-center bg-primary-alt w-6 h-6 rounded-full border dark:border-launchingBlue-7`}
+        className={`absolute -right-3 top-8 flex items-center justify-center bg-primary-alt w-6 h-6 rounded-full border dark:border-launchingBlue-7 z-10`}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         {isCollapsed ? (
@@ -59,7 +59,9 @@ const Sidebar = () => {
         )}
       </motion.div>
 
-      <div className=" flex justify-start items-center h-16 rounded-xl text-primary text-text-xl font-bold leading-8 gap-2 px-2 mt-3">
+      <div
+        className={`flex overflow-x-visible justify-start items-center h-20 rounded-xl text-primary text-text-xl font-bold leading-8 gap-x-2 px-2 mt-3`}
+      >
         <img className="" width={40} height={40} src={"/assets/icons/LaunchingMax-logo.svg"} />
 
         <div className="flex flex-row">
