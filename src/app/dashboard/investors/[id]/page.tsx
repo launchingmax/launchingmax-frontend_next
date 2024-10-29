@@ -10,7 +10,7 @@ import Questions from "./questions";
 import Team from "./team";
 import { IStartup } from "@/lib/models/startup.model";
 
-type tabs = "Overview" | "Team" | "Market" | "Investment" | "Documnets" | "Questions";
+type tabs = "Overview" | "Team" | "Market" | "Investment" | "Documents" | "Questions";
 
 const StartupDetail = async ({ params: { id } }: any) => {
   const res: IStartup = await Fetch({
@@ -32,21 +32,21 @@ const StartupDetail = async ({ params: { id } }: any) => {
     next: { revalidate: 1 },
   });
 
-  console.log(" mm @@@@@@@@@@@@@@@@@@@@@@@@  ", JSON.stringify(res));
-  const tabs: tabs[] = ["Overview", "Team", "Market", "Investment", "Documnets", "Questions"];
+  // console.log(" mm @@@@@@@@@@@@@@@@@@@@@@@@  ", JSON.stringify(res));
+  const tabs: tabs[] = ["Overview", "Team", "Market", "Investment", "Documents", "Questions"];
 
   return (
     <main>
-      <div className=" bg-white dark:bg-launchingBlue-8.5">
+      <div className="flex flex-col bg-white dark:bg-launchingBlue-8.5">
         <ScrollTab tabs={tabs} backUrl="dashboard/investors" />
         {/* Content of the page with sections */}
-        <div className="space-y-8  b-0 scroll-cubic">
+        <div className="space-y-8  b-0 scroll-cubic ">
           {/* Add padding top to prevent content from hiding behind the sticky tabs */}
-          <section id="Overview">
+          <section id="Overview" className="pt-16">
             <Overview data={res} />
           </section>
 
-          <section id="Team">
+          <section id="Team" className="pt-14">
             <Team team={res.idea.team} />
           </section>
 

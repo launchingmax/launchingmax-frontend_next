@@ -21,7 +21,7 @@ const Fetch = async ({ url, method, body, cache = "default", next, token, params
     "Content-Type": "application/json",
   };
 
-  // console.log(" mm 2020 -- -  url - - -    ", url);
+  console.log(" mm 2020 -- -   - - -    ", params);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/") + encodeQueryString(params)}`,
     {

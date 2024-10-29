@@ -14,6 +14,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 //import { cookies } from "next/headers";
 import { useEffect, useState } from "react";
+import SearchStartup from "./searchStartup";
 
 interface IStartupsParams {
   sort?: 1 | -1;
@@ -83,10 +84,14 @@ export default async function InvestorPage() {
         </div>
       </DashSection>
 
-      <div className="py-6">
-        <ScrollTab tabs={tabs} />
+      <SearchStartup />
+
+      {/* <div className="py-6">
+        <ScrollTab tabs={tabs} className="flex flex-nowrap overflow-x-scroll scroll-hidden mx-auto pl-24" />
         <Search />
       </div>
+
+      <div className="bg-yellow-300 h-[80vh] w-full"></div> */}
     </main>
   );
 }

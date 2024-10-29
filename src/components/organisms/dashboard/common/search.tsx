@@ -5,13 +5,16 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { FormProvider, useForm } from "react-hook-form";
+import StartupFilter from "../../investor/startupFilter";
+import MyDialog from "@/components/molecules/MyDialog";
 
 interface ISearch {
   className?: string;
   filterRender?: () => void;
   sortRender?: () => void;
+  dialogBody?: React.ReactNode;
 }
-const Search: React.FC<ISearch> = ({ className, filterRender, sortRender }) => {
+const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, dialogBody }) => {
   const form = useForm();
 
   return (
@@ -40,11 +43,20 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender }) => {
         </div>
         <Separator orientation="horizontal" className="w-full" />
       </div>
-      <Icon
-        icon="solar:filter-bold-duotone"
-        className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
-        onClick={filterRender}
+
+      <MyDialog
+        dialogTrigger={
+          <Icon
+            icon="solar:filter-bold-duotone"
+            className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+            // onClick={filterRender}
+          />
+        }
+        dialogTitle="ttt"
+        dialogDes="desc---"
+        body={dialogBody}
       />
+
       <Icon
         icon="solar:sort-from-bottom-to-top-line-duotone"
         className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"

@@ -39,10 +39,6 @@ const MenuItem = ({
     }));
   };
 
-  const handleMenuClick = (href: string) => {
-    router.replace(href);
-  };
-
   return (
     <div className="w-full text-white">
       {/* Menu Items */}
@@ -52,55 +48,55 @@ const MenuItem = ({
           const isActive = pathname.toLowerCase().includes(item.title.toLowerCase());
           return (
             <li key={index} className="">
-              {/* <Link href={item.subMenus ? "#" : `dashboard/${item.title.toLowerCase()}`} replace key={index}> */}
-              <div
-                className={`relative group flex items-center justify-between cursor-pointer p-2 rounded h-10 ${
-                  item.subMenus ? "" : "space-x-2"
-                } ${
-                  isActive
-                    ? "bg-launchingBlue-5 dark:bg-launchingBlue-7 text-fg-white"
-                    : "text-launchingBlack dark:text-fg-white hover:bg-launchingBlue-05 dark:hover:bg-launchingBlue-1.5 "
-                }`}
-                onClick={() => {
-                  item.subMenus ? toggleSubmenu(item.title) : handleMenuClick(`dashboard/${item.title.toLowerCase()}`);
-                  isCollapsed && toggleCollapse && toggleCollapse();
-                }}
-              >
-                <div className="flex items-center space-x-8 group">
-                  {item.icon && (
-                    <Icon
-                      className={`text-2xl absolute  ${
-                        isActive
-                          ? "text-fg-white"
-                          : "group-hover:text-launchingBlue-4 dark:group-hover:text-launchingBlue-5"
-                      }`}
-                      icon={item.icon}
-                    />
-                  )}
-                  <AnimatePresence>
-                    {!isCollapsed && (
-                      <AnimatedText
-                        text={item.title}
-                        isCollapsed={isCollapsed}
-                        className={` text-sm leading-[0.875rem] font-semibold line-clamp-1 overflow-x-hidden ${
+              <Link href={item.subMenus ? "" : `/dashboard/${item.title.toLowerCase()}`} replace key={index}>
+                <div
+                  className={`relative group flex items-center justify-between cursor-pointer p-2 rounded h-10 ${
+                    item.subMenus ? "" : "space-x-2"
+                  } ${
+                    isActive
+                      ? "bg-launchingBlue-5 dark:bg-launchingBlue-7 text-fg-white"
+                      : "text-launchingBlack dark:text-fg-white hover:bg-launchingBlue-05 dark:hover:bg-launchingBlue-1.5 "
+                  }`}
+                  onClick={() => {
+                    item.subMenus && toggleSubmenu(item.title);
+                    isCollapsed && toggleCollapse && toggleCollapse();
+                  }}
+                >
+                  <div className="flex items-center space-x-8 group">
+                    {item.icon && (
+                      <Icon
+                        className={`text-2xl absolute  ${
                           isActive
                             ? "text-fg-white"
-                            : " text-launchingBlack dark:text-fg-white dark:group-hover:text-launchingBlack  "
+                            : "group-hover:text-launchingBlue-4 dark:group-hover:text-launchingBlue-5"
                         }`}
+                        icon={item.icon}
                       />
                     )}
-                  </AnimatePresence>
+                    <AnimatePresence>
+                      {!isCollapsed && (
+                        <AnimatedText
+                          text={item.title}
+                          isCollapsed={isCollapsed}
+                          className={` text-sm leading-[0.875rem] font-semibold line-clamp-1 overflow-x-hidden ${
+                            isActive
+                              ? "text-fg-white"
+                              : " text-launchingBlack dark:text-fg-white dark:group-hover:text-launchingBlack  "
+                          }`}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  {item.subMenus && !isCollapsed && (
+                    <Icon
+                      icon={"solar:double-alt-arrow-down-bold-duotone"}
+                      className={`transition-transform duration-300 group-hover:text-launchingBlue-4 dark:group-hover:text-launchingBlue-5 ${
+                        isSubmenuOpen[item.title] ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  )}
                 </div>
-                {item.subMenus && !isCollapsed && (
-                  <Icon
-                    icon={"solar:double-alt-arrow-down-bold-duotone"}
-                    className={`transition-transform duration-300 group-hover:text-launchingBlue-4 dark:group-hover:text-launchingBlue-5 ${
-                      isSubmenuOpen[item.title] ? "rotate-180" : "rotate-0"
-                    }`}
-                  />
-                )}
-              </div>
-              {/* </Link> */}
+              </Link>
               {/* Submenu */}
               {item.subMenus && (
                 <motion.ul
@@ -112,26 +108,26 @@ const MenuItem = ({
                   {item.subMenus.map((subItem: IMenu, subIndex) => {
                     console.log(subItem);
                     return (
-                      <Link
-                        href={`dashboard/${item.title.toLowerCase()}/${subItem.title.toLowerCase()}` ?? "#"}
-                        replace
+                      <li
                         key={subIndex}
+                        className={`-mt-2 pt-4 group flex items-center cursor-pointer ml-6  hover:underline hover:text-launchingGray-6 ${
+                          !isCollapsed && "border-l border-b border-l-gray-300 border-b-gray-300 rounded-bl-lg"
+                        }`}
                       >
-                        <li
+                        <Link
+                          href={`/dashboard/${item.title.toLowerCase()}/${subItem.title.toLowerCase()}` ?? "#"}
+                          replace
                           key={subIndex}
-                          className={`-mt-2 pt-4 group flex items-center cursor-pointer ml-6  hover:underline hover:text-launchingGray-6 ${
-                            !isCollapsed && "border-l border-b border-l-gray-300 border-b-gray-300 rounded-bl-lg"
-                          }`}
                         >
                           {subItem.icon && <Icon icon={subItem.icon} />}
 
                           <span
-                            className={`-mb-2 line-clamp-1 group-hover:text-launchingGray-6 ml-1.5 bg-primary-alt !w-full text-lightBlue-4 px-2 text-sm`}
+                            className={`-mb-2 line-clamp-1 group-hover:text-launchingGray-6 ml-1.5 bg-primary-alt !w-[300%] text-lightBlue-4 px-2 text-sm`}
                           >
                             {subItem.title}
                           </span>
-                        </li>
-                      </Link>
+                        </Link>
+                      </li>
                     );
                   })}
                 </motion.ul>

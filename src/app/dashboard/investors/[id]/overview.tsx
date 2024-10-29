@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const Overview = ({ data }: { data: IStartup }) => {
   return (
-    <div className="">
+    <div className="bg-red-200">
       <div className="w-full flex justify-start">
         <div
           className="absoluteh-auto w-2/3 inset-0 bg-cover bg-center rounded-xl z-0"
