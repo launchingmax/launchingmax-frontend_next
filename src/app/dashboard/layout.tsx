@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <SideBar />
 
       {/* <!-- Main content --> */}
-      <div className="flex flex-col w-[calc(100vw-3rem)] flex-1 md:gap-6">
+      <div className="flex flex-col min-w-[calc(100vw-18rem)] flex-1  md:gap-6">
         <NavBar />
         <div className="overflow-y-auto bg-primary-alt md:rounded-xl px-6 h-full p-0 m-0">{children}</div>
       </div>

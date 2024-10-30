@@ -37,8 +37,8 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, 
   }, [router]);
 
   return (
-    <div className="px-6 ">
-      <div className="w-full max-w-5xl mx-auto p-4 sticky flex flex-col gap-x-6 top-0 pb-3 bg-white dark:bg-launchingBlue-8.5 z-50">
+    <div className="p-6 ">
+      <div className="w-full  mx-auto p-4 sticky flex flex-col gap-x-6 top-0 pb-3 bg-red-200 dark:bg-launchingBlue-8.5 z-50">
         {/* Scrollable Container */}
         <div className="overflow-x-auto max-w-full">
           {/* Content Wrapper */}
@@ -60,10 +60,10 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, 
                   ))}
               </div>
               <ul className={cn("flex flex-wrap justify-center space-x-12 w-full", className)}>
-                {tabs.map((tab) => {
+                {tabs.map((tab, index) => {
                   return (
                     <li
-                      key={tab}
+                      key={tab + index}
                       className={cn(
                         "rounded-3xl py-2 px-4 font-regular text-text-sm min-w-max",
                         activeTab === tab

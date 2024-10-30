@@ -52,9 +52,8 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, dialog
             // onClick={filterRender}
           />
         }
-        dialogTitle="ttt"
-        dialogDes="desc---"
         body={dialogBody}
+        showFooter={false}
       />
 
       <Icon

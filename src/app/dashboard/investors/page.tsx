@@ -1,6 +1,5 @@
 import DashSection from "@/components/organisms/dashboard/DashSection";
 import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
-import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";

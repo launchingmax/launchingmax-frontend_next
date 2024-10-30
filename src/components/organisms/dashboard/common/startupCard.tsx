@@ -9,12 +9,7 @@ interface IStartupProps {
   link?: string;
 }
 
-const StartupCard: React.FC<IStartupProps> = ({
-  startup,
-  renderAttr,
-  renderAttrs,
-  link,
-}) => {
+const StartupCard: React.FC<IStartupProps> = ({ startup, renderAttr, renderAttrs, link }) => {
   return (
     <div className="relative h-[25rem] w-full max-w-full rounded overflow-hidden shadow-lg rounded-b-2xl dark:border dark:border-launchingBlue-7 cursor-pointer">
       {/* Background Image */}
@@ -31,19 +26,13 @@ const StartupCard: React.FC<IStartupProps> = ({
             <>
               <li>
                 <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
-                  <Icon
-                    icon="solar:tag-price-bold-duotone"
-                    className="text-2xl"
-                  />
+                  <Icon icon="solar:tag-price-bold-duotone" className="text-2xl" />
                   {startup?.invFee ?? "Sample text"}
                 </p>
               </li>
               <li>
                 <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
-                  <Icon
-                    icon="solar:card-search-bold-duotone"
-                    className="text-2xl"
-                  />
+                  <Icon icon="solar:card-search-bold-duotone" className="text-2xl" />
                   {startup?.invFee ?? "Sample text"}
                 </p>
               </li>
@@ -55,10 +44,7 @@ const StartupCard: React.FC<IStartupProps> = ({
               </li>
               <li>
                 <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
-                  <Icon
-                    icon="solar:map-point-bold-duotone"
-                    className="text-2xl"
-                  />
+                  <Icon icon="solar:map-point-bold-duotone" className="text-2xl" />
                   {startup?.invFee ?? "Sample text"}
                 </p>
               </li>

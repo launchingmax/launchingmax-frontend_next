@@ -12,9 +12,7 @@ import { Button } from "@/components/ui/button";
 import { SelectItemType } from "@/lib/types/ui/ui.types";
 import MySelect from "@/components/molecules/select/MySelect";
 import { Checkbox } from "@/components/ui/checkbox";
-import MultipleSelector, {
-  Option,
-} from "@/components/molecules/select/MultiSelect";
+import MultipleSelector, { Option } from "@/components/molecules/select/MultiSelect";
 
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -72,16 +70,8 @@ export default function ServerPage() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Field<"input"> name={"input1"} Input={Input} label="Input Label" />
 
-          <Field<"select">
-            name={"country"}
-            Input={MySelect}
-            InputProps={{ options, placeholder: "Select One" }}
-          />
-          <Field
-            name={"checbox"}
-            Input={Checkbox}
-            InputProps={{ title: "My Checkbox" }}
-          />
+          <Field<"select"> name={"country"} Input={MySelect} InputProps={{ options, placeholder: "Select One" }} />
+          <Field name={"checbox"} Input={Checkbox} InputProps={{ title: "My Checkbox" }} />
           {/* <Field name={"select"} Input={Select} /> */}
 
           <Field
