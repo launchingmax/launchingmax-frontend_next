@@ -2,7 +2,7 @@
 import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
-import StartupFilter from "@/components/organisms/investor/startupFilter";
+import StartupFilter from "@/app/dashboard/investors/startupFilter";
 import { Input } from "@/components/ui/input";
 import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
@@ -78,6 +78,7 @@ export default function SearchStartup() {
         renderItemAction={(item) => setSelectedTab(item ?? "")}
         className="flex flex-nowrap overflow-x-scroll scroll-hidden"
       />
+
       <Search dialogBody={<StartupFilter />} />
 
       <div className="w-full flex  justify-center px-8 space-x-4">

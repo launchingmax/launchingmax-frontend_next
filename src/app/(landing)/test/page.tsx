@@ -1,41 +1,68 @@
+"use client";
+import { Field } from "@/components/atoms/Field";
+import MySelect from "@/components/molecules/select/MySelect";
+import { Button } from "@/components/ui/button";
+import Fetch from "@/configs/api/fetch";
+import { AppContants } from "@/lib/constants";
+import { fetchIndustriesData } from "@/store/slices/industriesSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+
 // app/page.tsx
 export default function Home() {
+  const [industries, setIndustries] = useState([]);
+  const form = useForm({ defaultValues: { industry: "Information Technology & Services" } });
+
+  const dispatch = useAppDispatch();
+  const { industryItems, loading, error } = useAppSelector((state) => state.industries);
+
+  useEffect(() => {
+    industryItems.length == 0 && dispatch(fetchIndustriesData());
+  }, [dispatch]);
+
+  console.log("mm 300 --- --    ", industryItems);
+
+  // const fetchIndustry = async () => {
+  //   const res = await Fetch({
+  //     url: "/v1/industry",
+  //     method: "GET",
+  //     token: getCookie(AppContants.ParseSessionCookieName),
+  //     next: { revalidate: 1 },
+  //   });
+  //   setIndustries(res.items);
+  // };
+  // useEffect(() => {
+  //   console.log("mm -----------------  context  ", industries);
+  //   fetchIndustry();
+  // }, []);
+
+  const onSubmit = (values: any) => {
+    console.log("----", values);
+  };
   return (
     <div className="h-screen overflow-y-scroll scroll-smooth !ease-[cubic-bezier(.21,1.77,.64,-0.46)]">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full bg-white p-4 z-10 flex space-x-4">
-        <a href="#section1" className="px-3 py-2 bg-blue-500 text-white rounded-md">
-          Section 1
-        </a>
-        <a href="#section2" className="px-3 py-2 bg-blue-500 text-white rounded-md">
-          Section 2
-        </a>
-        <a href="#section3" className="px-3 py-2 bg-blue-500 text-white rounded-md">
-          Section 3
-        </a>
-      </nav>
-
-      {/* Sections */}
-      <main className="pt-20">
-        <section
-          id="section1"
-          className="h-screen flex items-center justify-center bg-gray-700 text-white text-4xl font-bold"
-        >
-          Section 1
-        </section>
-        <section
-          id="section2"
-          className="h-screen flex items-center justify-center bg-green-500 text-white text-4xl font-bold"
-        >
-          Section 2
-        </section>
-        <section
-          id="section3"
-          className="h-screen flex items-center justify-center bg-red-500 text-white text-4xl font-bold"
-        >
-          Section 3
-        </section>
-      </main>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Field<"select">
+            name={"industry"}
+            Input={MySelect}
+            control={form.control}
+            InputProps={{
+              options: industryItems,
+              renderItem: (item: any) => item.name,
+              getItemValue: (item: any) => item.name,
+              placeholder: "Industry",
+              classes: {
+                trigger: "w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1",
+              },
+            }}
+          />
+          <Button type="submit">OK</Button>
+        </form>
+      </FormProvider>
     </div>
   );
 }

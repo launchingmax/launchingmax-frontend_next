@@ -34,9 +34,9 @@ const MyDialog: React.FC<IMyDialog> = ({
         {showFooter && (
           <DialogFooter className="flex-row justify-end space-x-2">
             {footer}
-            <DialogClose asChild>
+            {/* <DialogClose asChild>
               <Button variant="secondary">Close</Button>
-            </DialogClose>
+            </DialogClose> */}
           </DialogFooter>
         )}
       </DialogContent>

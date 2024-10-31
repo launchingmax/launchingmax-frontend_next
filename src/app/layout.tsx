@@ -10,6 +10,9 @@ import { getCookie } from "cookies-next";
 import { dir } from "i18next";
 import { Lato } from "next/font/google";
 import { cookies } from "next/headers";
+import { Providers } from "./providers";
+// import { Provider } from "react-redux";
+// import store from "@/store/store";
 
 const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
@@ -26,23 +29,15 @@ export default function RootLayout({
   const lang = cookies().get(I18N.cookieName)?.value;
   return (
     <html suppressHydrationWarning dir={dir(lang)} lang={lang}>
-      <body
-        className={cn(
-          "min-h-screen bg-primary text-fg-primary font-lato antialiased",
-          lato.variable
-        )}
-      >
+      <body className={cn("min-h-screen bg-primary text-fg-primary font-lato antialiased", lato.variable)}>
         <GlobalLayout>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster />
-            <SoonerToaster />
-          </ThemeProvider>
+          <Providers>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              {children}
+              <Toaster />
+              <SoonerToaster />
+            </ThemeProvider>
+          </Providers>
         </GlobalLayout>
       </body>
     </html>
