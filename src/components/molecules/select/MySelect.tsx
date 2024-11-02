@@ -33,7 +33,7 @@ interface ISelect extends ISelectType {
   Trailing?: React.ReactNode;
   className?: string;
   onChange?: (e: any) => void;
-
+  removePortal?: boolean;
   options?: SelectItemType[] | any[];
   renderItem?: (item: SelectItemType | any) => React.ReactNode;
   getItemValue?: (item: SelectItemType | any) => string;
@@ -53,6 +53,7 @@ const MySelect = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigge
       value,
       onChange,
       onValueChange,
+      removePortal,
       ...props
     },
     ref
@@ -70,7 +71,7 @@ const MySelect = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigge
             <SelectValue placeholder={placeholder} />
           )}
         </SelectTrigger>
-        <SelectContent className={cn("", classes?.content)}>
+        <SelectContent className={cn("", classes?.content)} removePortal={removePortal}>
           <SelectGroup className={classes?.group}>
             {selectLabel ? <SelectLabel className={classes?.label}>{selectLabel}</SelectLabel> : null}
             {options.map((item, index) => (

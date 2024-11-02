@@ -9,7 +9,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Field } from "@/components/atoms/Field";
 import { SelectItemType } from "@/lib/types/ui/ui.types";
 import SectionTitle from "../../../components/organisms/dashboard/common/sectionTitle";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 
 interface IProps {
   trigger?: React.ReactNode;
@@ -18,12 +19,12 @@ interface IProps {
 const StartupFilter: React.FC<IProps> = ({ trigger }) => {
   const form = useForm({ defaultValues: { industry: "Information Technology & Services" } });
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { industryItems, loading, error } = useAppSelector((state) => state.industries);
 
-  // useEffect(() => {
-  //   industryItems.length == 0 && dispatch(fetchIndustriesData());
-  // }, [dispatch]);
+  useEffect(() => {
+    industryItems.length == 0 && dispatch(fetchIndustriesData());
+  }, [dispatch]);
 
   const [minMaxvalues, setMinMaxValues] = useState([0, 100]);
 
@@ -128,6 +129,7 @@ const StartupFilter: React.FC<IProps> = ({ trigger }) => {
             Input={MySelect}
             InputProps={{
               options: industryItems,
+              removePortal: true,
               renderItem: (item: any) => item.name,
               getItemValue: (item: any) => item.name,
               placeholder: "Industry",
