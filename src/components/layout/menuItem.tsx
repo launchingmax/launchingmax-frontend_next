@@ -106,7 +106,7 @@ const MenuItem = ({
                   transition={{ duration: 0.5 }}
                 >
                   {item.subMenus.map((subItem: IMenu, subIndex) => {
-                    console.log(subItem);
+                    //console.log(subItem);
                     return (
                       <li
                         key={subIndex}

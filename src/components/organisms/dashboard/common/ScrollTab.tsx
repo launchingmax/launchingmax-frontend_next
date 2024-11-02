@@ -38,7 +38,7 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, 
 
   return (
     <div className="p-6 ">
-      <div className="w-full  mx-auto p-4 sticky flex flex-col gap-x-6 top-0 pb-3 bg-red-200 dark:bg-launchingBlue-8.5 z-50">
+      <div className="w-full  mx-auto p-4 sticky flex flex-col gap-x-6 top-0 pb-3 bg-red-200 dark:bg-launchingBlue-8.5 z-10">
         {/* Scrollable Container */}
         <div className="overflow-x-auto max-w-full">
           {/* Content Wrapper */}

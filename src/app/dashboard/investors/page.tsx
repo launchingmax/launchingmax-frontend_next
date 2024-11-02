@@ -84,13 +84,6 @@ export default async function InvestorPage() {
       </DashSection>
 
       <SearchStartup />
-
-      {/* <div className="py-6">
-        <ScrollTab tabs={tabs} className="flex flex-nowrap overflow-x-scroll scroll-hidden mx-auto pl-24" />
-        <Search />
-      </div>
-
-      <div className="bg-yellow-300 h-[80vh] w-full"></div> */}
     </main>
   );
 }

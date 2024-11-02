@@ -34,14 +34,14 @@ export default function Home() {
   const [industries, setIndustries] = useState([]);
   const form = useForm({ defaultValues: { industry: "Information Technology & Services" } });
 
-  const dispatch = useAppDispatch();
-  const { industryItems, loading, error } = useAppSelector((state) => state.industries);
+  // const dispatch = useAppDispatch();
+  // const { industryItems, loading, error } = useAppSelector((state) => state.industries);
 
-  useEffect(() => {
-    industryItems.length == 0 && dispatch(fetchIndustriesData());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   industryItems.length == 0 && dispatch(fetchIndustriesData());
+  // }, [dispatch]);
 
-  console.log("mm 300 --- --    ", industryItems);
+  //console.log("mm 300 --- --    ", industryItems);
 
   // const fetchIndustry = async () => {
   //   const res = await Fetch({
@@ -70,11 +70,11 @@ export default function Home() {
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
           </DialogHeader>
-          <MySelect removePortal options={industryItems} renderItem={(i) => i.name} getItemValue={(i) => i.name} />
+          {/* <MySelect removePortal options={industryItems} renderItem={(i) => i.name} getItemValue={(i) => i.name} /> */}
         </DialogContent>
       </Dialog>
 
-      <Select>
+      {/* <Select>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select a fruit" />
         </SelectTrigger>
@@ -83,7 +83,7 @@ export default function Home() {
             <SelectItem value={item.name}>{item.name}</SelectItem>
           ))}
         </SelectContent>
-      </Select>
+      </Select> */}
     </div>
   );
 }

@@ -10,6 +10,7 @@ interface IMyDialog {
   body?: React.ReactNode;
   footer?: React.ReactNode;
   showFooter?: boolean;
+  open?: boolean;
 }
 
 const MyDialog: React.FC<IMyDialog> = ({
@@ -19,9 +20,10 @@ const MyDialog: React.FC<IMyDialog> = ({
   body,
   footer,
   showFooter = "true",
+  open,
 }) => {
   return (
-    <Dialog>
+    <Dialog open={open}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent className="bg-white dark:bg-launchingBlack">
         <DialogHeader>

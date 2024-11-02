@@ -36,7 +36,7 @@ const DashSection: React.FC<IProps> = ({
   return (
     <section className={cn("flex flex-col w-full relative p-0 m-0", className)}>
       {/* Title of the section */}
-      <div className="flex items-center w-full gap-x-6 sticky -top-1 pt-6 bg-white dark:bg-launchingBlue-8.5 z-50">
+      <div className="flex items-center w-full gap-x-6 sticky -top-1 pt-6 bg-white dark:bg-launchingBlue-8.5 z-10">
         {/* Back Url buttton */}
         {backUrl &&
           (renderBackBtn ? (

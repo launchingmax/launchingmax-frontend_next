@@ -13,6 +13,8 @@ import { getCookie } from "cookies-next";
 import { trimStart } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useGlobal } from "@/contexts/GlobalLayout";
+import { flattenObject, objectToQueryParams } from "@/lib/utils";
 
 interface IStartupsParams {
   sort?: { [key: string]: 1 | -1 };
@@ -21,20 +23,23 @@ interface IStartupsParams {
   itemsCount?: number;
 }
 
-export default function SearchStartup() {
+// interface IProps {
+//   filterRender: (param: any) => void;
+// }
+const SearchStartup = () => {
   const token = getCookie(AppContants.ParseSessionCookieName); //cookies().get(AppContants.ParseSessionCookieName)?.value,
 
   const [filteredStartup, setFilteredStartUp] = useState<IPagination<IStartup>>();
   const [selectedTab, setSelectedTab] = useState<string>("");
   const [tabs, setTabs] = useState<string[]>(["All Industry"]);
-
+  const [filters, setFilters] = useState<Record<string, unknown>>({});
+  const { setIsLoading, isLoading } = useGlobal();
   const params: IStartupsParams = {
     sort: { createdAt: 1 },
     // projection: "firstName lastName avatar email",
     page: 1,
     itemsCount: 20,
   };
-  console.log(" ***************  Params  ************* ", params);
 
   const fetchIndustry = async () => {
     const res = await Fetch({ url: "/v1/industry", method: "GET", token: token, next: { revalidate: 1 } });
@@ -42,12 +47,18 @@ export default function SearchStartup() {
   };
   useEffect(() => {
     fetchIndustry();
+    fetchData();
   }, []);
 
-  const fetchData = async () => {
-    const query = `${selectedTab === "All Industry" ? "" : `industries=/${selectedTab}/`}`;
-    const res = await Fetch({
-      url: `v1/startup?${query}`,
+  const fetchData = async (filters?: any): Promise<IPagination<IStartup>> => {
+    delete filters?.maxVal;
+    delete filters?.minVal;
+    delete filters?.fundingRequirement;
+    filters = flattenObject(filters);
+    const query = objectToQueryParams(filters);
+    console.log(query);
+    return await Fetch({
+      url: `v1/startup` + query,
       //?populate=${JSON.stringify([
       // {
       //   path: "idea",
@@ -63,13 +74,34 @@ export default function SearchStartup() {
       token: token,
       // params: params,
     });
-    setFilteredStartUp(res);
-    console.log(" ***************  Res  *************   ", res);
+    //console.log(" ***************  Res  *************   ", res);
   };
 
   useEffect(() => {
     fetchData();
   }, [selectedTab]);
+
+  useEffect(() => {
+    if (isLoading) return;
+    (async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchData(filters);
+        setFilteredStartUp(data);
+      } catch (error) {
+        console.error("error happended", error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [filters]);
+
+  const filterRender = (val: any) => {
+    setFilters((s) => ({ ...s, ...val }));
+  };
+  const clearFilter = (val: any) => {
+    setFilters((s) => ({}));
+  };
 
   return (
     <div className="py-6">
@@ -79,7 +111,7 @@ export default function SearchStartup() {
         className="flex flex-nowrap overflow-x-scroll scroll-hidden"
       />
 
-      <Search dialogBody={<StartupFilter />} />
+      <Search filterRender={filterRender} Filter={StartupFilter} />
 
       <div className="w-full flex  justify-center px-8 space-x-4">
         {filteredStartup?.items?.map((item: IStartup) => (
@@ -92,4 +124,6 @@ export default function SearchStartup() {
       </div>
     </div>
   );
-}
+};
+
+export default SearchStartup;
