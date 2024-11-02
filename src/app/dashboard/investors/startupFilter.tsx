@@ -140,13 +140,14 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
           <div className="flex flex-row space-x-2 w-full mt-12">
             <div
               className="w-max p-4 rounded-md bg-launchingBlue-1 font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-              onClick={() => filterRender && filterRender({})}
+              onClick={() => form.reset()}
             >
               Clear
             </div>
             <Button
               className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
               type="submit"
+              onClick={() => filterRender && filterRender({})}
             >
               Filter it
             </Button>
