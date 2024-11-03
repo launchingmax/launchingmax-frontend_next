@@ -17,8 +17,10 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, dialog
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const callback = (val: any) => {
-    setDialogOpen(false);
-    filterRender && filterRender(val);
+    setDialogOpen(() => {
+      filterRender && filterRender(val);
+      return false;
+    });
   };
 
   return (

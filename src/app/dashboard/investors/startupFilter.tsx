@@ -147,7 +147,6 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
             <Button
               className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
               type="submit"
-              onClick={() => filterRender && filterRender({})}
             >
               Filter it
             </Button>
