@@ -107,7 +107,7 @@ const SearchStartup = () => {
     <div className="py-6">
       <ScrollTab
         tabs={tabs}
-        renderItemAction={(item) => setSelectedTab(item ?? "")}
+        renderItemAction={(item) => setFilters({industry:item})}
         className="flex flex-nowrap overflow-x-scroll scroll-hidden"
       />
 

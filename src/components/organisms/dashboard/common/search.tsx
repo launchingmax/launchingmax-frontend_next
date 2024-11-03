@@ -10,10 +10,9 @@ interface ISearch {
   className?: string;
   filterRender?: (params: any) => void;
   sortRender?: () => void;
-  dialogBody?: React.ReactNode;
   Filter?: React.ComponentType<any>;
 }
-const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, dialogBody, Filter }) => {
+const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, Filter }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const callback = (val: any) => {
@@ -48,6 +47,7 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, dialog
       {Filter && (
         <MyDialog
           open={isDialogOpen}
+          setOpen={setDialogOpen}
           dialogTrigger={
             <Icon
               onClick={() => setDialogOpen(!isDialogOpen)}
