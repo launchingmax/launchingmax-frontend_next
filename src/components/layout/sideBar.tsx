@@ -60,7 +60,7 @@ const Sidebar = () => {
       </motion.div>
 
       <div
-        className={`flex overflow-x-visible justify-start items-center h-20 rounded-xl text-primary text-text-xl font-bold leading-8 gap-x-2 px-2 mt-3`}
+        className={`flex overflow-x-visible justify-start items-center h-20 rounded-xl text-primary text-text-xl font-bold leading-8 gap-x-2  mt-3`}
       >
         <img className="" width={40} height={40} src={"/assets/icons/LaunchingMax-logo.svg"} />
 

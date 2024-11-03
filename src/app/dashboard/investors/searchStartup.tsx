@@ -3,10 +3,8 @@ import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import StartupFilter from "@/app/dashboard/investors/startupFilter";
-import { Input } from "@/components/ui/input";
 import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
-import { IIndustry } from "@/lib/models/industries.model";
 import { IStartup } from "@/lib/models/startup.model";
 import { IPagination } from "@/lib/types/types";
 import { getCookie } from "cookies-next";
@@ -30,8 +28,7 @@ const SearchStartup = () => {
   const token = getCookie(AppContants.ParseSessionCookieName); //cookies().get(AppContants.ParseSessionCookieName)?.value,
 
   const [filteredStartup, setFilteredStartUp] = useState<IPagination<IStartup>>();
-  const [selectedTab, setSelectedTab] = useState<string>("");
-  const [tabs, setTabs] = useState<string[]>(["All Industry"]);
+  const [tabs, setTabs] = useState<string[]>(["All Industries"]);
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const { setIsLoading, isLoading } = useGlobal();
   const params: IStartupsParams = {
@@ -42,8 +39,8 @@ const SearchStartup = () => {
   };
 
   const fetchIndustry = async () => {
-    const res = await Fetch({ url: "/v1/industry", method: "GET", token: token, next: { revalidate: 1 } });
-    setTabs((tabs) => [...tabs, ...res.items.map((item: any) => item.name)]);
+    const res = await Fetch({ url: "/v1/industry?page=0", method: "GET", token: token, next: { revalidate: 1 } });
+    setTabs((tabs) => [...tabs, ...res.map((item: any) => item.name)]);
   };
   useEffect(() => {
     fetchIndustry();
@@ -58,7 +55,7 @@ const SearchStartup = () => {
     const query = objectToQueryParams(filters);
     console.log(query);
     return await Fetch({
-      url: `v1/startup` + query,
+      url: `v1/startup${query ? query : ""}`,
       //?populate=${JSON.stringify([
       // {
       //   path: "idea",
@@ -74,12 +71,7 @@ const SearchStartup = () => {
       token: token,
       // params: params,
     });
-    //console.log(" ***************  Res  *************   ", res);
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [selectedTab]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -107,15 +99,23 @@ const SearchStartup = () => {
     <div className="py-6">
       <ScrollTab
         tabs={tabs}
-        renderItemAction={(item) => setFilters({industry:item})}
+        renderItemAction={(item) =>
+          setFilters((current) => {
+            if (item == "All Industries") {
+              //remove "industries" from query
+              const { industries, ...rest } = current;
+              return rest;
+            } else return { industries: item };
+          })
+        }
         className="flex flex-nowrap overflow-x-scroll scroll-hidden"
       />
 
       <Search filterRender={filterRender} Filter={StartupFilter} />
 
-      <div className="w-full flex  justify-center px-8 space-x-4">
+      <div className="w-full flex flex-wrap  justify-center px-8">
         {filteredStartup?.items?.map((item: IStartup) => (
-          <div className="w-[100%] lg:w-[45%] ">
+          <div className="w-[100%] xl:w-[45%] m-3">
             <Link href={`${"/" + trimStart(`/dashboard/investors/${item._id}/#Overview`, "/")}`}>
               <StartupCard key={item._id} startup={item} />
             </Link>

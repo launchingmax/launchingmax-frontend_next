@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { IStartup } from "@/lib/models/startup.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { motion } from "framer-motion";
 
 const Overview = ({ data }: { data: IStartup }) => {
   return (
-    <div className="bg-red-200">
+    <div className="">
       <div className="w-full flex justify-start">
         <div
           className="absoluteh-auto w-2/3 inset-0 bg-cover bg-center rounded-xl z-0"
           style={{
-            backgroundImage: `url(https://img.launchingmax.com/ideas/65e6e0f2152e9e8682f5835b/vb/5b476192-2a5b-457c-bef0-d9e171c309c2.jpg)`,
+            backgroundImage: `url(${process.env.NEXT_PUBLIC_ALL_API}${data?.visualBranding?.cover})`,
           }}
         />
 

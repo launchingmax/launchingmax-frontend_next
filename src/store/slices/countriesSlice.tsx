@@ -1,10 +1,8 @@
 "use client";
 import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCookie } from "cookies-next";
-
-import { ICountry } from "../../lib/models/country.model";
 
 interface DataState {
   countryItems: any[];
@@ -22,14 +20,13 @@ const initialState: DataState = {
 export const fetchCountriesData = createAsyncThunk("data/fetchCountreisData", async (_, { rejectWithValue }) => {
   try {
     const response = await Fetch({
-      url: "/v1/country?page=2",
+      url: "/v1/country?page=0",
       method: "GET",
       token: getCookie(AppContants.ParseSessionCookieName),
       cache: "force-cache",
-      next: { revalidate: 1 },
+      next: { revalidate: 3600 },
     });
 
-    console.log("mm 300303 -- -- -- country   , data ---   ", response);
     return response;
   } catch (error: any) {
     return rejectWithValue(error.message);

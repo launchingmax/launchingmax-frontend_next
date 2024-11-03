@@ -20,16 +20,15 @@ const initialState: DataState = {
 export const fetchIndustriesData = createAsyncThunk("data/fetchIndustriesData", async (_, { rejectWithValue }) => {
   try {
     const response = await Fetch({
-      url: "/v1/industry?page=1",
+      url: "/v1/industry?page=0",
       method: "GET",
       token: getCookie(AppContants.ParseSessionCookieName),
       cache: "force-cache",
-      next: { revalidate: 1 },
+      next: { revalidate: 3600 },
     });
 
     // if (!response.ok) throw new Error("Failed to fetch data");
 
-    console.log("mm 300303 -- -- --   , data ---   ", response);
     return response;
   } catch (error: any) {
     return rejectWithValue(error.message);
@@ -57,9 +56,8 @@ const industriesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchIndustriesData.fulfilled, (state, action) => {
-        console.log("mm 303- - --  INDUSTRY ", action.payload.items);
         state.loading = false;
-        state.industryItems = action.payload.items;
+        state.industryItems = action.payload;
       })
       .addCase(fetchIndustriesData.rejected, (state, action) => {
         state.loading = false;

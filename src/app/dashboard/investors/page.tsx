@@ -1,18 +1,13 @@
 import DashSection from "@/components/organisms/dashboard/DashSection";
-import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
 import { IStartup } from "@/lib/models/startup.model";
-import { ILink, IPagination } from "@/lib/types/types";
-import { getCookie } from "cookies-next";
+import { ILink } from "@/lib/types/types";
 import { trimStart } from "lodash-es";
 import { cookies } from "next/headers";
 import Link from "next/link";
 //import { cookies } from "next/headers";
-import { useEffect, useState } from "react";
 import SearchStartup from "./searchStartup";
 
 interface IStartupsParams {
@@ -23,31 +18,26 @@ interface IStartupsParams {
 }
 
 export default async function InvestorPage() {
-  const tabs: string[] = ["team1", "team2", "team3", "team4"];
-
   //const params: IStartupsParams = { sort: 1, projection: "", page: 1, itemsCount: 20 };
-  // console.log(" **************************** ", params);
+  //console.log(" **************************** ", params);
 
   const res = await Fetch({
-    url: `v1/startup`,
-    //?populate=${JSON.stringify([
-    // {
-    //   path: "idea",
-    //   populate: [
-    //     { path: "team.user", select: "firstName lastName avatar email" },
-    //   ],
-    // },
-    // {
-    //   path: "tags",
-    // },
-    //])}
+    url: `v1/startup?populate=${JSON.stringify([
+      {
+        path: "idea",
+        // populate: [
+        //   { path: "team.user", select: "firstName lastName avatar email" },
+        // ],
+      },
+      // {
+      //   path: "tags",
+      // },
+    ])}`,
     method: "GET",
     token: cookies().get(AppContants.ParseSessionCookieName)?.value,
     //params: params,
     next: { revalidate: 1 },
   });
-
-  // console.log(" **************************** ", JSON.stringify(res));
 
   return (
     <main className="w-full">
@@ -74,12 +64,16 @@ export default async function InvestorPage() {
           </h2>
         }
       >
-        <div className=" w-[100%] grid grid-cols-2 gap-6 ">
-          {res?.items?.map((item: IStartup) => (
-            <Link href={`${"/" + trimStart(`/dashboard/investors/${item._id}/#Overview`, "/")}`}>
-              <StartupCard key={item._id} startup={item} />
-            </Link>
-          ))}
+        <div className=" w-[100%] grid xl:grid-cols-2 grid-cols-1 gap-6 ">
+          {res?.items?.map((item: IStartup) => {
+            console.log(".... item isTop   ", item);
+            if (item.isTop)
+              return (
+                <Link href={`${"/" + trimStart(`/dashboard/investors/${item._id}/#Overview`, "/")}`}>
+                  <StartupCard key={item._id} startup={item} />
+                </Link>
+              );
+          })}
         </div>
       </DashSection>
 

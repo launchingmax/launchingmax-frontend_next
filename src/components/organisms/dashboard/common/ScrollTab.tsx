@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { trimStart } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface IProps {
   tabs: string[];
@@ -17,7 +17,11 @@ interface IProps {
 const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, renderItemAction }) => {
   const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [activeTab, setActiveTab] = useState("");
+
+  useEffect(() => {
+    setActiveTab(tabs[0]);
+  }, [tabs]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -36,16 +40,51 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, 
     };
   }, [router]);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  let isDown = false;
+  let startX: number;
+  let scrollLeft: number;
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDown = true;
+    startX = e.pageX - (scrollRef.current?.offsetLeft || 0);
+    scrollLeft = scrollRef.current?.scrollLeft || 0;
+  };
+
+  const handleMouseLeave = () => {
+    isDown = false;
+  };
+
+  const handleMouseUp = () => {
+    isDown = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1; // Adjust scrolling speed
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
-    <div className="p-6 ">
-      <div className="w-full  mx-auto p-4 sticky flex flex-col gap-x-6 top-0 pb-3 bg-red-200 dark:bg-launchingBlue-8.5 z-10">
+    <div className="">
+      <div className="px-12">
         {/* Scrollable Container */}
-        <div className="overflow-x-auto max-w-full">
+        <div
+          className="overflow-x-auto scroll-hidden max-w-full cursor-grab active:cursor-grabbing"
+          ref={scrollRef}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          style={{ display: "flex" }}
+        >
           {/* Content Wrapper */}
           <div className="inline-flex space-x-4">
             {/* Individual Items */}
 
-            <div className="flex justify-center items-center py-2">
+            <div className="flex justify-center items-center py-2 gap-x-6">
               <div className="hidden lg:block">
                 {backUrl &&
                   (renderBackBtn ? (
@@ -101,60 +140,6 @@ const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, 
       </div>
       <Separator orientation="horizontal" className="dark:bg-launchingBlue-15 w-full" />
     </div>
-    // <div className="sticky flex flex-col max-w-full gap-x-6 top-0 pb-3 bg-white dark:bg-launchingBlue-8.5 z-50 ">
-    //   <div className="flex justify-center items-center py-2">
-    //     <div className="hidden lg:block">
-    //       {backUrl &&
-    //         (renderBackBtn ? (
-    //           renderBackBtn(backUrl)
-    //         ) : (
-    //           <Link href={`${"/" + trimStart(backUrl, "/")}`}>
-    //             <Icon
-    //               icon="solar:square-alt-arrow-left-bold-duotone"
-    //               className="h-8 w-8 text-launchingBlue-5 dark:text-launchingBlue-2 justify-self-start"
-    //             />
-    //           </Link>
-    //         ))}
-    //     </div>
-    //     <ul className={cn("flex flex-wrap justify-center space-x-12 w-full", className)}>
-    //       {tabs.map((tab) => {
-    //         return (
-    //           <li
-    //             key={tab}
-    //             className={cn(
-    //               "rounded-3xl py-2 px-4 font-regular text-text-sm min-w-max",
-    //               activeTab === tab
-    //                 ? "bg-launchingBlue-05 dark:bg-launchingBlue-5 text-launchingBlue-7 font-semibold text-text-md"
-    //                 : ""
-    //             )}
-    //           >
-    //             {renderItemAction ? (
-    //               <div
-    //                 className="cursor-pointer"
-    //                 onClick={() => {
-    //                   renderItemAction(tab);
-    //                   setActiveTab(tab);
-    //                 }}
-    //               >
-    //                 {tab}
-    //               </div>
-    //             ) : (
-    //               <Link
-    //                 href={`#${tab}`}
-    //                 onClick={() => {
-    //                   setActiveTab(tab);
-    //                 }}
-    //               >
-    //                 {tab}
-    //               </Link>
-    //             )}
-    //           </li>
-    //         );
-    //       })}
-    //     </ul>
-    //   </div>
-    //   <Separator orientation="horizontal" className="dark:bg-launchingBlue-15" />
-    // </div>
   );
 };
 

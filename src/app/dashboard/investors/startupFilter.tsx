@@ -33,8 +33,8 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
   const { countryItems, loading: countriesLoading, error: countriesErr } = useAppSelector((state) => state.countries);
 
   useEffect(() => {
-    industryItems.length == 0 && dispatch(fetchIndustriesData());
-    countryItems.length == 0 && dispatch(fetchCountriesData());
+    industryItems?.length == 0 && dispatch(fetchIndustriesData());
+    countryItems?.length == 0 && dispatch(fetchCountriesData());
   }, []);
 
   return (
