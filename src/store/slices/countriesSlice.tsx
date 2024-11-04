@@ -20,7 +20,7 @@ const initialState: DataState = {
 export const fetchCountriesData = createAsyncThunk("data/fetchCountreisData", async (_, { rejectWithValue }) => {
   try {
     const response = await Fetch({
-      url: "/v1/country?page=0",
+      url: "/v1/country/code?page=0",
       method: "GET",
       token: getCookie(AppContants.ParseSessionCookieName),
       cache: "force-cache",
@@ -54,9 +54,9 @@ const countriesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCountriesData.fulfilled, (state, action) => {
-        console.log("mm 303- - --  COUNTRIES ", action.payload.items);
+        console.log("mm 303- - --  COUNTRIES ", action.payload);
         state.loading = false;
-        state.countryItems = action.payload.items;
+        state.countryItems = action.payload;
       })
       .addCase(fetchCountriesData.rejected, (state, action) => {
         state.loading = false;

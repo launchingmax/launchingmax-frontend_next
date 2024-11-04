@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useGlobal } from "@/contexts/GlobalLayout";
 import { flattenObject, objectToQueryParams } from "@/lib/utils";
+import qs from "qs";
 
 interface IStartupsParams {
   sort?: { [key: string]: 1 | -1 };
@@ -52,8 +53,10 @@ const SearchStartup = () => {
     delete filters?.minVal;
     delete filters?.fundingRequirement;
     filters = flattenObject(filters);
-    const query = objectToQueryParams(filters);
-    console.log(query);
+    console.log(" *******  filters  ******", filters);
+    const query = qs.stringify(filters, { addQueryPrefix: true });
+    console.log(" *******  query  ******", query);
+
     return await Fetch({
       url: `v1/startup${query ? query : ""}`,
       //?populate=${JSON.stringify([
@@ -76,15 +79,15 @@ const SearchStartup = () => {
   useEffect(() => {
     if (isLoading) return;
     (async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchData(filters);
-        setFilteredStartUp(data);
-      } catch (error) {
-        console.error("error happended", error);
-      } finally {
-        setIsLoading(false);
-      }
+      // try {
+      setIsLoading(true);
+      const data = await fetchData(filters);
+      setFilteredStartUp(data);
+      // } catch (error) {
+      //   console.error("error happended", error);
+      // } finally {
+      setIsLoading(false);
+      // }
     })();
   }, [filters]);
 

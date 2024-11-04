@@ -54,3 +54,7 @@ export function objectToQueryParams(obj?: any) {
     ""
   );
 }
+
+export function formatNumberWithCommas(number: number) {
+  return Intl.NumberFormat("en-US").format(number);
+}

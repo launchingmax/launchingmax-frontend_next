@@ -19,7 +19,7 @@ const NavBar = () => {
           <Popover>
             <PopoverTrigger asChild>
               <Avatar className="cursor-pointer">
-                <AvatarImage src={`${process.env.NEXT_PUBLIC_AVATAR_API}/${userDetail?.user.profile}`} />
+                <AvatarImage src={`${process.env.NEXT_PUBLIC_ALL_API}${userDetail?.user.profile}`} />
                 <AvatarFallback className="bg-primary-4 text-launchingGray-1 dark:text-launchingGray-2">
                   {userDetail?.user.firstName.charAt(0)}
                   {userDetail?.user.lastName.charAt(0)}

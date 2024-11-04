@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { CgMoon } from "react-icons/cg";
+
+interface IDialogStyle {
+  dialogContent?: string;
+}
 
 interface IMyDialog {
   dialogTrigger?: React.ReactNode;
@@ -11,7 +16,8 @@ interface IMyDialog {
   footer?: React.ReactNode;
   showFooter?: boolean;
   open?: boolean;
-  setOpen?: any
+  setOpen?: any;
+  className?: IDialogStyle;
 }
 
 const MyDialog: React.FC<IMyDialog> = ({
@@ -23,11 +29,14 @@ const MyDialog: React.FC<IMyDialog> = ({
   showFooter = "true",
   open,
   setOpen,
+  className,
 }) => {
   return (
-    <Dialog open={open}  onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
-      <DialogContent className="bg-white dark:bg-launchingBlack">
+      <DialogContent
+        className={cn(`bg-white dark:bg-launchingBlue-8.5 dark:border-launchingBlue-8.5`, className?.dialogContent)}
+      >
         <DialogHeader>
           <DialogTitle className="place-self-start">{dialogTitle}</DialogTitle>
           <DialogDescription className="place-self-start">{dialogDes}</DialogDescription>

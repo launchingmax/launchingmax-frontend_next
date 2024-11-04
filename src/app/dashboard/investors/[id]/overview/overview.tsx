@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { IStartup } from "@/lib/models/startup.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import RequestButton from "./requestButton";
 
 const Overview = ({ data }: { data: IStartup }) => {
   return (
@@ -55,10 +56,7 @@ const Overview = ({ data }: { data: IStartup }) => {
       </p>
 
       <div className=" flex justify-center w-full mt-6">
-        <Button className="flex py-3 px-[7rem] gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88]">
-          Send Request
-          <Icon icon="solar:square-arrow-right-bold" className="text-xl" />
-        </Button>
+        <RequestButton />
       </div>
     </div>
   );

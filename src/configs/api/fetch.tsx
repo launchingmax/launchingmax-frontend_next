@@ -22,17 +22,37 @@ const Fetch = async ({ url, method, body, cache = "default", next, token, params
   };
 
   //console.log(" mm 2020 -- -   - - -    ", params);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/") + encodeQueryString(params)}`,
-    {
-      method: method,
-      //@ts-ignore
-      headers: myHeaders,
-      body: JSON.stringify(body),
-      cache: cache,
-      next: next,
-    }
-  );
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/") + encodeQueryString(params)}`,
+      {
+        method: method,
+        //@ts-ignore
+        headers: myHeaders,
+        body: JSON.stringify(body),
+        cache: cache,
+        next: next,
+      }
+    );
+    const data = await response.json();
+    if (response.ok) return data;
+    else throw new Error(data);
+  } catch (err) {
+    throw err;
+  }
+
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/") + encodeQueryString(params)}`,
+  //   {
+  //     method: method,
+  //     //@ts-ignore
+  //     headers: myHeaders,
+  //     body: JSON.stringify(body),
+  //     cache: cache,
+  //     next: next,
+  //   }
+  // );
 
   //console.log(" reeees ---   ", response);
 
@@ -49,7 +69,7 @@ const Fetch = async ({ url, method, body, cache = "default", next, token, params
   //     );
   //   }
 
-  return response.json();
+  // return response.json();
   //   } catch (err: any) {
   //     console.log(" ERR -- ", err);
   //      toast({ description: t(`auth.error.${err.code}`), variant: "error" });

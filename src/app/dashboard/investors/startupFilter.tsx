@@ -13,14 +13,23 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { Button } from "@/components/ui/button";
+import { formatNumberWithCommas } from "@/lib/utils";
 
 interface IProps {
   filterRender?: (param: any) => void;
 }
 
+const minStartupValue = 1000;
+const maxStartupValue = 10000000;
+const investmentFee = 10000000;
+
 const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
   const form = useForm({
-    defaultValues: { minVal: 0, maxVal: 100, fundingRequirement: 100 },
+    defaultValues: {
+      "minStartupValue.$gte": minStartupValue,
+      "maxStartupValue.$lte": maxStartupValue,
+      investmentFee: investmentFee,
+    },
   });
 
   const dispatch = useAppDispatch();
@@ -52,20 +61,23 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
           <div className="w-full px-8 py-6 my-0">
             <DualRangeSlider
               label={(value) => value}
-              value={[form.watch("minVal") as number, form.watch("maxVal") as number]}
+              value={[form.watch("minStartupValue.$gte") as number, form.watch("maxStartupValue.$lte") as number]}
               onValueChange={(e) => {
-                form.setValue("minVal", e[0]);
-                form.setValue("maxVal", e[1]);
+                // @ts-ignore
+                form.setValue("minStartupValue.$gte", e[0]);
+                // @ts-ignore
+                form.setValue("maxStartupValue.$lte", e[1]);
               }}
-              min={0}
-              max={100}
-              step={1}
+              min={minStartupValue}
+              max={maxStartupValue}
+              step={500}
             />
 
             <div className="flex justify-between w-full mt-3">
               <span className="text-launchingBlack text-sm font-regular">Min</span>
               <span className="text-launchingBlue-6 font-bold text-text-md">
-                {form.watch("minVal")} - {form.watch("maxVal")} $
+                {formatNumberWithCommas(form.watch("minStartupValue.$gte"))} -{" "}
+                {formatNumberWithCommas(form.watch("maxStartupValue.$lte"))} $
               </span>
               <span className="text-launchingBlack text-sm font-regular">Max</span>
             </div>
@@ -80,17 +92,19 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
 
           <div className="flex flex-col items-center justify-between px-8  mt-6">
             <Slider
-              value={[form.watch("fundingRequirement") as number]}
-              onValueChange={(val) => form.setValue("fundingRequirement", val[0])}
-              min={1}
-              max={100}
-              step={1}
+              value={[form.watch("investmentFee") as number]}
+              onValueChange={(val) => form.setValue("investmentFee", val[0])}
+              min={0}
+              max={investmentFee}
+              step={500}
               className="w-full"
             />
             <div className="flex justify-between w-full mt-3">
-              <span className="text-launchingBlack text-sm font-regular">{1}</span>
-              <span className="text-launchingBlue-6 font-bold text-text-md">{form.watch("fundingRequirement")} $</span>
-              <span className="text-launchingBlack text-sm font-regular">{100}</span>
+              <span className="text-launchingBlack text-sm font-regular">{0}</span>
+              <span className="text-launchingBlue-6 font-bold text-text-md ml-12">
+                {formatNumberWithCommas(form.watch("investmentFee"))} $
+              </span>
+              <span className="text-launchingBlack text-sm font-regular">{formatNumberWithCommas(investmentFee)}</span>
             </div>
           </div>
 
@@ -101,7 +115,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
           />
 
-          <Field<"select">
+          {/* <Field<"select">
             name={"placement.country"}
             Input={MySelect}
             InputProps={{
@@ -114,7 +128,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
                 trigger: "w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1",
               },
             }}
-          />
+          /> */}
 
           <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Industry</h2>
           <Separator
