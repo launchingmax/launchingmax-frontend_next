@@ -23,5 +23,10 @@ export async function NextFetch(url: string, init?: RequestInit) {
   const options = {};
   merge(options, { headers }, init);
 
-  return fetch(`${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/")}`, options);
+  console.log("fetch query .....", url, options);
+  return fetch(getBaseUrl(url), options);
+}
+
+function getBaseUrl(url: string): string {
+  return url.includes("://") ? url : `${process.env.NEXT_PUBLIC_BASIC_API}/${trimStart(url, "/")}`;
 }

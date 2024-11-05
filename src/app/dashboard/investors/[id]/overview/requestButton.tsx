@@ -1,25 +1,18 @@
 "use client";
 
-import { Field } from "@/components/atoms/Field";
-import MyInput from "@/components/atoms/myInput";
 import MyDialog from "@/components/molecules/MyDialog";
 import YesNoDialogContent from "@/components/organisms/dashboard/common/yesNoDialogContent";
 import { Button } from "@/components/ui/button";
-import Fetch from "@/configs/api/fetch";
+import { NextFetch } from "@/configs/api/next-fetch";
 import { useGlobal } from "@/contexts/GlobalLayout";
-import { AppContants } from "@/lib/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { getCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
 
 const RequestButton = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isResultDialogOpen, setResultDialogOpen] = useState(false);
   const { userDetail } = useGlobal();
-
-  const form = useForm();
 
   const callback = (val: any) => {
     setDialogOpen(() => {
@@ -31,17 +24,16 @@ const RequestButton = () => {
   const startUpID = pathname.replace("/dashboard/investors/", "");
 
   const sendRequest = () => {
-    console.log(" mm 20202-- -- -- -  ");
-    const token = getCookie(AppContants.ParseSessionCookieName);
     const body = { user: userDetail?._id, status: "requested", requester: "other" };
     const fetchSendRequest = async () => {
-      const res = await Fetch({
-        url: `/v1/startup/${startUpID}/investor-request`,
-        method: "POST",
-        token: token,
-        body: body,
-      });
-      console.log(" mmm ---   ******       ", res);
+      try {
+        const response = await NextFetch(`/v1/startup/${startUpID}/investor-request`, {
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+      } catch (error) {
+        console.error("Server fetch error:", error);
+      }
     };
     fetchSendRequest();
     setDialogOpen(false);

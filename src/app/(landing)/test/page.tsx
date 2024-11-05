@@ -2,7 +2,6 @@
 import { Field } from "@/components/atoms/Field";
 import MySelect from "@/components/molecules/select/MySelect";
 import { Button } from "@/components/ui/button";
-import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
@@ -33,29 +32,6 @@ import {
 export default function Home() {
   const [industries, setIndustries] = useState([]);
   const form = useForm({ defaultValues: { industry: "Information Technology & Services" } });
-
-  // const dispatch = useAppDispatch();
-  // const { industryItems, loading, error } = useAppSelector((state) => state.industries);
-
-  // useEffect(() => {
-  //   industryItems.length == 0 && dispatch(fetchIndustriesData());
-  // }, [dispatch]);
-
-  //console.log("mm 300 --- --    ", industryItems);
-
-  // const fetchIndustry = async () => {
-  //   const res = await Fetch({
-  //     url: "/v1/industry",
-  //     method: "GET",
-  //     token: getCookie(AppContants.ParseSessionCookieName),
-  //     next: { revalidate: 1 },
-  //   });
-  //   setIndustries(res.items);
-  // };
-  // useEffect(() => {
-  //   console.log("mm -----------------  context  ", industries);
-  //   fetchIndustry();
-  // }, []);
 
   const onSubmit = (values: any) => {
     console.log("----", values);

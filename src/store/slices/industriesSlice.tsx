@@ -1,8 +1,7 @@
 "use client";
-import Fetch from "@/configs/api/fetch";
-import { AppContants } from "@/lib/constants";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getCookie } from "cookies-next";
+
+import { NextFetch } from "@/configs/api/next-fetch";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface DataState {
   industryItems: any[];
@@ -19,17 +18,13 @@ const initialState: DataState = {
 // Async thunk to fetch data
 export const fetchIndustriesData = createAsyncThunk("data/fetchIndustriesData", async (_, { rejectWithValue }) => {
   try {
-    const response = await Fetch({
-      url: "/v1/industry?page=0",
-      method: "GET",
-      token: getCookie(AppContants.ParseSessionCookieName),
-      cache: "force-cache",
-      next: { revalidate: 3600 },
-    });
+    const response = await NextFetch("/v1/industry?page=0");
 
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
     // if (!response.ok) throw new Error("Failed to fetch data");
-
-    return response;
   } catch (error: any) {
     return rejectWithValue(error.message);
   }

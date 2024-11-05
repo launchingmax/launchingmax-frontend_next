@@ -1,18 +1,13 @@
 import DashSection from "@/components/organisms/dashboard/DashSection";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
-import Fetch from "@/configs/api/fetch";
-import { AppContants } from "@/lib/constants";
 import { IStartup } from "@/lib/models/startup.model";
-import { ILink } from "@/lib/types/types";
-import { trimStart } from "lodash-es";
-import { cookies } from "next/headers";
 import Link from "next/link";
-//import { cookies } from "next/headers";
 import SearchStartup from "./searchStartup";
 import MyDialog from "@/components/molecules/MyDialog";
 import { Button } from "@/components/ui/button";
 import MyRequests from "@/components/organisms/investor/MyRequests";
-
+import { NextFetch } from "@/configs/api/next-fetch";
+import { trimStart } from "lodash-es";
 interface IStartupsParams {
   sort?: 1 | -1;
   projection?: string;
@@ -20,25 +15,39 @@ interface IStartupsParams {
   itemsCount?: number;
 }
 
+async function fetchData() {
+  try {
+    const response = await NextFetch(
+      `v1/startup?populate=${JSON.stringify([
+        {
+          path: "idea",
+          populate: [{ path: "team.user", select: "firstName lastName avatar email" }],
+        },
+      ])}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error: any) {
+    throw error;
+  }
+}
+
 export default async function InvestorPage() {
   //const params: IStartupsParams = { sort: 1, projection: "", page: 1, itemsCount: 20 };
   //console.log(" **************************** ", params);
 
-  const res = await Fetch({
-    url: `v1/startup?populate=${JSON.stringify([
-      {
-        path: "idea",
-        populate: [{ path: "team.user", select: "firstName lastName avatar email" }],
-      },
-      // {
-      //   path: "tags",
-      // },
-    ])}`,
-    method: "GET",
-    token: cookies().get(AppContants.ParseSessionCookieName)?.value,
-    //params: params,
-    next: { revalidate: 1 },
-  });
+  const res = await fetchData();
+
+  console.log(".... ressssss  .....   ", res);
+
+  // try {
+  //   const res = await fetchData();
+  // } catch (error) {
+  //   return <div></div>;
+  // }
 
   return (
     <main className="w-full">

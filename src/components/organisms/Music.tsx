@@ -1,23 +1,21 @@
-import Fetch from "@/configs/api/fetch";
-import { AppContants } from "@/lib/constants";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
-import DashSection from "./dashboard/DashSection";
+import { NextFetch } from "@/configs/api/next-fetch";
 
 const Music = () => {
-  const token = getCookie(AppContants.ParseSessionCookieName);
-
   const [music, setMusic] = useState();
 
   const fetchMusic = async () => {
-    const res = await Fetch({
-      url: "v1/music",
-      method: "GET",
-      cache: "force-cache",
-      token: token,
-    });
-    setMusic(res);
+    try {
+      const response = await NextFetch("v1/music", { method: "GET" });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMusic(data);
+      }
+    } catch (error) {
+      console.error("Server fetch error:", error);
+    }
   };
 
   useEffect(() => {

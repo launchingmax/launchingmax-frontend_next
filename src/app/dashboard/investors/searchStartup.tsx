@@ -3,7 +3,6 @@ import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import StartupFilter from "@/app/dashboard/investors/startupFilter";
-import Fetch from "@/configs/api/fetch";
 import { AppContants } from "@/lib/constants";
 import { IStartup } from "@/lib/models/startup.model";
 import { IPagination } from "@/lib/types/types";
@@ -14,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useGlobal } from "@/contexts/GlobalLayout";
 import { flattenObject, objectToQueryParams } from "@/lib/utils";
 import qs from "qs";
+import { NextFetch } from "@/configs/api/next-fetch";
 
 interface IStartupsParams {
   sort?: { [key: string]: 1 | -1 };
@@ -40,15 +40,24 @@ const SearchStartup = () => {
   };
 
   const fetchIndustry = async () => {
-    const res = await Fetch({ url: "/v1/industry?page=0", method: "GET", token: token, next: { revalidate: 1 } });
-    setTabs((tabs) => [...tabs, ...res.map((item: any) => item.name)]);
+    try {
+      const response = await NextFetch("/v1/industry?page=0", { method: "GET" });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTabs((tabs) => [...tabs, ...data.map((item: any) => item.name)]);
+      }
+    } catch (error) {
+      console.error(" Fetch ERR  :  ", error);
+    }
   };
+
   useEffect(() => {
     fetchIndustry();
     fetchData();
   }, []);
 
-  const fetchData = async (filters?: any): Promise<IPagination<IStartup>> => {
+  const fetchData = async (filters?: any): Promise<IPagination<IStartup> | undefined> => {
     delete filters?.maxVal;
     delete filters?.minVal;
     delete filters?.fundingRequirement;
@@ -57,23 +66,17 @@ const SearchStartup = () => {
     const query = qs.stringify(filters, { addQueryPrefix: true });
     console.log(" *******  query  ******", query);
 
-    return await Fetch({
-      url: `v1/startup${query ? query : ""}`,
-      //?populate=${JSON.stringify([
-      // {
-      //   path: "idea",
-      //   populate: [
-      //     { path: "team.user", select: "firstName lastName avatar email" },
-      //   ],
-      // },
-      // {
-      //   path: "tags",
-      // },
-      //])}
-      method: "GET",
-      token: token,
-      // params: params,
-    });
+    try {
+      const response = await NextFetch(`v1/startup${query ? query : ""}`, { method: "GET" });
+      if (response.ok) {
+        const data: IPagination<IStartup> = await response.json();
+        return data;
+      }
+    } catch {}
+    // return await Fetch({
+    //   url: `v1/startup${query ? query : ""}`,
+    //   method: "GET",
+    // });
   };
 
   useEffect(() => {

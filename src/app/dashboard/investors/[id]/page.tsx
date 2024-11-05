@@ -1,23 +1,19 @@
 import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
-import Fetch from "@/configs/api/fetch";
-import { AppContants } from "@/lib/constants";
-import { cookies } from "next/headers";
 import Documents from "./documents";
 import Investment from "./investment";
 import Market from "./market";
 import Overview from "./overview/overview";
 import Questions from "./questions";
 import Team from "./team";
-import { IStartup } from "@/lib/models/startup.model";
 import { Suspense } from "react";
+import { NextFetch } from "@/configs/api/next-fetch";
 
 type tabs = "Overview" | "Team" | "Market" | "Investment" | "Documents" | "Questions";
 
-const StartupDetail = async ({ params: { id } }: any) => {
-  let res;
+async function fetchData(id: { id: string }) {
   try {
-    res = await Fetch({
-      url: `v1/startup/${id}?populate=${JSON.stringify([
+    const response = await NextFetch(
+      `v1/startup/${id}?populate=${JSON.stringify([
         {
           path: "idea",
           populate: [
@@ -29,14 +25,20 @@ const StartupDetail = async ({ params: { id } }: any) => {
         {
           path: "supporters.supporter",
         },
-      ])}`,
-      method: "GET",
-      token: cookies().get(AppContants.ParseSessionCookieName)?.value,
-      next: { revalidate: 1 },
-    });
+      ])}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
   } catch (error: any) {
-    alert({ message: error.message });
+    throw error;
   }
+}
+
+const StartupDetail = async ({ params: { id } }: any) => {
+  const res = await fetchData(id);
 
   const tabs: tabs[] = ["Overview", "Team", "Market", "Investment", "Documents", "Questions"];
 
