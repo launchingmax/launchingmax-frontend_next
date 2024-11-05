@@ -33,13 +33,18 @@ const Fetch = async ({ url, method, body, cache = "default", next, token, params
         body: JSON.stringify(body),
         cache: cache,
         next: next,
+        credentials: "include",
+        mode: "no-cors",
       }
     );
-    const data = await response.json();
-    if (response.ok) return data;
-    else throw new Error(data);
+    console.log(" fetch response -- -- - -- - ", response);
+    try {
+      return await response.json();
+    } catch (error) {
+      return await response.text();
+    }
   } catch (err) {
-    throw err;
+    console.log(" fetch err -- -- - -- - ", err);
   }
 
   // const response = await fetch(

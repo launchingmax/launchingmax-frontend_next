@@ -3,23 +3,20 @@
 import { Field } from "@/components/atoms/Field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import ParseBrowser from "@/configs/parse/parse-browser";
 import { useGlobal } from "@/contexts/GlobalLayout";
 import { useRedirectQuery } from "@/hooks/use-redirect";
 
+import { NextFetch } from "@/configs/api/next-fetch";
+import { useToast } from "@/hooks/use-toast";
+import { AppContants } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Suspense, useState } from "react";
 import { setCookie } from "cookies-next";
+import qs from "qs";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { z } from "zod";
-import { AppContants } from "@/lib/constants";
-import { Session } from "parse";
-import Fetch from "@/configs/api/fetch";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { Toaster as soonerToaster } from "@/components/ui/sonner";
 import { toast as soonerToast } from "sonner";
+import { z } from "zod";
 
 export const formSchema = z.object({
   username: z.string(),
@@ -41,36 +38,27 @@ export default function SignInPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      setIsLoading(true);
-      const body = { username: values.username, password: values.password };
-      const res = await Fetch({ url: "v2/auth", method: "PUT", body: body });
-      setCookie(AppContants.ParseSessionCookieName, res.clientID);
-      redirect();
-      console.log(" mm -- login new  ---   ", res);
-    } catch (err: any) {
-      console.log(" errrrrrrr  ---   ", err);
-      soonerToast("aaa", {
-        description: "aa, aa 03, 2023 at 9:00 AM",
+    setIsLoading(true);
+    const body = { username: values.username, password: values.password };
+    const res = await NextFetch("v2/auth", { method: "PUT", body: JSON.stringify(body) });
+    if (res.ok) {
+      const { clientID } = await res.json();
+
+      const { accessToken } = await NextFetch(`/v2/auth` + qs.stringify({ clientID }, { addQueryPrefix: true })).then(
+        (r) => r.json()
+      );
+      setCookie(AppContants.ParseSessionCookieName, accessToken);
+      redirect("/dashboard");
+    } else {
+      const data = await res.json();
+      soonerToast(" --- ", {
+        description: `${data.message}`,
         action: {
           label: "Undo",
           onClick: () => console.log("Undo"),
         },
       });
-      soonerToast("bbb", {
-        description: "bb, bb 03, 2023 at 9:00 AM",
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Undo"),
-        },
-      });
-      soonerToast("ccc", {
-        description: "cc, cc 03, 2023 at 9:00 AM",
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Undo"),
-        },
-      });
+      //showAlert({ message: data.message });
     }
 
     // try {
@@ -122,21 +110,9 @@ export default function SignInPage() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Field
-                name="username"
-                control={form.control}
-                Input={Input}
-                label={t("auth.username")}
-              />
-              <Field<"input">
-                name={"password"}
-                Input={Input}
-                label={t("auth.password")}
-              />
-              <Input
-                type="submit"
-                className="w-[50%] mt-6 bg-cyan-00 hover:bg-cyan-700 cursor-pointer"
-              />
+              <Field name="username" control={form.control} Input={Input} label={t("auth.username")} />
+              <Field<"input"> name={"password"} Input={Input} label={t("auth.password")} />
+              <Input type="submit" className="w-[50%] mt-6 bg-cyan-00 hover:bg-cyan-700 cursor-pointer" />
             </form>
           </Form>
         </div>

@@ -19,10 +19,10 @@ const NavBar = () => {
           <Popover>
             <PopoverTrigger asChild>
               <Avatar className="cursor-pointer">
-                <AvatarImage src={`${process.env.NEXT_PUBLIC_ALL_API}${userDetail?.user.profile}`} />
+                <AvatarImage src={`${process.env.NEXT_PUBLIC_ALL_API}${userDetail?.profile}`} />
                 <AvatarFallback className="bg-primary-4 text-launchingGray-1 dark:text-launchingGray-2">
-                  {userDetail?.user.firstName.charAt(0)}
-                  {userDetail?.user.lastName.charAt(0)}
+                  {userDetail?.firstName.charAt(0)}
+                  {userDetail?.lastName.charAt(0)}
                 </AvatarFallback>
               </Avatar>
             </PopoverTrigger>
@@ -39,11 +39,11 @@ const NavBar = () => {
         </div>
         <div className="flex flex-col pl-2 pr-5 tracking-[0.125rem] text-launchingBlack dark:text-white">
           <h1 className="text-sm font-semibold leading-6">
-            Hello, <span className="capitalize">{userDetail?.user.firstName}</span>
+            Hello, <span className="capitalize">{userDetail?.firstName}</span>
             ...!
           </h1>
           <h1 className="text-xs font-medium leading-4 tracking-[0.125rem] text-launchingGray-5 dark:text-launchingGray-2">
-            {userDetail?.user.type}
+            {userDetail?.type}
           </h1>
         </div>
         <Icon icon="solar:refresh-bold-duotone" className="text-mauve-5 text-2xl cursor-pointer " />

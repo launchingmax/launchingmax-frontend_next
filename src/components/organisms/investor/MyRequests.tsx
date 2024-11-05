@@ -12,7 +12,7 @@ const MyRequests = () => {
 
   const fetchMyRequestData = async () => {
     return await Fetch({
-      url: `/v1/startup?investors.user=${userDetail?.user._id}`,
+      url: `/v1/startup?investors.user=${userDetail?._id}`,
       method: "GET",
       token: getCookie(AppContants.ParseSessionCookieName),
       next: { revalidate: 3600 },

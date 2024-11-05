@@ -80,7 +80,7 @@ const Sidebar = () => {
       <div className="place-content-between h-[calc(100vh-9rem)] flex flex-col justify-between overflow-y-auto scroll-hidden overflow-x-hidden">
         <div>
           <MenuItem
-            items={userDetail?.user?.level?.access?.menus}
+            items={userDetail?.level?.access?.menus}
             isCollapsed={isCollapsed}
             toggleCollapse={() => setIsCollapsed(!isCollapsed)}
             className="top-0"

@@ -1,26 +1,18 @@
 "use client";
 import Loading from "@/components/molecules/LoadingWrapper";
-import Fetch from "@/configs/api/fetch";
+import { NextFetch } from "@/configs/api/next-fetch";
 import i18n from "@/configs/i18next/i18n";
 import "@/configs/parse/parse-browser";
-import { AppContants } from "@/lib/constants";
-import { IUserResponse } from "@/lib/models/user.model";
+import { IUser } from "@/lib/models/user.model";
 import { DirectionProvider } from "@radix-ui/react-direction";
-import { getCookie } from "cookies-next";
-import React, {
-  createContext,
-  Suspense,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, Suspense, useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 
 interface ContextData {
   showLoading: (show: boolean) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
-  userDetail?: IUserResponse;
+  userDetail?: IUser | null;
 }
 
 const defaultValue: ContextData = {
@@ -38,17 +30,11 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [userDetail, setUserDetail] = useState<IUserResponse>();
+  const [userDetail, setUserDetail] = useState<IUser | null | undefined>(null);
 
   const fetchData = async () => {
-    const res: IUserResponse = await Fetch({
-      url: "v1/auth",
-      method: "GET",
-      cache: "force-cache",
-      next: { revalidate: 1 },
-      token: getCookie(AppContants.ParseSessionCookieName),
-    });
-    setUserDetail(res);
+    const { user, isAuthenticated } = await NextFetch("v1/auth").then((r) => r.json());
+    if (isAuthenticated) setUserDetail(user);
   };
 
   useEffect(() => {

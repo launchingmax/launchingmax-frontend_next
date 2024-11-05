@@ -33,7 +33,7 @@ const RequestButton = () => {
   const sendRequest = () => {
     console.log(" mm 20202-- -- -- -  ");
     const token = getCookie(AppContants.ParseSessionCookieName);
-    const body = { user: userDetail?.user._id, status: "requested", requester: "other" };
+    const body = { user: userDetail?._id, status: "requested", requester: "other" };
     const fetchSendRequest = async () => {
       const res = await Fetch({
         url: `/v1/startup/${startUpID}/investor-request`,
