@@ -5,14 +5,37 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ISearch {
   className?: string;
+  initData?: Record<string, unknown>;
   filterRender?: (params: any) => void;
-  sortRender?: () => void;
+  clearFilter?: () => void;
+  sortRender?: (params: any) => void;
+  clearSort?: () => void;
   Filter?: React.ComponentType<any>;
+  menuItems?: any;
+  resetForm?: boolean;
 }
-const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, Filter }) => {
+const Search: React.FC<ISearch> = ({
+  className,
+  initData,
+  filterRender,
+  clearFilter,
+  sortRender,
+  clearSort,
+  Filter,
+  menuItems,
+  resetForm,
+}) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const callback = (val: any) => {
@@ -21,6 +44,11 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, Filter
       return false;
     });
   };
+
+  const createAtSortItems = [
+    { label: "Ascending", value: 1 },
+    { label: "Descending", value: -1 },
+  ];
 
   return (
     <div className={"flex items-center px-6 py-3 space-x-3"}>
@@ -55,15 +83,53 @@ const Search: React.FC<ISearch> = ({ className, filterRender, sortRender, Filter
               className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
             />
           }
-          body={<Filter filterRender={callback} />}
+          body={<Filter filterRender={callback} clearFilter={clearFilter} initData={initData} resetForm={resetForm} />}
         />
       )}
 
-      <Icon
-        icon="solar:sort-from-bottom-to-top-line-duotone"
-        className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
-        onClick={sortRender}
-      />
+      {sortRender && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Icon
+              icon="solar:sort-from-bottom-to-top-line-duotone"
+              className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+              // onClick={() => setSortDialogOpen(!isSortDialogOpen)}
+            />
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent side="bottom" align="start" className="w-48">
+            <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            {menuItems?.options?.items.map((item: any) => (
+              <DropdownMenuItem
+                key={item.value}
+                onClick={() => sortRender({ items: item.value })}
+                className="flex items-center justify-between"
+              >
+                {item.label}
+                {menuItems?.actives?.items === item.value && (
+                  <span className="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+                )}
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+
+            {createAtSortItems.map((item: any) => (
+              <DropdownMenuItem
+                key={item.value}
+                onClick={() => sortRender({ createdAt: item.value })}
+                className="flex items-center justify-between"
+              >
+                {item.label}
+                {menuItems?.actives?.createdAt === item.value && (
+                  <span className="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+                )}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 };

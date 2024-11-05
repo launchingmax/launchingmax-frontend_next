@@ -9,19 +9,20 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface IProps {
   tabs: string[];
+  active?: string;
   backUrl?: string;
   renderBackBtn?: (url?: string) => React.ReactNode;
   className?: string;
   renderItemAction?: (itemName?: string) => void;
 }
-const ScrollTab: React.FC<IProps> = ({ tabs, backUrl, renderBackBtn, className, renderItemAction }) => {
+const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, className, renderItemAction }) => {
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {
-    setActiveTab(tabs[0]);
-  }, [tabs]);
+    setActiveTab(active ?? tabs[0]);
+  }, [tabs, active]);
 
   useEffect(() => {
     const handleHashChange = () => {

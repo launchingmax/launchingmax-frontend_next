@@ -17,20 +17,34 @@ import { formatNumberWithCommas } from "@/lib/utils";
 
 interface IProps {
   filterRender?: (param: any) => void;
+  clearFilter?: () => void;
+  initData?: Record<string, unknown>;
 }
 
 const minStartupValue = 1000;
 const maxStartupValue = 10000000;
 const investmentFee = 10000000;
 
-const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
+const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }) => {
+  //console.log("   888888888888888888888888888    ", initData);
   const form = useForm({
     defaultValues: {
-      "minStartupValue.$gte": minStartupValue,
-      "maxStartupValue.$lte": maxStartupValue,
-      investmentFee: investmentFee,
+      //@ts-ignore
+      "minStartupValue.$gte": initData?.minStartupValue?.$gte ?? minStartupValue,
+      //@ts-ignore
+      "maxStartupValue.$lte": initData?.maxStartupValue?.$lte ?? maxStartupValue,
+      investmentFee: initData?.investmentFee ?? investmentFee,
+      industries: initData?.industries ?? undefined,
     },
   });
+
+  useEffect(() => {
+    // console.log(" ########################################################################");
+    // Object.keys(initData).length === 0 &&
+    //   setTimeout(() => {
+    form.reset();
+    // }, 0);
+  }, [initData]);
 
   const dispatch = useAppDispatch();
 
@@ -93,6 +107,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
           <div className="flex flex-col items-center justify-between px-8  mt-6">
             <Slider
               value={[form.watch("investmentFee") as number]}
+              //@ts-ignore
               onValueChange={(val) => form.setValue("investmentFee", val[0])}
               min={0}
               max={investmentFee}
@@ -154,7 +169,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender }) => {
           <div className="flex flex-row space-x-2 w-full mt-12">
             <div
               className="w-max p-4 rounded-md bg-launchingBlue-1 font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-              onClick={() => form.reset()}
+              onClick={clearFilter}
             >
               Clear
             </div>

@@ -3,10 +3,8 @@ import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import StartupFilter from "@/app/dashboard/investors/startupFilter";
-import { AppContants } from "@/lib/constants";
 import { IStartup } from "@/lib/models/startup.model";
 import { IPagination } from "@/lib/types/types";
-import { getCookie } from "cookies-next";
 import { trimStart } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -22,19 +20,27 @@ interface IStartupsParams {
   itemsCount?: number;
 }
 
-// interface IProps {
-//   filterRender: (param: any) => void;
-// }
 const SearchStartup = () => {
-  const token = getCookie(AppContants.ParseSessionCookieName); //cookies().get(AppContants.ParseSessionCookieName)?.value,
-
   const [filteredStartup, setFilteredStartUp] = useState<IPagination<IStartup>>();
+  const [activeTab, setActiveTab] = useState("");
   const [tabs, setTabs] = useState<string[]>(["All Industries"]);
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const { setIsLoading, isLoading } = useGlobal();
+  const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
+
+  const menuItems = {
+    options: {
+      items: [
+        { label: "Name", value: "name" },
+        { label: "Date", value: "date" },
+      ],
+    },
+    actives: activeSortItems,
+  };
+
   const params: IStartupsParams = {
     sort: { createdAt: 1 },
-    // projection: "firstName lastName avatar email",
+    // projection: "firstName lastName avatar email", sort=JSON.stringify({createAt: 01, name: --1})
     page: 1,
     itemsCount: 20,
   };
@@ -58,13 +64,14 @@ const SearchStartup = () => {
   }, []);
 
   const fetchData = async (filters?: any): Promise<IPagination<IStartup> | undefined> => {
-    delete filters?.maxVal;
-    delete filters?.minVal;
-    delete filters?.fundingRequirement;
     filters = flattenObject(filters);
-    console.log(" *******  filters  ******", filters);
-    const query = qs.stringify(filters, { addQueryPrefix: true });
-    console.log(" *******  query  ******", query);
+    setActiveTab(filters?.industries);
+
+    const sortBy = activeSortItems?.items;
+    const cerateAt = activeSortItems?.createdAt;
+    const sort = JSON.stringify({ [sortBy]: cerateAt });
+
+    const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
 
     try {
       const response = await NextFetch(`v1/startup${query ? query : ""}`, { method: "GET" });
@@ -73,31 +80,34 @@ const SearchStartup = () => {
         return data;
       }
     } catch {}
-    // return await Fetch({
-    //   url: `v1/startup${query ? query : ""}`,
-    //   method: "GET",
-    // });
   };
 
   useEffect(() => {
     if (isLoading) return;
-    (async () => {
-      // try {
-      setIsLoading(true);
-      const data = await fetchData(filters);
-      setFilteredStartUp(data);
-      // } catch (error) {
-      //   console.error("error happended", error);
-      // } finally {
-      setIsLoading(false);
-      // }
-    })();
-  }, [filters]);
+    Object.keys(filters).length !== 0 &&
+      (async () => {
+        setIsLoading(true);
+        const data = await fetchData(filters);
+        setFilteredStartUp(data);
+        setIsLoading(false);
+      })();
+  }, [filters, activeSortItems]);
 
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val }));
   };
-  const clearFilter = (val: any) => {
+
+  const sortRender = (val: any) => {
+    console.log(" mmm 4444444444444  sort  ----    ", val);
+    setActiveSortItems((s) => ({ ...s, ...val }));
+  };
+
+  useEffect(() => {
+    console.log(" mmm 0000000000000  ----    ", activeSortItems);
+  }, [activeSortItems]);
+
+  const clearFilter = () => {
+    console.log(" clear --- -- --   ");
     setFilters((s) => ({}));
   };
 
@@ -105,6 +115,7 @@ const SearchStartup = () => {
     <div className="py-6">
       <ScrollTab
         tabs={tabs}
+        active={activeTab}
         renderItemAction={(item) =>
           setFilters((current) => {
             if (item == "All Industries") {
@@ -117,7 +128,14 @@ const SearchStartup = () => {
         className="flex flex-nowrap overflow-x-scroll scroll-hidden"
       />
 
-      <Search filterRender={filterRender} Filter={StartupFilter} />
+      <Search
+        filterRender={filterRender}
+        clearFilter={clearFilter}
+        sortRender={sortRender}
+        initData={filters}
+        Filter={StartupFilter}
+        menuItems={menuItems}
+      />
 
       <div className="w-full flex flex-wrap  justify-center px-8">
         {filteredStartup?.items?.map((item: IStartup) => (
