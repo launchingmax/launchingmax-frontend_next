@@ -1,1 +1,1 @@
-export const PRIVATE_ROUTES = ["/dashboard/:path*"];
+export const PRIVATE_ROUTES = ["/v2/dashboard/:path*"];

@@ -48,7 +48,7 @@ const StartupDetail = async ({ params: { id } }: any) => {
         fallback={<h2 className="text-display-2xl text-red-500 tracking-widest "> ..... L O A D I N G ..... </h2>}
       >
         <div className="flex flex-col bg-white dark:bg-launchingBlue-8.5">
-          <ScrollTab tabs={tabs} backUrl="dashboard/investors" />
+          <ScrollTab tabs={tabs} backUrl="/v2/dashboard/investors" />
           {/* Content of the page with sections */}
           <div className="space-y-8  b-0 scroll-cubic ">
             {/* Add padding top to prevent content from hiding behind the sticky tabs */}

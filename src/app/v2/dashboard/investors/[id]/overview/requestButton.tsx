@@ -25,7 +25,7 @@ const RequestButton = () => {
     });
   };
   const pathname = usePathname();
-  const startUpID = pathname.replace("/dashboard/investors/", "");
+  const startUpID = pathname.replace("/v2/dashboard/investors/", "");
 
   const sendRequest = () => {
     const body = { user: userDetail?._id, status: "requested", requester: "other" };

@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import StartupFilter from "@/app/dashboard/investors/startupFilter";
+import StartupFilter from "@/app/v2/dashboard/investors/startupFilter";
 
 // app/page.tsx
 export default function Home() {

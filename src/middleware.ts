@@ -8,19 +8,14 @@ acceptLanguage.languages(I18N.supportedLngs);
 export async function middleware(request: NextRequest) {
   let lng;
   let sessionToken;
-  if (request.cookies.has(I18N.cookieName))
-    lng = acceptLanguage.get(request.cookies.get(I18N.cookieName)?.value);
+  if (request.cookies.has(I18N.cookieName)) lng = acceptLanguage.get(request.cookies.get(I18N.cookieName)?.value);
   if (!lng) lng = acceptLanguage.get(request.headers.get("Accept-Language"));
   if (!lng) lng = I18N.fallbackLng;
 
   if (request.cookies.has(AppContants.ParseSessionCookieName))
-    sessionToken = request.cookies.get(
-      AppContants.ParseSessionCookieName
-    )?.value;
+    sessionToken = request.cookies.get(AppContants.ParseSessionCookieName)?.value;
 
-  const response = sessionToken
-    ? NextResponse.next()
-    : NextResponse.redirect(new URL("/auth/sign-in", request.url));
+  const response = sessionToken ? NextResponse.next() : NextResponse.redirect(new URL("/auth/sign-in", request.url));
   response.headers.set("Accept-Language", lng);
 
   response.cookies.set(I18N.cookieName, lng);
@@ -41,6 +36,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.icosw.js|site.webmanifest|auth|test).*)",
-    "/dashboard/:path*",
+    "/v2/dashboard/:path*",
   ],
 };

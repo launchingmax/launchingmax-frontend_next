@@ -1,14 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DashSection from "../../../components/organisms/dashboard/DashSection";
 import { Separator } from "@/components/ui/separator";
 import { DualRangeSlider } from "@/components/ui/dual-range-sider";
 import { Slider } from "@/components/ui/slider";
 import MySelect from "@/components/molecules/select/MySelect";
 import { FormProvider, useForm } from "react-hook-form";
 import { Field } from "@/components/atoms/Field";
-import { SelectItemType } from "@/lib/types/ui/ui.types";
-import SectionTitle from "../../../components/organisms/dashboard/common/sectionTitle";
+import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { fetchCountriesData } from "@/store/slices/countriesSlice";
