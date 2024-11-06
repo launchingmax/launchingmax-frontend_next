@@ -13,6 +13,7 @@ import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { Button } from "@/components/ui/button";
 import { formatNumberWithCommas } from "@/lib/utils";
 import { AppContants } from "@/lib/constants";
+import Select from "react-select";
 
 interface IProps {
   filterRender?: (param: any) => void;
@@ -145,11 +146,23 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             }}
           /> */}
 
-          {/* <MySelect
-            options={countryItems}
+          <MySelect
+            options={countryItems.map((option) => ({
+              value: option.name,
+              label: option.name,
+            }))}
             renderItem={(item: any) => item.name}
             classes={{ trigger: " w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1" }}
-          /> */}
+          />
+
+          <Select
+            placeholder="Country"
+            isLoading={countriesLoading}
+            options={countryItems.map((option) => ({
+              value: option.name,
+              label: option.name,
+            }))}
+          />
 
           <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Industry</h2>
           <Separator

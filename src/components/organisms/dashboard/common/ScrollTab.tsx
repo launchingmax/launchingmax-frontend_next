@@ -18,11 +18,23 @@ interface IProps {
 const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, className, renderItemAction }) => {
   const router = useRouter();
 
+  console.log(tabs.length, "--------------------------------------------");
   const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {
     setActiveTab(active ?? tabs[0]);
   }, [tabs, active]);
+
+  const tabRefs = useRef<HTMLLIElement[]>([]); // Array of refs for each tab
+
+  // Scroll the active tab into view
+  useEffect(() => {
+    tabRefs.current[tabs.indexOf(activeTab)]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [activeTab, tabs]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -104,6 +116,8 @@ const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, cla
                   return (
                     <li
                       key={tab + index}
+                      //@ts-ignore
+                      ref={(el) => (tabRefs.current[index] = el!)}
                       className={cn(
                         "rounded-3xl py-2 px-4 font-regular text-text-sm min-w-max",
                         activeTab === tab
