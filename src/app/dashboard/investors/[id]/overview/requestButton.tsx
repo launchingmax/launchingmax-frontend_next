@@ -10,9 +10,13 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const RequestButton = () => {
+  const { userDetail } = useGlobal();
+
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isResultDialogOpen, setResultDialogOpen] = useState(false);
-  const { userDetail } = useGlobal();
+
+  const [buttonTitle, setButtonTitle] = useState<string>("Send Request");
+  const [isRequestSent, setIsRequestSent] = useState<boolean>(false);
 
   const callback = (val: any) => {
     setDialogOpen(() => {
@@ -31,37 +35,52 @@ const RequestButton = () => {
           method: "POST",
           body: JSON.stringify(body),
         });
+
+        if (response.ok) {
+          const data = await response.json();
+          setResultDialogOpen(true);
+          setDialogOpen(false);
+          data.acknowledged && setIsRequestSent(true);
+        }
       } catch (error) {
         console.error("Server fetch error:", error);
       }
     };
     fetchSendRequest();
-    setDialogOpen(false);
-    setResultDialogOpen(true);
   };
 
   return (
     <>
-      <MyDialog
-        open={isDialogOpen}
-        setOpen={setDialogOpen}
-        dialogTrigger={
-          <Button
-            className="flex py-3 px-[7rem] gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88]"
-            onClick={() => setDialogOpen(true)}
-          >
-            Send Request
-            <Icon icon="solar:square-arrow-right-bold" className="text-xl" />
-          </Button>
-        }
-        body={
-          <YesNoDialogContent
-            title="Are you sure you want to send request?"
-            cancelButtonRender={() => setDialogOpen(false)}
-            actionButtonRender={sendRequest}
-          />
-        }
-      />
+      {!isRequestSent ? (
+        <MyDialog
+          open={isDialogOpen}
+          setOpen={setDialogOpen}
+          dialogTrigger={
+            <Button
+              className="group flex py-3 w-[16vw] h-[6vh]  gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88] items-center  text-white font-semibold  transition-all duration-300 "
+              onClick={() => setDialogOpen(true)}
+            >
+              <span className="text-fg-white font-medium text-text-md transition-transform duration-300 transform group-hover:text-sm group-hover:translate-x-6">
+                {buttonTitle}
+              </span>
+              <span className="bg-yell text-fg-white transition-transform duration-300 transform group-hover:translate-x-20 group-hover:mr-4">
+                <Icon icon="solar:square-arrow-right-bold" className="text-xl group-hover:text-3xl" />
+              </span>
+            </Button>
+          }
+          body={
+            <YesNoDialogContent
+              title="Are you sure you want to send request?"
+              cancelButtonRender={() => setDialogOpen(false)}
+              actionButtonRender={sendRequest}
+            />
+          }
+        />
+      ) : (
+        <Button className="flex py-3 px-[2.4rem] gap-x-8 bg-launchingGray-6 text-fg-white" disabled>
+          Your message has been successfully sent.
+        </Button>
+      )}
 
       <MyDialog
         open={isResultDialogOpen}
