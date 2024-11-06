@@ -18,4 +18,8 @@ export enum Direction {
 
 export class AppContants {
   public static ParseSessionCookieName = "parse_session_cookie";
+
+  public static minStartupValue = 1000;
+  public static maxStartupValue = 10000000;
+  public static investmentFee = 10000000;
 }

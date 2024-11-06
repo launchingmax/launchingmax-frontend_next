@@ -14,6 +14,7 @@ import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { Button } from "@/components/ui/button";
 import { formatNumberWithCommas } from "@/lib/utils";
+import { AppContants } from "@/lib/constants";
 
 interface IProps {
   filterRender?: (param: any) => void;
@@ -21,30 +22,17 @@ interface IProps {
   initData?: Record<string, unknown>;
 }
 
-const minStartupValue = 1000;
-const maxStartupValue = 10000000;
-const investmentFee = 10000000;
-
 const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }) => {
-  //console.log("   888888888888888888888888888    ", initData);
   const form = useForm({
     defaultValues: {
       //@ts-ignore
-      "minStartupValue.$gte": initData?.minStartupValue?.$gte ?? minStartupValue,
+      "minStartupValue.$gte": initData?.minStartupValue?.$gte ?? AppContants.minStartupValue,
       //@ts-ignore
-      "maxStartupValue.$lte": initData?.maxStartupValue?.$lte ?? maxStartupValue,
-      investmentFee: initData?.investmentFee ?? investmentFee,
+      "maxStartupValue.$lte": initData?.maxStartupValue?.$lte ?? AppContants.maxStartupValue,
+      investmentFee: initData?.investmentFee ?? AppContants.investmentFee,
       industries: initData?.industries ?? undefined,
     },
   });
-
-  useEffect(() => {
-    // console.log(" ########################################################################");
-    // Object.keys(initData).length === 0 &&
-    //   setTimeout(() => {
-    form.reset();
-    // }, 0);
-  }, [initData]);
 
   const dispatch = useAppDispatch();
 
@@ -59,6 +47,18 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
     industryItems?.length == 0 && dispatch(fetchIndustriesData());
     countryItems?.length == 0 && dispatch(fetchCountriesData());
   }, []);
+
+  const reset = () => {
+    clearFilter;
+    //@ts-ignore
+    form.setValue("minStartupValue.$gte", AppContants.minStartupValue);
+    //@ts-ignore
+    form.setValue("maxStartupValue.$lte", AppContants.maxStartupValue);
+    //@ts-ignore
+    form.setValue("investmentFee", AppContants.investmentFee);
+    //@ts-ignore
+    form.setValue("industries", undefined);
+  };
 
   return (
     <div className="h-[80vh] overflow-y-auto">
@@ -82,8 +82,8 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
                 // @ts-ignore
                 form.setValue("maxStartupValue.$lte", e[1]);
               }}
-              min={minStartupValue}
-              max={maxStartupValue}
+              min={AppContants.minStartupValue}
+              max={AppContants.maxStartupValue}
               step={500}
             />
 
@@ -110,7 +110,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               //@ts-ignore
               onValueChange={(val) => form.setValue("investmentFee", val[0])}
               min={0}
-              max={investmentFee}
+              max={AppContants.investmentFee}
               step={500}
               className="w-full"
             />
@@ -119,7 +119,9 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               <span className="text-launchingBlue-6 font-bold text-text-md ml-12">
                 {formatNumberWithCommas(form.watch("investmentFee"))} $
               </span>
-              <span className="text-launchingBlack text-sm font-regular">{formatNumberWithCommas(investmentFee)}</span>
+              <span className="text-launchingBlack text-sm font-regular">
+                {formatNumberWithCommas(AppContants.investmentFee)}
+              </span>
             </div>
           </div>
 
@@ -169,7 +171,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
           <div className="flex flex-row space-x-2 w-full mt-12">
             <div
               className="w-max p-4 rounded-md bg-launchingBlue-1 font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-              onClick={clearFilter}
+              onClick={reset}
             >
               Clear
             </div>

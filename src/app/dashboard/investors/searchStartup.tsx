@@ -65,13 +65,15 @@ const SearchStartup = () => {
 
   const fetchData = async (filters?: any): Promise<IPagination<IStartup> | undefined> => {
     filters = flattenObject(filters);
+
     setActiveTab(filters?.industries);
 
     const sortBy = activeSortItems?.items;
     const cerateAt = activeSortItems?.createdAt;
     const sort = JSON.stringify({ [sortBy]: cerateAt });
 
-    const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
+    // const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
+    const query = qs.stringify({ ...(filters ?? {}) }, { addQueryPrefix: true });
 
     try {
       const response = await NextFetch(`v1/startup${query ? query : ""}`, { method: "GET" });
@@ -84,13 +86,12 @@ const SearchStartup = () => {
 
   useEffect(() => {
     if (isLoading) return;
-    Object.keys(filters).length !== 0 &&
-      (async () => {
-        setIsLoading(true);
-        const data = await fetchData(filters);
-        setFilteredStartUp(data);
-        setIsLoading(false);
-      })();
+    (async () => {
+      setIsLoading(true);
+      const data = await fetchData(filters);
+      setFilteredStartUp(data);
+      setIsLoading(false);
+    })();
   }, [filters, activeSortItems]);
 
   const filterRender = (val: any) => {
@@ -98,16 +99,10 @@ const SearchStartup = () => {
   };
 
   const sortRender = (val: any) => {
-    console.log(" mmm 4444444444444  sort  ----    ", val);
     setActiveSortItems((s) => ({ ...s, ...val }));
   };
 
-  useEffect(() => {
-    console.log(" mmm 0000000000000  ----    ", activeSortItems);
-  }, [activeSortItems]);
-
   const clearFilter = () => {
-    console.log(" clear --- -- --   ");
     setFilters((s) => ({}));
   };
 
