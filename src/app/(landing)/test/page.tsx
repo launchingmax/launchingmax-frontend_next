@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import StartupFilter from "@/app/dashboard/investors/startupFilter";
 
 // app/page.tsx
 export default function Home() {
@@ -37,29 +38,8 @@ export default function Home() {
     console.log("----", values);
   };
   return (
-    <div className="h-screen overflow-y-scroll scroll-smooth !ease-[cubic-bezier(.21,1.77,.64,-0.46)]">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>Edit Profile</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-          </DialogHeader>
-          {/* <MySelect removePortal options={industryItems} renderItem={(i) => i.name} getItemValue={(i) => i.name} /> */}
-        </DialogContent>
-      </Dialog>
-
-      {/* <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a fruit" />
-        </SelectTrigger>
-        <SelectContent>
-          {industryItems.map((item: any) => (
-            <SelectItem value={item.name}>{item.name}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select> */}
+    <div className="h-screen overflow-y-scroll scroll-smooth !ease-[cubic-bezier(.21,1.77,.64,-0.46)] p-36">
+      <StartupFilter />
     </div>
   );
 }

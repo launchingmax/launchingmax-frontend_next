@@ -147,6 +147,12 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             }}
           /> */}
 
+          {/* <MySelect
+            options={countryItems}
+            renderItem={(item: any) => item.name}
+            classes={{ trigger: " w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1" }}
+          /> */}
+
           <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Industry</h2>
           <Separator
             orientation="horizontal"

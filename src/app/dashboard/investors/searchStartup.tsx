@@ -72,7 +72,7 @@ const SearchStartup = () => {
     const cerateAt = activeSortItems?.createdAt;
     const sort = JSON.stringify({ [sortBy]: cerateAt });
 
-    // const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
+    //const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
     const query = qs.stringify({ ...(filters ?? {}) }, { addQueryPrefix: true });
 
     try {
