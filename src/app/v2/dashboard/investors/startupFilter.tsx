@@ -62,7 +62,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
 
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
-          <div className="w-full px-8 py-6 my-0">
+          <div className="w-full px-8 my-6">
             <DualRangeSlider
               label={(value) => value}
               value={[form.watch("minStartupValue.$gte") as number, form.watch("maxStartupValue.$lte") as number]}
@@ -96,7 +96,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
           />
 
-          <div className="flex flex-col items-center justify-between px-8  mt-6">
+          <div className="flex flex-col items-center justify-between px-8  my-6">
             <Slider
               value={[form.watch("investmentFee") as number]}
               //@ts-ignore

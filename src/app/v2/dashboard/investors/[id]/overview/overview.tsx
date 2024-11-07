@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { IStartup } from "@/lib/models/startup.model";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import RequestButton from "./requestButton";
 
 const Overview = ({ data }: { data: IStartup }) => {
