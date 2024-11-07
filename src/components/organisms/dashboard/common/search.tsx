@@ -58,7 +58,7 @@ const Search: React.FC<ISearch> = ({
   ];
 
   return (
-    <div className={"flex items-center px-6 py-3 space-x-3"}>
+    <div className={"flex items-center md:px-6 py-3 space-x-2 md:space-x-3"}>
       <div className="flex flex-col w-full ">
         <div className={cn(className, "flex space-x-3 pb-1 items-center")}>
           <Icon
@@ -102,7 +102,6 @@ const Search: React.FC<ISearch> = ({
             <Icon
               icon="solar:sort-from-bottom-to-top-line-duotone"
               className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
-              // onClick={() => setSortDialogOpen(!isSortDialogOpen)}
             />
           </DropdownMenuTrigger>
 

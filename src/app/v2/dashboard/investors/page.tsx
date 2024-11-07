@@ -64,7 +64,10 @@ export default async function InvestorPage() {
               </Button>
             }
             body={<MyRequests />}
-            className={{ dialogContent: "w-full !max-w-[60vw] bg-transparent border-none" }}
+            className={{
+              dialogContent:
+                "w-full 2xl:!max-w-[60vw] xl:!max-w-[75vw] lg:!max-w-[85vw] !max-w-full  bg-transparent dark:bg-transparent border-none",
+            }}
           ></MyDialog>
         }
       >
@@ -86,7 +89,6 @@ export default async function InvestorPage() {
       >
         <div className=" w-[100%] grid xl:grid-cols-2 grid-cols-1 gap-6 ">
           {res?.items?.map((item: IStartup) => {
-            console.log(".... item isTop   ", item);
             if (item.isTop)
               return (
                 <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>

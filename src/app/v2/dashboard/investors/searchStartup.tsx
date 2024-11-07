@@ -66,6 +66,7 @@ const SearchStartup = () => {
   const fetchData = async (filters?: any): Promise<IPagination<IStartup> | undefined> => {
     filters = flattenObject(filters);
 
+    setActiveTab(filters?.industries);
     let sort = undefined;
     if (activeSortItems?.items.length !== 0) {
       const sortBy = activeSortItems?.items;
@@ -132,7 +133,7 @@ const SearchStartup = () => {
         menuItems={menuItems}
       />
 
-      <div className="w-full flex flex-wrap  justify-center px-8">
+      <div className="w-full flex flex-wrap  justify-center 2xl:px-8">
         {filteredStartup?.items?.map((item: IStartup) => (
           <div className="w-[100%] xl:w-[45%] m-3">
             <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>

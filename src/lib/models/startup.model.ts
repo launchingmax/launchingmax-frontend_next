@@ -78,4 +78,8 @@ export interface IStartup extends BaseIdea {
   suggestedSc: any; //Types.ObjectId[];
 
   assignees?: IAssignee[];
+
+  minStartupValue?: number;
+  maxStartupValue?: number;
+  investmentFee?: number;
 }

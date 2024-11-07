@@ -1,19 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { DualRangeSlider } from "@/components/ui/dual-range-sider";
 import { Slider } from "@/components/ui/slider";
-import MySelect from "@/components/molecules/select/MySelect";
-import { FormProvider, useForm } from "react-hook-form";
-import { Field } from "@/components/atoms/Field";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { Button } from "@/components/ui/button";
 import { formatNumberWithCommas } from "@/lib/utils";
-import { AppContants } from "@/lib/constants";
-import Select from "react-select";
+import CustomReactSelect from "@/components/molecules/select/CustomReactSelect";
 
 interface IProps {
   filterRender?: (param: any) => void;
@@ -52,9 +49,11 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
   }, []);
 
   return (
-    <div className="h-[80vh] overflow-y-auto">
+    <div className="h-max overflow-y-auto">
       <SectionTitle title="Filters" />
-      <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Valuation</h2>
+      <h2 className="py-2 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
+        Valuation
+      </h2>
       <Separator
         orientation="horizontal"
         className="w-full mb-6 bg-gradient-to-r
@@ -79,16 +78,18 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             />
 
             <div className="flex justify-between w-full mt-3">
-              <span className="text-launchingBlack text-sm font-regular">Min</span>
-              <span className="text-launchingBlue-6 font-bold text-text-md">
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
                 {formatNumberWithCommas(form.watch("minStartupValue.$gte"))} -{" "}
                 {formatNumberWithCommas(form.watch("maxStartupValue.$lte"))} $
               </span>
-              <span className="text-launchingBlack text-sm font-regular">Max</span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
             </div>
           </div>
 
-          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Funding Requirement</h2>
+          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
+            Funding Requirement
+          </h2>
           <Separator
             orientation="horizontal"
             className="w-full mb-6 bg-gradient-to-r
@@ -106,82 +107,91 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               className="w-full"
             />
             <div className="flex justify-between w-full mt-3">
-              <span className="text-launchingBlack text-sm font-regular">{0}</span>
-              <span className="text-launchingBlue-6 font-bold text-text-md ml-12">
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md ml-12">
                 {formatNumberWithCommas(form.watch("investmentFee"))} $
               </span>
-              <span className="text-launchingBlack text-sm font-regular">{formatNumberWithCommas(investmentFee)}</span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
+                {formatNumberWithCommas(investmentFee)}
+              </span>
             </div>
           </div>
 
-          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Location</h2>
+          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
+            Location
+          </h2>
           <Separator
             orientation="horizontal"
             className="w-full mb-6 bg-gradient-to-r
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
           />
 
-          {/* <Field<"select">
-            name={"placement.country"}
-            Input={MySelect}
-            InputProps={{
-              options: countryItems,
-              removePortal: true,
-              renderItem: (item: any) => item.name,
-              getItemValue: (item: any) => item.name,
-              placeholder: "Country",
-              classes: {
-                trigger: "w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1",
-              },
-            }}
-          /> */}
-          {/* 
-          <MySelect
-            options={countryItems.map((option) => ({
-              value: option.name,
-              label: option.name,
-            }))}
-            renderItem={(item: any) => item.name}
-            classes={{ trigger: " w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1" }}
-          />
+          <div className="px-4">
+            <Controller
+              name="placement.country"
+              control={form.control}
+              render={({ field }) => (
+                <CustomReactSelect
+                  {...field}
+                  isLoading={countriesLoading}
+                  isClearable
+                  placeholder="Country"
+                  options={countryItems.map((option) => ({
+                    value: option.name,
+                    label: option.name,
+                  }))}
+                  getOptionLabel={(option: any) => option.label}
+                  getOptionValue={(option: any) => option.value}
+                  value={countryItems.find((option) => option.value === field)}
+                  onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                />
+              )}
+            />
+          </div>
 
-          <Select
-            placeholder="Country"
-            isLoading={countriesLoading}
-            options={countryItems.map((option) => ({
-              value: option.name,
-              label: option.name,
-            }))}
-          /> */}
-
-          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 tracking-wide text-text-md">Industry</h2>
+          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
+            Industry
+          </h2>
           <Separator
             orientation="horizontal"
             className="w-full bg-gradient-to-r
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded mb-6"
           />
-          <Field<"select">
-            name={"industries"}
-            Input={MySelect}
-            InputProps={{
-              options: industryItems,
-              removePortal: true,
-              renderItem: (item: any) => item.name,
-              getItemValue: (item: any) => item.name,
-              placeholder: "Industry",
-              classes: {
-                trigger: "w-5/6 justify-self-center h-16 bg-launchingBlue-05 border border-launchingBlue-1",
-              },
-            }}
-          />
+
+          <div className="px-4">
+            <Controller
+              name="industries"
+              control={form.control}
+              render={({ field }) => (
+                <CustomReactSelect
+                  {...field}
+                  isLoading={industriesLoading}
+                  isClearable
+                  placeholder="Industry"
+                  options={industryItems.map((option) => ({
+                    value: option.name,
+                    label: option.name,
+                  }))}
+                  getOptionLabel={(option: any) => option.label}
+                  getOptionValue={(option: any) => option.value}
+                  value={countryItems.find((option) => option.value === field)}
+                  onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                />
+              )}
+            />
+          </div>
 
           <div className="flex flex-row space-x-2 w-full mt-12">
-            <div
-              className="w-max p-4 rounded-md bg-launchingBlue-1 font-regular text-text-md text-launchingBlue-8 cursor-pointer"
+            <Button
+              className="w-max p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
               onClick={clearFilter}
             >
               Clear
-            </div>
+            </Button>
             <Button
               className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
               type="submit"

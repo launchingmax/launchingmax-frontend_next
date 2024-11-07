@@ -81,7 +81,7 @@ const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, cla
 
   return (
     <div className="">
-      <div className="px-12">
+      <div className="md:px-12">
         {/* Scrollable Container */}
         <div
           className="overflow-x-auto scroll-hidden max-w-full cursor-grab active:cursor-grabbing"
@@ -110,7 +110,7 @@ const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, cla
                     </Link>
                   ))}
               </div>
-              <ul className={cn("flex flex-wrap justify-center space-x-12 w-full", className)}>
+              <ul className={cn("flex flex-wrap justify-center space-x-4 md:space-x-12 w-full", className)}>
                 {tabs.map((tab, index) => {
                   return (
                     <li

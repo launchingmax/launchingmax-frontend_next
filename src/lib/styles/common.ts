@@ -16,3 +16,34 @@ export const InputClasses: Record<string, any> = {
     },
   },
 };
+
+export const ReactSelectStyles = {
+  control: (base: any) => ({
+    ...base,
+    backgroundColor: "bg-gray-900",
+    borderRadius: "rounded-lg",
+    padding: "py-2 px-4",
+    borderWidth: "border border-gray-300",
+    ":hover": {
+      borderColor: "#d1d5db", // Tailwind gray-300
+    },
+    //boxShadow: "none",
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isSelected ? "bg-red-500" : state.isFocused ? "bg-yellow-500" : "bg-white",
+    color: state.isSelected ? "text-pink-500" : "text-blue-500",
+    padding: "py-2 px-4",
+  }),
+  menu: (base: any) => ({
+    ...base,
+    backgroundColor: "bg-white",
+    borderRadius: "rounded-lg",
+    boxShadow: "shadow-lg",
+    marginTop: "mt-2",
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: "text-gray-900",
+  }),
+};
