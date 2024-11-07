@@ -18,7 +18,6 @@ interface IProps {
 const ScrollTab: React.FC<IProps> = ({ tabs, active, backUrl, renderBackBtn, className, renderItemAction }) => {
   const router = useRouter();
 
-  console.log(tabs.length, "--------------------------------------------");
   const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {

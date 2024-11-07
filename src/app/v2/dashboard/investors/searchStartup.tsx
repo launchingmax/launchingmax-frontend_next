@@ -66,14 +66,13 @@ const SearchStartup = () => {
   const fetchData = async (filters?: any): Promise<IPagination<IStartup> | undefined> => {
     filters = flattenObject(filters);
 
-    setActiveTab(filters?.industries);
-
-    const sortBy = activeSortItems?.items;
-    const cerateAt = activeSortItems?.createdAt;
-    const sort = JSON.stringify({ [sortBy]: cerateAt });
-
-    //const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
-    const query = qs.stringify({ ...(filters ?? {}) }, { addQueryPrefix: true });
+    let sort = undefined;
+    if (activeSortItems?.items.length !== 0) {
+      const sortBy = activeSortItems?.items;
+      const cerateAt = activeSortItems?.createdAt;
+      sort = JSON.stringify({ [sortBy]: cerateAt });
+    }
+    const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
 
     try {
       const response = await NextFetch(`v1/startup${query ? query : ""}`, { method: "GET" });
@@ -87,6 +86,7 @@ const SearchStartup = () => {
   useEffect(() => {
     if (isLoading) return;
     (async () => {
+      filters?.industries && setActiveTab(filters?.industries as string);
       setIsLoading(true);
       const data = await fetchData(filters);
       setFilteredStartUp(data);

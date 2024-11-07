@@ -45,6 +45,13 @@ const Search: React.FC<ISearch> = ({
     });
   };
 
+  const clearCallback = (val: any) => {
+    setDialogOpen(() => {
+      clearFilter && clearFilter();
+      return false;
+    });
+  };
+
   const createAtSortItems = [
     { label: "Ascending", value: 1 },
     { label: "Descending", value: -1 },
@@ -83,7 +90,9 @@ const Search: React.FC<ISearch> = ({
               className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
             />
           }
-          body={<Filter filterRender={callback} clearFilter={clearFilter} initData={initData} resetForm={resetForm} />}
+          body={
+            <Filter filterRender={callback} clearFilter={clearCallback} initData={initData} resetForm={resetForm} />
+          }
         />
       )}
 

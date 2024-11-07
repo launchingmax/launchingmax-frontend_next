@@ -48,7 +48,7 @@ export default function SignInPage() {
         (r) => r.json()
       );
       setCookie(AppContants.ParseSessionCookieName, accessToken);
-      redirect("/dashboard");
+      redirect("/v2/dashboard");
     } else {
       const data = await res.json();
       soonerToast(" --- ", {
