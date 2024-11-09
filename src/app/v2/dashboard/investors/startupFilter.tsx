@@ -18,19 +18,24 @@ interface IProps {
   initData?: Record<string, unknown>;
 }
 
-const minStartupValue = 1000;
-const maxStartupValue = 10000000;
-const investmentFee = 10000000;
+const startupValue = 1000000;
+const minInvestmentFee = 1000;
+const maxInvestmentFee = 1000000;
 
 const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }) => {
   const form = useForm({
     defaultValues: {
+      startupValue: initData?.startupValue,
       //@ts-ignore
-      "minStartupValue.$gte": initData?.minStartupValue?.$gte ?? minStartupValue,
+      // "minStartupValue.$gte": initData?.minStartupValue?.$gte ,
+      // //@ts-ignore
+      // "maxStartupValue.$lte": initData?.maxStartupValue?.$lte ,
       //@ts-ignore
-      "maxStartupValue.$lte": initData?.maxStartupValue?.$lte ?? maxStartupValue,
-      investmentFee: initData?.investmentFee ?? investmentFee,
-      industries: initData?.industries ?? undefined,
+      "investmentFee.$gte": initData?.investmentFee?.$gte,
+      //@ts-ignore
+      "investmentFee.$lte": initData?.investmentFee?.$lte,
+      //investmentFee: initData?.investmentFee ,
+      industries: initData?.industries,
     },
   });
 
@@ -63,7 +68,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
           <div className="w-full px-8 my-6">
-            <DualRangeSlider
+            {/* <DualRangeSlider
               label={(value) => value}
               value={[form.watch("minStartupValue.$gte") as number, form.watch("maxStartupValue.$lte") as number]}
               onValueChange={(e) => {
@@ -75,15 +80,26 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               min={minStartupValue}
               max={maxStartupValue}
               step={500}
+            /> */}
+
+            <Slider
+              value={[(form.watch("startupValue") as number) ?? startupValue / 2]}
+              //@ts-ignore
+              onValueChange={(val) => form.setValue("startupValue", val[0])}
+              min={0}
+              max={startupValue}
+              step={500}
+              className="w-full"
             />
 
             <div className="flex justify-between w-full mt-3">
-              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
               <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
-                {formatNumberWithCommas(form.watch("minStartupValue.$gte"))} -{" "}
-                {formatNumberWithCommas(form.watch("maxStartupValue.$lte"))} $
+                {formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
               </span>
-              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
+                {formatNumberWithCommas(startupValue)}
+              </span>
             </div>
           </div>
 
@@ -97,7 +113,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
           />
 
           <div className="flex flex-col items-center justify-between px-8  my-6">
-            <Slider
+            {/* <Slider
               value={[form.watch("investmentFee") as number]}
               //@ts-ignore
               onValueChange={(val) => form.setValue("investmentFee", val[0])}
@@ -105,15 +121,30 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               max={investmentFee}
               step={500}
               className="w-full"
+            /> */}
+            <DualRangeSlider
+              label={(value) => value}
+              value={[
+                (form.watch("investmentFee.$gte") as number) ?? minInvestmentFee,
+                (form.watch("investmentFee.$lte") as number) ?? maxInvestmentFee,
+              ]}
+              onValueChange={(e) => {
+                // @ts-ignore
+                form.setValue("investmentFee.$gte", e[0]);
+                // @ts-ignore
+                form.setValue("investmentFee.$lte", e[1]);
+              }}
+              min={minInvestmentFee}
+              max={maxInvestmentFee}
+              step={500}
             />
             <div className="flex justify-between w-full mt-3">
-              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
-              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md ml-12">
-                {formatNumberWithCommas(form.watch("investmentFee"))} $
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
+                {formatNumberWithCommas(form.watch("investmentFee.$gte") ?? minInvestmentFee)} -{" "}
+                {formatNumberWithCommas(form.watch("investmentFee.$lte") ?? maxInvestmentFee)} $
               </span>
-              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
-                {formatNumberWithCommas(investmentFee)}
-              </span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
             </div>
           </div>
 

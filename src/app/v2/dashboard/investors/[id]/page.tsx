@@ -52,7 +52,7 @@ const StartupDetail = async ({ params: { id } }: any) => {
           {/* Content of the page with sections */}
           <div className="space-y-8  b-0 scroll-cubic ">
             {/* Add padding top to prevent content from hiding behind the sticky tabs */}
-            <section id="Overview" className="pt-16">
+            <section id="Overview" className="pt-4">
               <Overview data={res} />
             </section>
 

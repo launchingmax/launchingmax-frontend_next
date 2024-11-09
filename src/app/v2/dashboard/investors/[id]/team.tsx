@@ -9,7 +9,10 @@ const Team = ({ team }: { team: ITeam[] }) => {
         {team.map((item: ITeam) => (
           <div className="flex flex-col items-center">
             <Avatar className="w-[6.25rem] h-[6.25rem] mb-2">
-              <AvatarImage src={`${process.env.NEXT_PUBLIC_AVATAR_API}/${item.user.avatar}}`} />
+              <AvatarImage
+                src={`${process.env.NEXT_PUBLIC_ALL_API}${item.user.avatar}`}
+                //src={`${process.env.NEXT_PUBLIC_ALL_API}/${item.user.avatar}`}
+              />
               <AvatarFallback className="bg-primary-4">
                 {item.user.firstName.charAt(0)} {item.user.lastName.charAt(0)}
               </AvatarFallback>

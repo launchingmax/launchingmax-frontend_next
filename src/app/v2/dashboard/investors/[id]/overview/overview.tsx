@@ -4,15 +4,15 @@ import RequestButton from "./requestButton";
 const Overview = ({ data }: { data: IStartup }) => {
   return (
     <div className="">
-      <div className="w-full flex justify-start">
+      <div className="w-full flex flex-col lg:flex-row justify-start gap-5">
         <div
-          className="absoluteh-auto w-2/3 inset-0 bg-cover bg-center rounded-xl z-0"
+          className=" lg:h-auto h-[300px] w-full lg:w-2/3 inset-0 bg-cover bg-center rounded-xl z-0"
           style={{
             backgroundImage: `url(${process.env.NEXT_PUBLIC_ALL_API}${data?.visualBranding?.cover})`,
           }}
         />
 
-        <div className="w-1/3  px-10 space-y-4">
+        <div className="w-full lg:w-1/3  px-10 gap-y-4 grid md:grid-cols-2 lg:grid-cols-1">
           <div className="flex flex-col">
             <h2 className="text-text-xl font-bold leading-7 text-launchingGray-8 dark:text-white">Website</h2>
             <h2 className="text-text-md font-medium leading-6 text-launchingGray-5 dark:text-launchingGray-2">

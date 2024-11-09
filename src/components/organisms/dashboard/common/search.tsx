@@ -69,8 +69,10 @@ const Search: React.FC<ISearch> = ({
           <Separator orientation="vertical" className="h-6" />
           <Input
             name="search"
-            onChange={(v) => {
-              filterRender && filterRender({ name: `/${v.target.value}/` });
+            onKeyDown={(v: any) => {
+              v.code === "Enter" &&
+                filterRender &&
+                filterRender({ "brainStorming.title": v.target.value !== "" ? v.target.value : undefined });
             }}
             placeholder="Search it..."
             className="border-0  focus-within:outline-none focus-within:border-0 focus-within:ring-0"

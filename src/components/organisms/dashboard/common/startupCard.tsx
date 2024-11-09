@@ -1,7 +1,10 @@
+import TooltipWrapper from "@/components/molecules/TooltipWrapper";
 import { IStartup } from "@/lib/models/startup.model";
 import { formatNumberWithCommas } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 interface IStartupProps {
   startup?: IStartup;
@@ -23,6 +26,17 @@ const StartupCard: React.FC<IStartupProps> = ({ startup, renderAttr, renderAttrs
           <h6 className=" text-center text-launchingBlack dark:text-white text-text-xl font-bold leading-7 -tracking-tight">
             "{startup?.brainStorming.title}"
           </h6>
+
+          {/* <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Icon icon="solar:tag-price-bold-duotone" className="text-2xl text-launchingGray-6" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add to library</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider> */}
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white dark:to-launchingBlue-8" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white dark:to-launchingBlue-8" />
@@ -33,18 +47,28 @@ const StartupCard: React.FC<IStartupProps> = ({ startup, renderAttr, renderAttrs
           renderAttrs(startup)
         ) : (
           <>
-            <li>
-              <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
-                <Icon icon="solar:tag-price-bold-duotone" className="text-2xl text-launchingGray-6" />
-                {/* ${startup?.minStartupValue && formatNumberWithCommas(startup?.minStartupValue)} - $ */}$
-                {startup?.maxStartupValue && formatNumberWithCommas(startup?.maxStartupValue)}
-              </p>
+            <li className="w-max">
+              <TooltipWrapper
+                title="Max startup value"
+                tooltipTrigger={
+                  <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium ">
+                    <Icon icon="solar:tag-price-bold-duotone" className="text-2xl text-launchingGray-6" />
+                    {/* ${startup?.minStartupValue && formatNumberWithCommas(startup?.minStartupValue)} - $ */}$
+                    {startup?.maxStartupValue && formatNumberWithCommas(startup?.maxStartupValue)}
+                  </p>
+                }
+              />
             </li>
-            <li>
-              <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
-                <Icon icon="solar:card-search-bold-duotone" className="text-2xl text-launchingGray-6" />$
-                {(startup?.investmentFee && formatNumberWithCommas(startup?.investmentFee)) ?? ""}
-              </p>
+            <li className="w-max">
+              <TooltipWrapper
+                title="investment fee"
+                tooltipTrigger={
+                  <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">
+                    <Icon icon="solar:card-search-bold-duotone" className="text-2xl text-launchingGray-6" />$
+                    {(startup?.investmentFee && formatNumberWithCommas(startup?.investmentFee)) ?? ""}
+                  </p>
+                }
+              />
             </li>
             <li>
               <p className="flex items-center gap-x-2 text-launchingBlack dark:text-white text-text-md font-medium">

@@ -2,7 +2,7 @@ import DashSection from "@/components/organisms/dashboard/DashSection";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import { IStartup } from "@/lib/models/startup.model";
 import Link from "next/link";
-import SearchStartup from "./searchStartup";
+import StartupSearch from "./StartupSearch";
 import MyDialog from "@/components/molecules/MyDialog";
 import { Button } from "@/components/ui/button";
 import MyRequests from "@/components/organisms/investor/MyRequests";
@@ -99,7 +99,7 @@ export default async function InvestorPage() {
         </div>
       </DashSection>
 
-      <SearchStartup />
+      <StartupSearch />
     </main>
   );
 }

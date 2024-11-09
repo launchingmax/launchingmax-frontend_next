@@ -5,7 +5,7 @@ import StartupCard from "@/components/organisms/dashboard/common/startupCard";
 import StartupFilter from "@/app/v2/dashboard/investors/startupFilter";
 import { IStartup } from "@/lib/models/startup.model";
 import { IPagination } from "@/lib/types/types";
-import { trimStart } from "lodash-es";
+import { isEmpty, isNil, omitBy, trimStart } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useGlobal } from "@/contexts/GlobalLayout";
@@ -20,7 +20,7 @@ interface IStartupsParams {
   itemsCount?: number;
 }
 
-const SearchStartup = () => {
+const StartupSearch = () => {
   const [filteredStartup, setFilteredStartUp] = useState<IPagination<IStartup>>();
   const [activeTab, setActiveTab] = useState("");
   const [tabs, setTabs] = useState<string[]>(["All Industries"]);
@@ -73,10 +73,37 @@ const SearchStartup = () => {
       const cerateAt = activeSortItems?.createdAt;
       sort = JSON.stringify({ [sortBy]: cerateAt });
     }
-    const query = qs.stringify({ ...(filters ?? {}), sort }, { addQueryPrefix: true });
 
+    filters = omitBy({ ...(filters ?? {}), sort }, isNil);
+
+    if (filters?.startupValue) {
+      filters["minStartupValue.$lte"] = filters.startupValue;
+      filters["maxStartupValue.$gte"] = filters.startupValue;
+      delete filters.startupValue;
+    }
+
+    let and = [];
+    if (filters && filters["investmentFee.$gte"]) {
+      and.push({ investmentFee: { $gte: filters["investmentFee.$gte"] } });
+      delete filters["investmentFee.$gte"];
+    }
+    if (filters && filters["investmentFee.$lte"]) {
+      and.push({ investmentFee: { $lte: filters["investmentFee.$lte"] } });
+      delete filters["investmentFee.$lte"];
+    }
+
+    if (filters && !isEmpty(and)) {
+      filters["$and"] = and;
+    }
+
+    if (filters && filters["brainStorming.title"]) {
+      filters["brainStorming.title"] = `/${filters["brainStorming.title"]}/`;
+    }
+    const query = JSON.stringify(filters);
+
+    console.log("query", query);
     try {
-      const response = await NextFetch(`v1/startup${query ? query : ""}`, { method: "GET" });
+      const response = await NextFetch(`v1/startup/search`, { method: "POST", body: query as any });
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
         return data;
@@ -146,4 +173,4 @@ const SearchStartup = () => {
   );
 };
 
-export default SearchStartup;
+export default StartupSearch;
