@@ -1,22 +1,33 @@
 "use client";
 
-import MyDialog from "@/components/molecules/MyDialog";
-import YesNoDialogContent from "@/components/organisms/dashboard/common/yesNoDialogContent";
+import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { useGlobal } from "@/contexts/GlobalLayout";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const RequestButton = () => {
+const RequestButton = ({ investors }: { investors: any[] }) => {
   const { userDetail } = useGlobal();
+
+  const foundItem = investors.length > 0 && investors?.find((item) => item.user === userDetail?._id); // for checking that the user has requested before
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isResultDialogOpen, setResultDialogOpen] = useState(false);
 
-  const [buttonTitle, setButtonTitle] = useState<string>("Send Request");
   const [isRequestSent, setIsRequestSent] = useState<boolean>(false);
+
+  const [isRequestCanceled, setIsRequestCanceled] = useState<{
+    open: boolean;
+    type?: any;
+    title?: string;
+    desc?: string;
+  }>({ open: false });
+
+  useEffect(() => {
+    foundItem && setIsRequestSent(true);
+  }, [investors]);
 
   const callback = (val: any) => {
     setDialogOpen(() => {
@@ -40,7 +51,20 @@ const RequestButton = () => {
           const data = await response.json();
           setResultDialogOpen(true);
           setDialogOpen(false);
-          data.acknowledged && setIsRequestSent(true);
+          if (data.acknowledged && data.modifiedCount > 0) {
+            setIsRequestCanceled({
+              open: true,
+              type: "success",
+              title: "Your request has been sent successfully.",
+            });
+            setIsRequestSent(true);
+          } else {
+            setIsRequestCanceled({
+              open: true,
+              type: "error",
+              title: "Your request has not been sent successfully.",
+            });
+          }
         }
       } catch (error) {
         console.error("Server fetch error:", error);
@@ -52,7 +76,7 @@ const RequestButton = () => {
   return (
     <>
       {!isRequestSent ? (
-        <MyDialog
+        <ConfirmDialog
           open={isDialogOpen}
           setOpen={setDialogOpen}
           dialogTrigger={
@@ -61,39 +85,30 @@ const RequestButton = () => {
               onClick={() => setDialogOpen(true)}
             >
               <span className="text-fg-white font-medium text-text-md transition-transform duration-300 transform group-hover:text-sm group-hover:translate-x-6">
-                {buttonTitle}
+                Send Request
               </span>
               <span className="bg-yell text-fg-white transition-transform duration-300 transform group-hover:translate-x-20 group-hover:mr-4">
                 <Icon icon="solar:square-arrow-right-bold" className="text-xl group-hover:text-3xl" />
               </span>
             </Button>
           }
-          body={
-            <YesNoDialogContent
-              title="Are you sure you want to send request?"
-              cancelButtonRender={() => setDialogOpen(false)}
-              actionButtonRender={sendRequest}
-            />
-          }
+          title="Are you sure you want to send request?"
+          type="error"
+          cancelButtonRender={() => setDialogOpen(false)}
+          actionButtonRender={sendRequest}
         />
       ) : (
-        <Button className="flex py-3 px-[2.4rem] gap-x-8 bg-launchingGray-6 text-fg-white" disabled>
-          Your message has been successfully sent.
+        <Button className="flex py-3 w-[16vw] h-[6vh] bg-launchingGray-6 text-fg-white" disabled>
+          You have requested
         </Button>
       )}
 
-      <MyDialog
+      <ConfirmDialog
         open={isResultDialogOpen}
         setOpen={setResultDialogOpen}
-        className={{ dialogContent: "bg-teal-05" }}
-        body={
-          <YesNoDialogContent
-            type="success"
-            title="Thank you"
-            desc="Thank you for submitting your idea to us! We appreciate your initiative. We will review your idea at the earliest opportunity, and if accepted, we will kickstart the project together, working towards success. If you have any supporting documents such as a business model canvas, pitch deck, or other relevant materials, please proceed to submit them by clicking on 'Submit Documents.' Otherwise, you can dismiss this step if you don't have additional materials. Looking forward to potential collaboration"
-          />
-        }
-      ></MyDialog>
+        type={isRequestCanceled.type}
+        title={isRequestCanceled.title}
+      />
     </>
   );
 };

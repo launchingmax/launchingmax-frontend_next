@@ -54,7 +54,7 @@ const Overview = ({ data }: { data: IStartup }) => {
       </p>
 
       <div className=" flex justify-center w-full mt-6">
-        <RequestButton />
+        <RequestButton investors={data.investors} />
       </div>
     </div>
   );
