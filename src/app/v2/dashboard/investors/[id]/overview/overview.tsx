@@ -22,7 +22,14 @@ const Overview = ({ data }: { data: IStartup }) => {
           <div className="flex flex-col">
             <h2 className="text-text-xl font-bold leading-7 text-launchingGray-8 dark:text-white">Company size</h2>
             <h2 className="text-text-md font-medium leading-6 text-launchingGray-5 dark:text-launchingGray-2">
-              {data.idea.team.length} employees
+              {data.idea.team.length < 10
+                ? "2-10"
+                : data.idea.team.length < 50
+                ? "10-50"
+                : data.idea.team.length < 250
+                ? "50-250"
+                : "250-500"}{" "}
+              employees
             </h2>
           </div>
           <div className="flex flex-col">
@@ -49,9 +56,10 @@ const Overview = ({ data }: { data: IStartup }) => {
         {data.idea.brainStorming.title}
       </h2>
 
-      <p className="text-start text-text-md font-regular leading-[1.4rem] tracking-[0.02rem]">
-        {data.idea.brainStorming.desc}
-      </p>
+      <div
+        dangerouslySetInnerHTML={{ __html: data.idea.brainStorming.desc ?? "" }}
+        className="text-start text-text-md font-regular leading-[1.4rem] tracking-[0.02rem] whitespace-pre-wrap"
+      />
 
       <div className=" flex justify-center w-full mt-6">
         <RequestButton investors={data.investors} />

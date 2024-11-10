@@ -18,7 +18,10 @@ export interface IWebsite extends DynamicObj {
 
 export interface IPCT extends DynamicObj {}
 
-export interface IPitchDeck extends DynamicObj {}
+export interface IPitchDeck extends DynamicObj {
+  summery?: string;
+  pitchDeck?: string;
+}
 
 export interface IIntroVideo extends DynamicObj {}
 

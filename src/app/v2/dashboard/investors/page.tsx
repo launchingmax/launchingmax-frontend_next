@@ -41,8 +41,6 @@ export default async function InvestorPage() {
 
   const res = await fetchData();
 
-  console.log(".... ressssss  .....   ", res);
-
   // try {
   //   const res = await fetchData();
   // } catch (error) {

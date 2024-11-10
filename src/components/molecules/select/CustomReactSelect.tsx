@@ -18,7 +18,7 @@ const indicatorsContainerStyles = " p-1 gap-1";
 const clearIndicatorStyles = "text-gray-200 p-1 hover:text-gray-300";
 const indicatorSeparatorStyles = "bg-transparent";
 const dropdownIndicatorStyles = "pr-4 text-gray-500 dark:text-fg-white rounded-md hover:text-black";
-const menuStyles = "p-1 mt-2 border border-gray-200 bg-launchingBlue-9 rounded-lg";
+const menuStyles = "p-1 mt-2 border border-gray-200 bg-white dark:bg-launchingBlue-9 rounded-lg";
 const groupHeadingStyles = "ml-3 mt-2 mb-1 text-gray-500 text-sm";
 const optionStyles = {
   base: "hover:cursor-pointer px-3 py-2 rounded",
