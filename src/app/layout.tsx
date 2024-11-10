@@ -29,7 +29,12 @@ export default function RootLayout({
   const lang = cookies().get(I18N.cookieName)?.value;
   return (
     <html suppressHydrationWarning dir={dir(lang)} lang={lang}>
-      <body className={cn("min-h-screen bg-primary text-fg-primary font-lato antialiased", lato.variable)}>
+      <body
+        className={cn(
+          "min-h-screen bg-backgroundDashboard dark:bg-launchingBlack text-fg-primary font-lato antialiased",
+          lato.variable
+        )}
+      >
         <GlobalLayout>
           <Providers>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
