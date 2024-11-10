@@ -223,9 +223,9 @@
   --success-950-foreground: 0 0% 100%;
 
   /*************************************
-              Launching Gray
+              Launching Gray (according to figma )
     **************************************/
-
+  /* 
   --blue: var("--blue-500");
   --blue-foreground: 0 0% 0%;
 
@@ -266,10 +266,10 @@
   --blue-900-foreground: 0 0% 100%;
 
   --blue-950: 193 24% 7%;
-  --blue-950-foreground: 0 0% 100%;
+  --blue-950-foreground: 0 0% 100%; */
 
   /*************************************
-              Mauve Gray
+              Mauve
     **************************************/
 
   --mauve: var("--mauve-500");
@@ -315,7 +315,7 @@
   --mauve-950-foreground: 0 0% 100%;
 
   /*************************************
-              Light Blue
+           Launching Gray
     **************************************/
 
   --gray: var("--gray-500");
@@ -405,6 +405,52 @@
 
   --indigo-950: 255 33% 2%;
   --indigo-950-foreground: 0 0% 100%;
+
+  /*************************************
+              Light blue
+    **************************************/
+
+  --lightBlue: var("--lightBlue-500");
+  --lightBlue-foreground: 0 0% 0%;
+
+  --lightBlue-50: 198 71% 97%;
+  --lightBlue-50-foreground: 0 0% 0%;
+
+  --lightBlue-100: 199 70% 95%;
+  --lightBlue-100-foreground: 0 0% 0%;
+
+  --lightBlue-150: 199 71% 92%;
+  --lightBlue-150-foreground: 0 0% 0%;
+
+  --lightBlue-200: 198 71% 89%;
+  --lightBlue-200-foreground: 0 0% 0%;
+
+  --lightBlue-300: 198 69% 84%;
+  --lightBlue-300-foreground: 0 0% 0%;
+
+  --lightBlue-400: 198 69% 78%;
+  --lightBlue-400-foreground: 0 0% 0%;
+
+  --lightBlue-500: 198 70% 73%;
+  --lightBlue-500-foreground: 0 0% 0%;
+
+  --lightBlue-600: 198 36% 58%;
+  --lightBlue-600-foreground: 0 0% 0%;
+
+  --lightBlue-700: 198 26% 44%;
+  --lightBlue-700-foreground: 0 0% 100%;
+
+  --lightBlue-800: 198 26% 29%;
+  --lightBlue-800-foreground: 0 0% 100%;
+
+  --lightBlue-850: 197 26% 22%;
+  --lightBlue-850-foreground: 0 0% 100%;
+
+  --lightBlue-900: 199 25% 15%;
+  --lightBlue-900-foreground: 0 0% 100%;
+
+  --lightBlue-950: 193 24% 7%;
+  --lightBlue-950-foreground: 0 0% 100%;
 
   /*************************************
               Black & Dashboard

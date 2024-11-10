@@ -70,10 +70,10 @@ const ConfirmDialog: React.FC<IProps> = ({
 
           {BodyContent && <div className="py-8 pl-4">{BodyContent}</div>}
 
-          <div className="w-full flex flex-row space-x-[0.625rem]">
+          <div className="w-full flex flex-row justify-center space-x-[0.625rem]">
             {cancelButtonRender && (
               <button
-                className={`w-1/3 border-b-2 h-[2.6875rem] ${
+                className={`w-1/2 border-b-2 h-[2.6875rem] ${
                   type == "default"
                     ? "border-launchingBlue-5 dark:border-launchingBlue-4 text-launchingBlue-7 dark:text-fg-white"
                     : type == "success"
@@ -87,7 +87,7 @@ const ConfirmDialog: React.FC<IProps> = ({
             )}
             {actionButtonRender && (
               <button
-                className={`w-2/3 h-[2.6875rem] rounded-md text-fg-white ${
+                className={`w-1/2 h-[2.6875rem] rounded-md text-fg-white ${
                   type == "default"
                     ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
                     : type == "success"

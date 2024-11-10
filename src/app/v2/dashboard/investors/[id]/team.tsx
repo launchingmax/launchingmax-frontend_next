@@ -5,7 +5,7 @@ import { ITeam } from "@/lib/submodels/Team";
 const Team = ({ team }: { team: ITeam[] }) => {
   return (
     <DashSection heading="Team" className="z-0">
-      <div className="flex flex-wrap justify-center gap-x-16 py-8 px-16 ">
+      <div className="flex flex-wrap justify-center gap-x-16 py-4 px-16 ">
         {team.map((item: ITeam) => (
           <div className="flex flex-col items-center">
             <Avatar className="w-[6.25rem] h-[6.25rem] mb-2">

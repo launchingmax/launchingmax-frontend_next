@@ -68,20 +68,6 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
           <div className="w-full px-8 my-6">
-            {/* <DualRangeSlider
-              label={(value) => value}
-              value={[form.watch("minStartupValue.$gte") as number, form.watch("maxStartupValue.$lte") as number]}
-              onValueChange={(e) => {
-                // @ts-ignore
-                form.setValue("minStartupValue.$gte", e[0]);
-                // @ts-ignore
-                form.setValue("maxStartupValue.$lte", e[1]);
-              }}
-              min={minStartupValue}
-              max={maxStartupValue}
-              step={500}
-            /> */}
-
             <Slider
               value={[(form.watch("startupValue") as number) ?? startupValue / 2]}
               //@ts-ignore
@@ -94,11 +80,11 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
 
             <div className="flex justify-between w-full mt-3">
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
-              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
-                {formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md translate-x-8">
+                ${formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
               </span>
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
-                {formatNumberWithCommas(startupValue)}
+                ${formatNumberWithCommas(startupValue)}
               </span>
             </div>
           </div>
@@ -113,15 +99,6 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
           />
 
           <div className="flex flex-col items-center justify-between px-8  my-6">
-            {/* <Slider
-              value={[form.watch("investmentFee") as number]}
-              //@ts-ignore
-              onValueChange={(val) => form.setValue("investmentFee", val[0])}
-              min={0}
-              max={investmentFee}
-              step={500}
-              className="w-full"
-            /> */}
             <DualRangeSlider
               label={(value) => value}
               value={[
@@ -141,8 +118,8 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             <div className="flex justify-between w-full mt-3">
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
               <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
-                {formatNumberWithCommas(form.watch("investmentFee.$gte") ?? minInvestmentFee)} -{" "}
-                {formatNumberWithCommas(form.watch("investmentFee.$lte") ?? maxInvestmentFee)} $
+                ${formatNumberWithCommas(form.watch("investmentFee.$gte") ?? minInvestmentFee)} - $
+                {formatNumberWithCommas(form.watch("investmentFee.$lte") ?? maxInvestmentFee)}
               </span>
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
             </div>

@@ -1,13 +1,13 @@
 import AnimatedText from "@/lib/helper";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { CgArrowLongDownE, CgMoon, CgSun } from "react-icons/cg";
 import { Separator } from "../ui/separator";
 import { IMenu } from "@/lib/models/user-level.model";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import _ from "lodash";
 
 const MenuItem = ({
   items,
@@ -25,8 +25,6 @@ const MenuItem = ({
   openMultiple?: boolean;
 }) => {
   const pathname = usePathname();
-
-  const router = useRouter();
 
   const [isSubmenuOpen, setIsSubmenuOpen] = useState<{
     [key: string]: boolean;
@@ -76,7 +74,7 @@ const MenuItem = ({
                     <AnimatePresence>
                       {!isCollapsed && (
                         <AnimatedText
-                          text={item.title}
+                          text={_.capitalize(_.startCase(item.title))}
                           isCollapsed={isCollapsed}
                           className={` text-sm leading-[0.875rem] font-semibold line-clamp-1 overflow-x-hidden ${
                             isActive

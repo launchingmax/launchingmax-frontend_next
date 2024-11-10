@@ -108,6 +108,8 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
         setOpen={setResultDialogOpen}
         type={isRequestCanceled.type}
         title={isRequestCanceled.title}
+        actionButtonTitle="Ok"
+        actionButtonRender={() => setResultDialogOpen(false)}
       />
     </>
   );

@@ -9,8 +9,7 @@ import { isEmpty, isNil, omitBy, trimStart } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useGlobal } from "@/contexts/GlobalLayout";
-import { flattenObject, objectToQueryParams } from "@/lib/utils";
-import qs from "qs";
+import { flattenObject } from "@/lib/utils";
 import { NextFetch } from "@/configs/api/next-fetch";
 
 interface IStartupsParams {

@@ -32,7 +32,6 @@ async function fetchStartupData(id: { id: string }) {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(".... 4444444444444444444  .....   ", data.idea);
       return data;
     }
   } catch (error: any) {
@@ -71,13 +70,13 @@ const StartupDetail = async ({ params: { id } }: any) => {
         <div className="flex flex-col bg-white dark:bg-launchingBlue-8.5">
           <ScrollTab tabs={tabs} backUrl="/v2/dashboard/investors" />
           {/* Content of the page with sections */}
-          <div className="space-y-8  b-0 scroll-cubic ">
+          <div className="py-4 b-0 scroll-cubic ">
             {/* Add padding top to prevent content from hiding behind the sticky tabs */}
-            <section id="Overview" className="pt-4">
+            <section id="Overview">
               <Overview data={res} />
             </section>
 
-            <section id="Team" className="pt-14">
+            <section id="Team" className="">
               <Team team={res.idea.team} />
             </section>
 
@@ -104,32 +103,29 @@ const StartupDetail = async ({ params: { id } }: any) => {
             <section id="Documents">
               <Documents data={res} />
             </section>
-
-            <div>
-              <DashSection
-                heading={
-                  <h2 className="px-6 font-bold text-[2rem] tracking-wide text-launchingBlue-8 dark:text-white">
-                    <em>Related startups</em>
-                  </h2>
-                }
-              />
-            </div>
-
-            <div className="w-full flex flex-wrap  justify-center 2xl:px-8 pb-12">
-              {relatedStartups.length > 0 ? (
-                relatedStartups?.items?.map((item: IStartup) => (
-                  <div className="w-[100%] xl:w-[45%] m-3">
-                    <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>
-                      <StartupCard key={item._id} startup={item} />
-                    </Link>
-                  </div>
-                ))
-              ) : (
-                <div className="w-[100%] flex justify-center">
-                  <h2 className="text-display-sm">There is No Related Startup !</h2>
+            {relatedStartups.length > 0 && (
+              <>
+                <div>
+                  <DashSection
+                    heading={
+                      <h2 className="px-6 font-bold text-[2rem] tracking-wide text-launchingBlue-8 dark:text-white">
+                        <em>Related startups</em>
+                      </h2>
+                    }
+                  />
                 </div>
-              )}
-            </div>
+
+                <div className="w-full flex flex-wrap  justify-center 2xl:px-8 pb-12">
+                  {relatedStartups?.items?.map((item: IStartup) => (
+                    <div className="w-[100%] xl:w-[45%] m-3">
+                      <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>
+                        <StartupCard key={item._id} startup={item} />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </Suspense>
