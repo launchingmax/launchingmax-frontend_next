@@ -26,8 +26,9 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
   }>({ open: false });
 
   useEffect(() => {
+    console.log(" -------------------------------------------- ", foundItem);
     foundItem && setIsRequestSent(true);
-  }, [investors]);
+  }, [foundItem]);
 
   const callback = (val: any) => {
     setDialogOpen(() => {
