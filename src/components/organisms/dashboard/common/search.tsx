@@ -24,6 +24,7 @@ interface ISearch {
   Filter?: React.ComponentType<any>;
   menuItems?: any;
   resetForm?: boolean;
+  children?: React.ReactNode;
 }
 const Search: React.FC<ISearch> = ({
   className,
@@ -35,6 +36,7 @@ const Search: React.FC<ISearch> = ({
   Filter,
   menuItems,
   resetForm,
+  children,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -140,6 +142,8 @@ const Search: React.FC<ISearch> = ({
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+
+      {children}
     </div>
   );
 };

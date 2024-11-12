@@ -178,7 +178,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
                   isLoading={industriesLoading}
                   isClearable
                   placeholder="Industry"
-                  options={industryItems.map((option) => ({
+                  options={industryItems.map((option: any) => ({
                     value: option.name,
                     label: option.name,
                   }))}
