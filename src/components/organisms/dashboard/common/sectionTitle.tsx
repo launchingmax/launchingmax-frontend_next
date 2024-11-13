@@ -13,7 +13,7 @@ const SectionTitle: React.FC<IProps> = ({ title }) => {
         title
       )}
 
-      <span className="flex items-center flex-grow">
+      <span className="flex items-center flex-grow ">
         <div
           className="w-0 h-0 translate-x-1 
               border-t-[8px] border-t-transparent

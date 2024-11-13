@@ -18,7 +18,7 @@ export function Field<D extends keyof JSX.IntrinsicElements>(props: IFieldProps<
       name={props.name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{props.label}</FormLabel>
+          {/* <FormLabel>{props.label}</FormLabel> */}
           <FormControl>
             {props.renderInput
               ? props.renderInput(field)

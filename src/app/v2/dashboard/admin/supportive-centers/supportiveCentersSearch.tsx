@@ -9,10 +9,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { DataTable } from "@/components/molecules/DataTable";
 import MyDialog from "@/components/molecules/MyDialog";
 import { Field } from "@/components/atoms/Field";
-import MyInput from "@/components/atoms/myInput";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import AddEditSupportiveCentersDialog from "./AddEditSupportiveCentersDialog";
+import AddEditSupportiveCenters from "./addEditSupportiveCenters";
 
 export type DataTableType = {
   id: string;
@@ -431,6 +430,8 @@ const SupportiveCentersSearch = () => {
 
   return (
     <div className="py-6">
+      {/* <AddEditSupportiveCenters editRow={editRow} addEditRender={handleEditSubmit} /> */}
+
       <Search
         filterRender={filterRender}
         clearFilter={clearFilter}
@@ -451,7 +452,8 @@ const SupportiveCentersSearch = () => {
         <MyDialog
           open={open}
           setOpen={setOpen}
-          body={<AddEditSupportiveCentersDialog editRow={editRow} addEditRender={handleEditSubmit} />}
+          className={{ dialogContent: "" }}
+          body={<AddEditSupportiveCenters editRow={editRow} addEditRender={handleEditSubmit} />}
         />
       </div>
     </div>

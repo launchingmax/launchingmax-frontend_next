@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Select from "react-select";
 
 const controlStyles = {
-  base: "h-[3.625rem] rounded-lg hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7",
+  base: "h-[3rem] rounded-lg hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7",
   focus: "border-launchingBlue-3 ring-1",
   nonFocus: "border-launchingBlue-2 hover:launchingBlue-3",
 };

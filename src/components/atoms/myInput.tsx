@@ -1,18 +1,8 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 
-interface IMyInput
-  extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+interface IMyInput extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   control: any;
   formMessage: any;
   className: string;
@@ -22,20 +12,21 @@ interface IMyInput
 
 const MyInput: React.FC<IMyInput> = (params: IMyInput) => {
   return (
-    <FormField
-      control={params.control}
-      name={params.name}
-      render={({ field }) => (
-        <FormItem className={params.className}>
-          <FormLabel>{params.label}</FormLabel>
-          <FormControl>
-            <Input {...field} type={params.type} />
-          </FormControl>
+    <h1>this file must be deleted</h1>
+    // <FormField
+    //   control={params.control}
+    //   name={params.name}
+    //   render={({ field }) => (
+    //     <FormItem className={params.className}>
+    //       <FormLabel>{params.label}</FormLabel>
+    //       <FormControl>
+    //         <Input {...field} type={params.type} />
+    //       </FormControl>
 
-          <FormMessage className="text-red-700" />
-        </FormItem>
-      )}
-    />
+    //       <FormMessage className="text-red-700" />
+    //     </FormItem>
+    //   )}
+    // />
   );
 };
 
