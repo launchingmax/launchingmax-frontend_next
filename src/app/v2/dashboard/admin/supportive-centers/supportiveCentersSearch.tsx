@@ -12,6 +12,7 @@ import { Field } from "@/components/atoms/Field";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import AddEditSupportiveCenters from "./addEditSupportiveCenters";
+import SupportiveCenterDetail from "./supportiveCenterDetail";
 
 export type DataTableType = {
   id: string;
@@ -53,7 +54,8 @@ const SupportiveCentersSearch = () => {
   // **************  TABLE  ****************
 
   const [editRow, setEditRow] = useState<any>({});
-  const [open, setOpen] = useState<boolean>(false);
+  const [openAddEditDialog, setOpenAddEditDialog] = useState<boolean>(false);
+  const [openDetailDialog, setOpenDetailDialog] = useState<boolean>(false);
 
   const [dataState, setDataState] = useState<DataTableType[]>([
     {
@@ -399,13 +401,17 @@ const SupportiveCentersSearch = () => {
             <Icon
               icon="solar:info-square-bold-duotone"
               className="w-6 h-6 text-teal-5 dark:text-teal-3 cursor-pointer"
+              onClick={() => {
+                setEditRow(selectedRow);
+                setOpenDetailDialog(true);
+              }}
             />
             <Icon
               icon="solar:pen-2-bold-duotone"
               className="w-6 h-6 text-launchingBlue-6 dark:text-launchingBlue-3 cursor-pointer"
               onClick={() => {
                 setEditRow(selectedRow);
-                setOpen(true);
+                setOpenAddEditDialog(true);
               }}
             />
             <Icon
@@ -425,7 +431,7 @@ const SupportiveCentersSearch = () => {
       Object.entries(values).filter(([key, value]) => values[key as keyof DataTableType] !== undefined)
     ) as Partial<DataTableType>;
     setDataState((prevData) => prevData.map((row) => (row.id === editRow.id ? { ...row, ...changedFields } : row)));
-    setOpen(false);
+    setOpenAddEditDialog(false);
   };
 
   return (
@@ -450,10 +456,16 @@ const SupportiveCentersSearch = () => {
         />
 
         <MyDialog
-          open={open}
-          setOpen={setOpen}
+          open={openAddEditDialog}
+          setOpen={setOpenAddEditDialog}
           className={{ dialogContent: "" }}
           body={<AddEditSupportiveCenters editRow={editRow} addEditRender={handleEditSubmit} />}
+        />
+
+        <MyDialog
+          open={openDetailDialog}
+          setOpen={setOpenDetailDialog}
+          body={<SupportiveCenterDetail data={editRow} />}
         />
       </div>
     </div>
