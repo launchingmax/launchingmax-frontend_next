@@ -34,7 +34,7 @@ const MyDialog: React.FC<IMyDialog> = ({
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent
         className={cn(
-          `bg-white dark:bg-launchingBlue-8 dark:border-launchingBlue-8 w-auto max-w-full`,
+          `bg-white dark:bg-launchingBlue-8 dark:border-launchingBlue-8 w-auto max-w-full rounded-md`,
           className?.dialogContent
         )}
       >

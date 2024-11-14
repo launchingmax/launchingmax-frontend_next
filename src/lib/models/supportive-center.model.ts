@@ -1,6 +1,8 @@
 import { Status } from "../constants/general.status";
 
 export interface ISupportiveCenter {
+  _id: string;
+
   name: string;
 
   group: string[];
@@ -23,17 +25,23 @@ export interface ISupportiveCenter {
 
   roadmap: string;
 
-  detail: string;
-
-  address: string;
-
   isTop: boolean;
-
-  logo: string;
-
-  programFee: string;
 
   isAvailable: boolean;
 
   status: Status;
+
+  detail: string;
+
+  address: string;
+
+  createdAt: string;
+
+  updatedAt: string;
+
+  __v: number;
+
+  logo: string;
+
+  programFee: string;
 }

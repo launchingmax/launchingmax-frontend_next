@@ -77,7 +77,7 @@ const Search: React.FC<ISearch> = ({
                 filterRender({ "brainStorming.title": v.target.value !== "" ? v.target.value : undefined });
             }}
             placeholder="Search it..."
-            className="border-0  focus-within:outline-none focus-within:border-0 focus-within:ring-0"
+            className="border-0 w-full bg-transparent focus-within:outline-none focus-within:border-0 focus-within:ring-0"
           />
         </div>
         <Separator orientation="horizontal" className="w-full" />

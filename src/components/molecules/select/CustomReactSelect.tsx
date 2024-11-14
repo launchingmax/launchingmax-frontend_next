@@ -2,12 +2,12 @@ import clsx from "clsx";
 import Select from "react-select";
 
 const controlStyles = {
-  base: "h-[3rem] rounded-lg hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7",
+  base: " max-h-max rounded-lg hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7",
   focus: "border-launchingBlue-3 ring-1",
   nonFocus: "border-launchingBlue-2 hover:launchingBlue-3",
 };
 const placeholderStyles = "text-gray-500 dark:text-fg-white pl-1 py-0.5";
-const selectInputStyles = "pl-1 py-0.5";
+const selectInputStyles = "pl-1 py-2";
 const valueContainerStyles = "p-1 gap-1";
 const singleValueStyles = "leading-7 ml-1";
 const multiValueStyles = "bg-gray-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5";
@@ -43,8 +43,15 @@ const CustomReactSelect = (props: any) => (
       // override that behaviour.
       multiValueLabel: (base) => ({
         ...base,
-        whiteSpace: "normal",
-        overflow: "visible",
+        display: "flex",
+        flexDirection: "row", // Align selected items in a row
+        backgroundColor: "#f3f4f6", // Example background
+        borderRadius: "4px",
+      }),
+      multiValue: (base) => ({
+        ...base,
+        display: "flex",
+        alignItems: "center",
       }),
       control: (base) => ({
         ...base,

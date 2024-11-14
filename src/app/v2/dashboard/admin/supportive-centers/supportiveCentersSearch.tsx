@@ -13,22 +13,17 @@ import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import AddEditSupportiveCenters from "./addEditSupportiveCenters";
 import SupportiveCenterDetail from "./supportiveCenterDetail";
+import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
+import { IPagination } from "@/lib/types/types";
 
-export type DataTableType = {
-  id: string;
-  name: string;
-  country: string;
-  industry: string;
-  strategy: string;
-  group: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+interface IProps {
+  data?: IPagination<ISupportiveCenter>;
+}
 
-const SupportiveCentersSearch = () => {
+const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
+  const [addOrEditType, setAddOrEditType] = useState<"add" | "edit">("add");
   const menuItems = {
     options: {
       items: [
@@ -53,293 +48,35 @@ const SupportiveCentersSearch = () => {
 
   // **************  TABLE  ****************
 
-  const [editRow, setEditRow] = useState<any>({});
+  const [selectedRowState, setSelectedRowState] = useState<any>({});
   const [openAddEditDialog, setOpenAddEditDialog] = useState<boolean>(false);
   const [openDetailDialog, setOpenDetailDialog] = useState<boolean>(false);
 
-  const [dataState, setDataState] = useState<DataTableType[]>([
-    {
-      id: "728ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728sds",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72ewrf",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "74rt5ed52f",
-      name: "zzzzzzzzzzzzzzzzz",
-      country: "Iran",
-      industry: "frewf",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728bdbd2f",
-      name: "zzzzzzzzzzzzzzzzz",
-      country: "Iran",
-      industry: "fewa",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72bdff",
-      name: "zzzzzzzzzzzzzzzzz",
-      country: "Iran",
-      industry: "njhyt",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728sds",
-      name: "bbbbbbbbbbbbbbbbbbbb",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72ewrf",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "74rt5ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "frewf",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728bdbd2f",
-      name: "bbbbbbbbbbbbbbbbbbbb",
-      country: "Iran",
-      industry: "fewa",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72bdff",
-      name: "bbbbbbbbbbbbbbbbbbbb",
-      country: "Iran",
-      industry: "njhyt",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728sds",
-      name: "bbbbbbbbbbbbbbbbbbbb",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72ewrf",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "74rt5ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "frewf",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728bdbd2f",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "fewa",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72bdff",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "njhyt",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728sds",
-      name: "fwerfwef",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72ewrf",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "ssss",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "74rt5ed52f",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "frewf",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728bdbd2f",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "fewa",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "72bdff",
-      name: "aaaaaaaaaaaaa",
-      country: "Iran",
-      industry: "njhyt",
-      strategy: "cgfdacf",
-      group: "gydawg",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-  ]);
+  const [dataState, setDataState] = useState<ISupportiveCenter[]>([]);
 
-  const columns: ColumnDef<DataTableType>[] = [
+  useEffect(() => {
+    data?.items && setDataState(data.items);
+  }, [data]);
+
+  const columns: ColumnDef<ISupportiveCenter>[] = [
     {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
-        const val: any = row.getValue("name");
+        const name: any = row.getValue("name");
+        const logo: any = row.original.logo;
         return (
           <div className="flex items-center gap-x-3">
             <Image
-              src={`${process.env.NEXT_PUBLIC_ALL_API}/ideas/65f6a15c58bda0151f8cfd95/vb/f4985ed7-2302-44bf-ac6b-bc17388a108e.png`}
+              src={
+                logo ? `${process.env.NEXT_PUBLIC_ALL_API}${logo}` : `${process.env.NEXT_PUBLIC_ALL_API}/sc/${name}.png`
+              }
               alt="Company Logo"
               width={200}
               height={200}
               className="w-6 h-6"
             />
-            <h2>{val}</h2>
+            <h2>{name}</h2>
           </div>
         );
       },
@@ -348,18 +85,18 @@ const SupportiveCentersSearch = () => {
       accessorKey: "country",
       header: "Country",
       cell: ({ row }) => {
-        const val: any = row.getValue("country");
-        //.toLowerCase().replaceAll(" ", "-")}
+        const country: any = row.getValue("country");
+
         return (
           <div className="flex items-center gap-x-3">
-            <Icon icon={`twemoji:flag-iran`} className="h-4 w-4" />
-            <h2>{val}</h2>
+            <Icon icon={`twemoji:flag-${country.toLowerCase().replaceAll(" ", "-")}`} className="h-4 w-4" />
+            <h2>{country}</h2>
           </div>
         );
       },
     },
     {
-      accessorKey: "industry",
+      accessorKey: "industries",
       header: "Industry",
     },
     {
@@ -371,38 +108,18 @@ const SupportiveCentersSearch = () => {
       header: "Group",
     },
 
-    // {
-    //   accessorKey: "email",
-    //   header: "Email",
-    //   //@ts-ignore
-    //   cell: (info) => <div className="text-center font-bold">{info?.getValue()}</div>,
-    // },
-    // {
-    //   accessorKey: "amount",
-    //   header: () => <div className="">Amount</div>,
-    //   cell: ({ row }) => {
-    //     const amount = parseFloat(row.getValue("amount"));
-    //     const formatted = new Intl.NumberFormat("en-US", {
-    //       style: "currency",
-    //       currency: "USD",
-    //     }).format(amount);
-
-    //     return <div className=" font-medium ">{formatted}</div>;
-    //   },
-    // },
     {
       id: "actions",
       header: () => <div className="text-center">Actions</div>,
       cell: ({ row }) => {
         const selectedRow = row.original;
-
         return (
           <div className="flex justify-center items-center gap-x-[0.88rem] ">
             <Icon
               icon="solar:info-square-bold-duotone"
               className="w-6 h-6 text-teal-5 dark:text-teal-3 cursor-pointer"
               onClick={() => {
-                setEditRow(selectedRow);
+                setSelectedRowState(selectedRow);
                 setOpenDetailDialog(true);
               }}
             />
@@ -410,8 +127,9 @@ const SupportiveCentersSearch = () => {
               icon="solar:pen-2-bold-duotone"
               className="w-6 h-6 text-launchingBlue-6 dark:text-launchingBlue-3 cursor-pointer"
               onClick={() => {
-                setEditRow(selectedRow);
+                setSelectedRowState(selectedRow);
                 setOpenAddEditDialog(true);
+                setAddOrEditType("edit");
               }}
             />
             <Icon
@@ -424,13 +142,16 @@ const SupportiveCentersSearch = () => {
     },
   ];
 
-  const handleEditSubmit = (values: any) => {
+  const handleSubmit = (values: any) => {
+    console.log("mmmmm 200000 ------------------------", values);
     if (!values) return;
     // Only keep fields that have changed
     const changedFields = Object.fromEntries(
-      Object.entries(values).filter(([key, value]) => values[key as keyof DataTableType] !== undefined)
-    ) as Partial<DataTableType>;
-    setDataState((prevData) => prevData.map((row) => (row.id === editRow.id ? { ...row, ...changedFields } : row)));
+      Object.entries(values).filter(([key, value]) => values[key as keyof ISupportiveCenter] !== undefined)
+    ) as Partial<ISupportiveCenter>;
+    setDataState((prevData) =>
+      prevData.map((row) => (row._id === selectedRowState.id ? { ...row, ...changedFields } : row))
+    );
     setOpenAddEditDialog(false);
   };
 
@@ -459,13 +180,15 @@ const SupportiveCentersSearch = () => {
           open={openAddEditDialog}
           setOpen={setOpenAddEditDialog}
           className={{ dialogContent: "" }}
-          body={<AddEditSupportiveCenters editRow={editRow} addEditRender={handleEditSubmit} />}
+          body={
+            <AddEditSupportiveCenters editRow={selectedRowState} addEditRender={handleSubmit} type={addOrEditType} />
+          }
         />
 
         <MyDialog
           open={openDetailDialog}
           setOpen={setOpenDetailDialog}
-          body={<SupportiveCenterDetail data={editRow} />}
+          body={<SupportiveCenterDetail data={selectedRowState} />}
         />
       </div>
     </div>

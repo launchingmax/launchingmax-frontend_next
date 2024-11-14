@@ -6,6 +6,7 @@ import CustomReactSelect from "@/components/molecules/select/CustomReactSelect";
 import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import DashSection from "@/components/organisms/dashboard/DashSection";
 import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,19 +19,21 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import * as Checkbox from "@radix-ui/react-checkbox";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
 
 interface IProps {
   editRow?: any;
   addEditRender: (param: any) => void;
+  type: "add" | "edit";
 }
 
-const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) => {
+const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, type }) => {
   const form = useForm();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { toast } = useToast();
-
-  console.log(` ---------------------------- `, editRow);
 
   const dispatch = useAppDispatch();
 
@@ -52,10 +55,18 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
     }
   }, [editRow]);
 
-  const options = [
+  const strategyOptions = [
     { label: "Invest", value: "Invest" },
     { label: "Develop", value: "Develop" },
-    { label: "Letter of support", value: "LetterOfSupport" },
+    { label: "Letter of support", value: "LOS" },
+  ];
+
+  const typeOptions = [
+    { label: "Accelerator", value: "Accelerator" },
+    { label: "Incubator", value: "Incubator" },
+    { label: "Venture Capital", value: "Venture Capital" },
+    { label: "Individual/Angel", value: "Individual/Angel" },
+    { label: "Private Equity Firm", value: "Private Equity Firm" },
   ];
 
   const handleMultiSelectChange = (selectedOptions: string[]) => {
@@ -82,10 +93,10 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
   return (
     <div className="h-[80vh] lg:h-max w-max overflow-y-auto">
       <div className="hidden">
-        <SectionTitle title="Add new supportive center" />
+        <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
       <div className="hidden lg:block">
-        <SectionTitle title="Supportive center" />
+        <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
 
       <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem]">
@@ -115,21 +126,24 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                     Upload File
                   </Button> */}
               </div>
-              {/* <Input
-                  name="picture"
-                  type="file"
-                  className="w-[6.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5"
-                /> */}
-              <Textarea
-                className=" min-h-[6.625rem] w-full text-text-md font-regular text-launchingGray-3 dark:text-launchingBlue-2 bg-launchingBlue-05 dark:bg-launchingBlue-8.5"
-                placeholder="Type a description here ..."
+
+              <Controller
+                name="detail"
+                control={form.control}
+                render={({ field }) => (
+                  <Textarea
+                    {...field}
+                    className=" min-h-[6.625rem] w-full text-text-md font-regular text-launchingGray-3 dark:text-launchingBlue-2 bg-launchingBlue-05 dark:bg-launchingBlue-8.5"
+                    placeholder="Type a description here ..."
+                  />
+                )}
               />
             </div>
 
             <div className="flex flex-col lg:flex-row  lg:mt-6 mt-2 gap-2 lg:gap-4  ">
               <div className="flex flex-col justify-between w-full lg:w-1/2 gap-2 lg:gap-0">
                 <Controller
-                  name="placement.country"
+                  name="country"
                   control={form.control}
                   render={({ field }) => (
                     <CustomReactSelect
@@ -137,13 +151,13 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                       isLoading={countriesLoading}
                       isClearable
                       placeholder="Country"
-                      options={countryItems.map((option) => ({
+                      options={countryItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
                       }))}
                       getOptionLabel={(option: any) => option.label}
                       getOptionValue={(option: any) => option.value}
-                      value={countryItems.find((option) => option.value === field)}
+                      value={{ label: field.value, value: field.value }}
                       onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
@@ -158,18 +172,20 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                   Input={Input}
                   InputProps={{
                     type: "text",
-                    placeholder: "Address",
+                    label: "Address",
+                    placeholder: "Write the Adress",
                   }}
                 />
 
                 <Field
-                  name="phoneNumber"
+                  name="tel"
                   control={form.control}
-                  value={editRow?.aaaa}
+                  value={editRow?.tel}
                   Input={Input}
                   InputProps={{
                     type: "number",
-                    placeholder: "Phone Number ",
+                    label: "Phone Number",
+                    placeholder: "For example (+1)408 875 3000",
                   }}
                 />
 
@@ -180,7 +196,8 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                   Input={Input}
                   InputProps={{
                     type: "text",
-                    placeholder: "Website URL",
+                    label: "Website URL",
+                    placeholder: "www.example.com",
                   }}
                 />
 
@@ -191,7 +208,8 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                   Input={Input}
                   InputProps={{
                     type: "email",
-                    placeholder: "Email",
+                    label: "Email",
+                    placeholder: "example@gmail.com",
                   }}
                 />
               </div>
@@ -207,13 +225,16 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                       isLoading={industriesLoading}
                       isClearable
                       placeholder="Industry"
+                      isMulti
                       options={industryItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
                       }))}
                       getOptionLabel={(option: any) => option.label}
                       getOptionValue={(option: any) => option.value}
-                      value={countryItems.find((option) => option.value === field)}
+                      value={field?.value?.map((item: any) => {
+                        return { label: item, value: item };
+                      })}
                       onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
@@ -225,7 +246,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                     <h2 className="w-1/2  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
                       Type
                     </h2>
-                    <h2 className="w-1/2 flex justify-center  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
+                    <h2 className="w-1/2 flex justify-start pl-10  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
                       Startegy
                     </h2>
                   </div>
@@ -236,27 +257,33 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                   />
                   <div className="flex flex-row">
                     <div className="flex justify-between my-2 w-1/2">
-                      <Field
-                        name="radioGroup"
-                        renderInput={(field) => (
-                          <RadioGroup {...field} className="">
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="Accelerator" id="r1" />
-                              <Label htmlFor="r1">Accelerator</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value={"VentureCapital"} id="r2" />
-                              <Label htmlFor="r2">Venture Capital</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value={"Individual/Angel"} id="r3" />
-                              <Label htmlFor="r3">Individual/Angel</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value={"Private Equity Firm"} id="r4" />
-                              <Label htmlFor="r4">Private Equity Firm</Label>
-                            </div>
-                          </RadioGroup>
+                      <Controller
+                        name="group"
+                        control={form.control}
+                        render={({ field }) => (
+                          <div className={cn("space-y-2 my-2")}>
+                            {typeOptions.map((option) => (
+                              <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
+                                <Checkbox.Root
+                                  className="aspect-square h-6 w-6 text-text-xl text-launchingBlue-5 dark:text-launchingGray-3 font-extrabold rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 shadow focus:border-launchingBlue-3 focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                  checked={field?.value?.includes(option.value)}
+                                  onCheckedChange={(isChecked) => {
+                                    const newValue = isChecked
+                                      ? [...field?.value, option?.value] // Add if checked
+                                      : field?.value?.filter((val: any) => val !== option.value); // Remove if unchecked
+                                    field.onChange(newValue); // Update form state
+                                  }}
+                                >
+                                  <Checkbox.Indicator className="flex items-center justify-center">
+                                    <CheckIcon className="w-5 h-5" />
+                                  </Checkbox.Indicator>
+                                </Checkbox.Root>
+                                <span className="text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white">
+                                  {option.label}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
                         )}
                       />
                     </div>
@@ -264,15 +291,42 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender }) 
                       orientation="vertical"
                       className="h-40 w-[0.0625rem] bg-launchingBlue-05 mx-6 my-2  justify-self-center"
                     />
-                    <MultiSelectGroup options={options} onChange={handleMultiSelectChange} className="col-span-5" />
+                    <div className="flex justify-between my-2 w-1/2">
+                      <Controller
+                        name="strategy"
+                        control={form.control}
+                        render={({ field }) => (
+                          <div className={cn("space-y-2 my-2")}>
+                            {strategyOptions.map((option) => (
+                              <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
+                                <Checkbox.Root
+                                  className="aspect-square h-6 w-6 text-text-xl text-launchingBlue-5 dark:text-launchingGray-3 font-extrabold rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 shadow focus:border-launchingBlue-3 focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                  checked={field?.value?.includes(option.value)}
+                                  onCheckedChange={(isChecked) => {
+                                    const newValue = isChecked
+                                      ? [...field?.value, option?.value] // Add if checked
+                                      : field?.value?.filter((val: any) => val !== option.value); // Remove if unchecked
+                                    field.onChange(newValue); // Update form state
+                                  }}
+                                >
+                                  <Checkbox.Indicator className="flex items-center justify-center">
+                                    <CheckIcon className="w-5 h-5" />
+                                  </Checkbox.Indicator>
+                                </Checkbox.Root>
+                                <span className="text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white">
+                                  {option.label}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex justify-end space-x-4 w-full ">
-                  <button
-                    type="submit"
-                    className="w-full h-12 rounded-md bg-gradient-to-tr from-[#37927D] to-[#6AC5B0]"
-                  >
+                  <button type="submit" className="w-full h-12 rounded-md bg-gradient-to-r from-[#37927D] to-[#6AC5B0]">
                     <div className="flex justify-center items-center gap-x-[0.62rem] text-fg-white">
                       <span>Submit</span>
                       <span>
