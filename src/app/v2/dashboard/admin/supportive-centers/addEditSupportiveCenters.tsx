@@ -1,15 +1,9 @@
 "use client";
 import { Field } from "@/components/atoms/Field";
 
-import MultiSelectGroup from "@/components/molecules/multiSelectGroup";
 import CustomReactSelect from "@/components/molecules/select/CustomReactSelect";
 import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
-import DashSection from "@/components/organisms/dashboard/DashSection";
-import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -17,11 +11,12 @@ import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
+import FileUpload from "@/lib/fileUpload/fileUpload";
 
 interface IProps {
   editRow?: any;
@@ -32,7 +27,6 @@ interface IProps {
 const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, type }) => {
   const form = useForm();
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const { toast } = useToast();
 
   const dispatch = useAppDispatch();
@@ -86,9 +80,9 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
   };
 
   // Function to trigger file input click
-  const triggerFileInput = () => {
-    inputRef.current?.click();
-  };
+  // const triggerFileInput = () => {
+  //   inputRef.current?.triggerFileDialog();
+  // };
 
   return (
     <div className="h-[80vh] lg:h-max w-max overflow-y-auto">
@@ -103,29 +97,26 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(addEditRender)}>
             <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-2 lg:space-y-0">
-              <div className="flex flex-col p-[0.44rem] items-center w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
-                {/* Custom Upload Div */}
+              {/* <div className="flex flex-col p-[0.44rem] items-center w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
                 <div
-                  onClick={triggerFileInput}
+                  //onClick={triggerFileInput}
                   className="w-full max-w-xs h-48 flex flex-col items-center justify-center border-2 p-1 rounded-md gap-y-[0.48rem] border-dashed border-launchingBlue-2 dark:border-launchingBlue-6 cursor-pointer"
                 >
                   <Icon
                     icon="solar:cloud-upload-bold-duotone"
                     className="text-display-xl text-launchingBlue-4 dark:text-launchingBlue-1.5"
                   />
+
                   <span className="text-[0.55rem] font-regular leading-[0.01rem] text-launchingBlue-6 dark:text-launchingBlue-1.5">
                     Document Upload
                   </span>
-                </div>
+                </div> */}
+              {/* <input type="file" ref={inputRef} onChange={handleFileSelect} className="hidden" /> */}
 
-                {/* Hidden file input */}
-                <input type="file" ref={inputRef} onChange={handleFileSelect} className="hidden" />
-
-                {/* Optional upload button */}
-                {/* <Button onClick={triggerFileInput} className="mt-4">
-                    Upload File
-                  </Button> */}
+              <div className="w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
+                <FileUpload renderFiles={(files: any) => console.log("Submitted files:", files)} />
               </div>
+              {/* </div> */}
 
               <Controller
                 name="detail"
@@ -142,29 +133,6 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
 
             <div className="flex flex-col lg:flex-row  lg:mt-6 mt-2 gap-2 lg:gap-4  ">
               <div className="flex flex-col justify-between w-full lg:w-1/2 gap-2 lg:gap-0">
-                <Controller
-                  name="country"
-                  control={form.control}
-                  render={({ field }) => (
-                    <CustomReactSelect
-                      {...field}
-                      isLoading={countriesLoading}
-                      isClearable
-                      placeholder="Country"
-                      options={countryItems.map((option: any) => ({
-                        value: option.name,
-                        label: option.name,
-                      }))}
-                      getOptionLabel={(option: any) => option.label}
-                      getOptionValue={(option: any) => option.value}
-                      value={{ label: field.value, value: field.value }}
-                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
-                      closeMenuOnSelect={false}
-                      hideSelectedOptions={false}
-                    />
-                  )}
-                />
-
                 <Field
                   name="address"
                   control={form.control}
@@ -211,6 +179,29 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                     label: "Email",
                     placeholder: "example@gmail.com",
                   }}
+                />
+
+                <Controller
+                  name="country"
+                  control={form.control}
+                  render={({ field }) => (
+                    <CustomReactSelect
+                      {...field}
+                      isLoading={countriesLoading}
+                      isClearable
+                      placeholder="Country"
+                      options={countryItems.map((option: any) => ({
+                        value: option.name,
+                        label: option.name,
+                      }))}
+                      getOptionLabel={(option: any) => option.label}
+                      getOptionValue={(option: any) => option.value}
+                      value={{ label: field.value, value: field.value }}
+                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                      closeMenuOnSelect={false}
+                      hideSelectedOptions={false}
+                    />
+                  )}
                 />
               </div>
 
@@ -326,7 +317,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 </div>
 
                 <div className="flex justify-end space-x-4 w-full ">
-                  <button type="submit" className="w-full h-12 rounded-md bg-gradient-to-r from-[#37927D] to-[#6AC5B0]">
+                  <button type="submit" className="w-full h-14 rounded-md bg-gradient-to-r from-[#37927D] to-[#6AC5B0]">
                     <div className="flex justify-center items-center gap-x-[0.62rem] text-fg-white">
                       <span>Submit</span>
                       <span>

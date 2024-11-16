@@ -1,0 +1,56 @@
+/* Custom FilePond Preview Styles */
+
+/* Style the preview wrapper */
+.filepond--item {
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 3px;
+  height: inherit;
+  width: inherit;
+}
+
+/* Customize the image preview */
+.filepond--image-preview {
+  object-fit: cover; /* Ensures the image fits within the bounds */
+  border-radius: 4px;
+  overflow: hidden;
+  height: inherit;
+  width: inherit;
+}
+
+/* Adjust the file label */
+.filepond--file-info {
+  color: #fffdfd; /* Gray text */
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Change the progress bar color */
+.filepond--file-status {
+  color: #4caf50;
+}
+
+.filepond--panel-root {
+  background-color: transparent !important; /* Light cyan */
+  border-radius: 8px;
+}
+
+.filepond--root {
+  /* margin: -10px; */
+  height: inherit;
+  width: inherit;
+  overflow: hidden;
+}
+
+.filepond--hopper {
+  /* height: inherit;
+    width: inherit; */
+  overflow: hidden;
+}
+.filepond--wrapper {
+  height: inherit;
+}
+
+.filepond--label-action {
+  color: transparent;
+}
