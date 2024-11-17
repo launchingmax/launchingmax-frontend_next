@@ -1,6 +1,5 @@
 "use client";
 import { Field } from "@/components/atoms/Field";
-
 import CustomReactSelect from "@/components/molecules/select/CustomReactSelect";
 import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import { Input } from "@/components/ui/input";
@@ -13,10 +12,9 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import * as Checkbox from "@radix-ui/react-checkbox";
-import { CheckIcon } from "@radix-ui/react-icons";
-import { cn } from "@/lib/utils";
 import FileUpload from "@/lib/fileUpload/fileUpload";
+import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface IProps {
   editRow?: any;
@@ -26,8 +24,6 @@ interface IProps {
 
 const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, type }) => {
   const form = useForm();
-
-  const { toast } = useToast();
 
   const dispatch = useAppDispatch();
 
@@ -63,27 +59,6 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
     { label: "Private Equity Firm", value: "Private Equity Firm" },
   ];
 
-  const handleMultiSelectChange = (selectedOptions: string[]) => {
-    console.log("Selected options:", selectedOptions);
-  };
-
-  // Function to handle file selection
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      toast({
-        title: "File Selected",
-        description: `You selected ${file.name}`,
-      });
-      // Do something with the file, like uploading it
-    }
-  };
-
-  // Function to trigger file input click
-  // const triggerFileInput = () => {
-  //   inputRef.current?.triggerFileDialog();
-  // };
-
   return (
     <div className="h-[80vh] lg:h-max w-max overflow-y-auto">
       <div className="hidden">
@@ -114,7 +89,11 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
               {/* <input type="file" ref={inputRef} onChange={handleFileSelect} className="hidden" /> */}
 
               <div className="w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
-                <FileUpload renderFiles={(files: any) => console.log("Submitted files:", files)} />
+                <Controller
+                  name="logo"
+                  control={form.control}
+                  render={({ field }) => <FileUpload field={{ ...field }} />}
+                />
               </div>
               {/* </div> */}
 
@@ -261,34 +240,42 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                     className="h-[0.1rem] w-full col-span-12 bg-launchingBlue-05 pr-6"
                   />
                   <div className="flex flex-row">
-                    <div className="flex justify-between my-2 w-1/2">
-                      <Controller
-                        name="group"
+                    <div className="flex justify-between my-2 w-1/2 flex-col">
+                      <FormField
                         control={form.control}
-                        render={({ field }) => (
-                          <div className={cn("space-y-2 my-2")}>
-                            {typeOptions.map((option) => (
-                              <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
-                                <Checkbox.Root
-                                  className="aspect-square h-6 w-6 text-text-xl text-launchingBlue-5 dark:text-launchingGray-3 font-extrabold rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 shadow focus:border-launchingBlue-3 focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                  checked={field?.value?.includes(option.value)}
-                                  onCheckedChange={(isChecked) => {
-                                    const newValue = isChecked
-                                      ? [...field?.value, option?.value] // Add if checked
-                                      : field?.value?.filter((val: any) => val !== option.value); // Remove if unchecked
-                                    field.onChange(newValue); // Update form state
-                                  }}
-                                >
-                                  <Checkbox.Indicator className="flex items-center justify-center">
-                                    <CheckIcon className="w-5 h-5" />
-                                  </Checkbox.Indicator>
-                                </Checkbox.Root>
-                                <span className="text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white">
-                                  {option.label}
-                                </span>
-                              </label>
+                        name="group"
+                        render={() => (
+                          <FormItem>
+                            {typeOptions.map((item, index) => (
+                              <FormField
+                                key={`${item.value}-${index}`}
+                                control={form.control}
+                                name="group"
+                                render={({ field }) => {
+                                  return (
+                                    <FormItem
+                                      key={item.value}
+                                      className="flex flex-row items-center space-y-0 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                                    >
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value?.includes(item.value)}
+                                          onCheckedChange={(checked) => {
+                                            return checked
+                                              ? field.onChange([...(field.value ?? []), item.value])
+                                              : field.onChange(
+                                                  field.value?.filter((value: string) => value !== item.value)
+                                                );
+                                          }}
+                                        />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">{item.label}</FormLabel>
+                                    </FormItem>
+                                  );
+                                }}
+                              />
                             ))}
-                          </div>
+                          </FormItem>
                         )}
                       />
                     </div>
@@ -297,33 +284,41 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                       className="h-40 w-[0.0625rem] bg-launchingBlue-05 mx-6 my-2  justify-self-center"
                     />
                     <div className="flex justify-between my-2 w-1/2">
-                      <Controller
-                        name="strategy"
+                      <FormField
                         control={form.control}
-                        render={({ field }) => (
-                          <div className={cn("space-y-2 my-2")}>
-                            {strategyOptions.map((option) => (
-                              <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
-                                <Checkbox.Root
-                                  className="aspect-square h-6 w-6 text-text-xl text-launchingBlue-5 dark:text-launchingGray-3 font-extrabold rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 shadow focus:border-launchingBlue-3 focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                  checked={field?.value?.includes(option.value)}
-                                  onCheckedChange={(isChecked) => {
-                                    const newValue = isChecked
-                                      ? [...field?.value, option?.value] // Add if checked
-                                      : field?.value?.filter((val: any) => val !== option.value); // Remove if unchecked
-                                    field.onChange(newValue); // Update form state
-                                  }}
-                                >
-                                  <Checkbox.Indicator className="flex items-center justify-center">
-                                    <CheckIcon className="w-5 h-5" />
-                                  </Checkbox.Indicator>
-                                </Checkbox.Root>
-                                <span className="text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white">
-                                  {option.label}
-                                </span>
-                              </label>
+                        name="strategy"
+                        render={() => (
+                          <FormItem>
+                            {strategyOptions.map((item, index) => (
+                              <FormField
+                                key={`${item.value}-${index}`}
+                                control={form.control}
+                                name="strategy"
+                                render={({ field }) => {
+                                  return (
+                                    <FormItem
+                                      key={item.value}
+                                      className="flex flex-row items-center space-y-0 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                                    >
+                                      <FormControl>
+                                        <Checkbox
+                                          checked={field.value?.includes(item.value)}
+                                          onCheckedChange={(checked) => {
+                                            return checked
+                                              ? field.onChange([...(field.value ?? []), item.value])
+                                              : field.onChange(
+                                                  field.value?.filter((value: string) => value !== item.value)
+                                                );
+                                          }}
+                                        />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">{item.label}</FormLabel>
+                                    </FormItem>
+                                  );
+                                }}
+                              />
                             ))}
-                          </div>
+                          </FormItem>
                         )}
                       />
                     </div>

@@ -142,7 +142,6 @@ const Search: React.FC<ISearch> = ({
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-
       {children}
     </div>
   );

@@ -16,10 +16,13 @@ import { AppContants } from "../constants";
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 type FileUploadProps = {
-  renderFiles: (files: File[]) => void;
+  field: {
+    value: any;
+    onChange: (value: any) => void;
+  };
 };
 
-const FileUpload: React.FC<FileUploadProps> = ({ renderFiles }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ field }) => {
   const [files, setFiles] = useState<any[]>([]);
 
   const [fileID, setFileID] = useState<string>("");
@@ -27,13 +30,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ renderFiles }) => {
   const token = getCookie(AppContants.ParseSessionCookieName);
 
   useEffect(() => {
-    console.log(" filllee changeddd");
-    console.log(files);
-    renderFiles(files);
-    const formData = new FormData();
-    formData.append("logo", files[0]);
-    // UploadFetch(formData);
-  }, [files]);
+    field.onChange(fileID);
+  }, [fileID]);
 
   return (
     <div className="w-full h-full">

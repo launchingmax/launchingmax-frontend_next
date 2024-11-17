@@ -38,7 +38,7 @@ const Checkbox = React.forwardRef<
       className,
       size = "sm",
       //icon = <CheckIcon />,
-      shape = "circle",
+      shape = "square",
       title,
       desc,
       ...props
@@ -52,35 +52,25 @@ const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Root
           ref={ref}
           className={cn(
-            `${container} ${
-              shape == "square" ? "rounded-xs" : "rounded-full"
-            } ${padding}`,
+            `${container} ${shape == "square" ? "rounded-xs" : "rounded-full"} ${padding}`,
             "group peer shrink-0 bg-primary shadow mt-xxs flex justify-center items-center",
-            "text-white",
-            "focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 focus:ring-offset-background border border-transparent",
+            "aspect-square h-6 w-6 text-launchingBlue-5 dark:text-launchingGray-3 font-extrabold rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 shadow focus:border-launchingBlue-3 focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
+
             "disabled:cursor-not-allowed disabled:data-[state=checked]:bg-disabled disabled:data-[state=checked]:text-fg-disabled-subtle disabled:data-[state=unchecked]:bg-disabled disabled:border-disabled-subtle",
             "disabled:data-[state=indeterminate]:bg-disabled disabled:data-[state=indeterminate]:text-fg-disabled-subtle",
-            "data-[state=checked]:bg-brand-solid data-[state=checked]:text-fg-white",
-            "data-[state=indeterminate]:bg-brand-solid data-[state=indeterminate]:text-fg-white",
             className
           )}
           {...props}
           onCheckedChange={props.onCheckedChange ?? props.onChange}
           checked={props.checked ?? props.value}
         >
-          <CheckboxPrimitive.CheckboxIndicator
-            className={cn("flex items-center justify-center text-current")}
-          >
+          <CheckboxPrimitive.CheckboxIndicator className={cn("flex items-center justify-center text-current")}>
             {shape == "circle" ? (
               <DotFilledIcon />
             ) : (
               <>
-                <CheckIcon
-                  className={`h-${iconStyle.height} w-${iconStyle.width} hidden group-data-[state=checked]:block`}
-                />
-                <MinusIcon
-                  className={`h-${iconStyle.height} w-${iconStyle.width} hidden group-data-[state=indeterminate]:block`}
-                />
+                <CheckIcon className={`text-text-xl hidden group-data-[state=checked]:block`} />
+                <MinusIcon className={`text-text-xl hidden group-data-[state=indeterminate]:block`} />
               </>
             )}
           </CheckboxPrimitive.CheckboxIndicator>

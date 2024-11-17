@@ -15,6 +15,7 @@ import AddEditSupportiveCenters from "./addEditSupportiveCenters";
 import SupportiveCenterDetail from "./supportiveCenterDetail";
 import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
 import { IPagination } from "@/lib/types/types";
+import { NextFetch } from "@/configs/api/next-fetch";
 
 interface IProps {
   data?: IPagination<ISupportiveCenter>;
@@ -142,8 +143,28 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
     },
   ];
 
-  const handleSubmit = (values: any) => {
-    console.log("mmmmm 200000 ------------------------", values);
+  const handleSubmit = async (values: ISupportiveCenter) => {
+    try {
+      const response =
+        addOrEditType == "edit"
+          ? await NextFetch(`/v1/supportive-center/${values._id}`, {
+              method: "PUT",
+              body: JSON.stringify(values),
+            })
+          : await NextFetch(`/v1/supportive-center`, {
+              method: "POST",
+              body: JSON.stringify(values),
+            });
+
+      if (response.ok) {
+        const res = await response.json();
+        setOpenAddEditDialog(false);
+        return res;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     if (!values) return;
     // Only keep fields that have changed
     const changedFields = Object.fromEntries(
@@ -152,7 +173,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
     setDataState((prevData) =>
       prevData.map((row) => (row._id === selectedRowState.id ? { ...row, ...changedFields } : row))
     );
-    setOpenAddEditDialog(false);
   };
 
   return (
@@ -166,7 +186,17 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
         initData={filters}
         Filter={SupportiveCentersFilter}
         menuItems={menuItems}
-        children={<h2>hello</h2>}
+        children={
+          <Icon
+            icon="solar:add-circle-bold-duotone"
+            className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+            onClick={() => {
+              setAddOrEditType("add");
+              setSelectedRowState({});
+              setOpenAddEditDialog(true);
+            }}
+          />
+        }
       />
 
       <div className="container mx-auto py-10">
