@@ -147,7 +147,8 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
                     {...field}
                     isLoading={countriesLoading}
                     isClearable
-                    placeholder="Country"
+                    label="Country"
+                    placeholder="Select"
                     options={countryItems.map((option) => ({
                       value: option.name,
                       label: option.name,
@@ -182,7 +183,8 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
                     {...field}
                     isLoading={industriesLoading}
                     isClearable
-                    placeholder="Industry"
+                    label="Industry"
+                    placeholder="Select"
                     options={industryItems.map((option: any) => ({
                       value: option.name,
                       label: option.name,

@@ -93,7 +93,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
         <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
 
-      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem]">
+      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem] h-max">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(addEditRender)}>
             <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-2 lg:space-y-0">
@@ -119,7 +119,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
               {/* </div> */}
 
               <Controller
-                name="detail"
+                name="about"
                 control={form.control}
                 render={({ field }) => (
                   <Textarea
@@ -131,12 +131,48 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
               />
             </div>
 
-            <div className="flex flex-col lg:flex-row  lg:mt-6 mt-2 gap-2 lg:gap-4  ">
-              <div className="flex flex-col justify-between w-full lg:w-1/2 gap-2 lg:gap-0">
+            <div className="flex flex-col lg:flex-row  lg:mt-6 mt-2 gap-2 lg:gap-4 ">
+              <div className="flex flex-col justify-between w-full lg:w-1/2 gap-2">
+                <Field
+                  name="name"
+                  control={form.control}
+                  value={editRow?.name}
+                  Input={Input}
+                  InputProps={{
+                    type: "text",
+                    label: "Name",
+                    placeholder: "Write the Adress",
+                  }}
+                />
+
+                <Controller
+                  name="country"
+                  control={form.control}
+                  render={({ field }) => (
+                    <CustomReactSelect
+                      {...field}
+                      label="Country"
+                      isLoading={countriesLoading}
+                      isClearable
+                      placeholder="Select"
+                      options={countryItems.map((option: any) => ({
+                        value: option.name,
+                        label: option.name,
+                      }))}
+                      getOptionLabel={(option: any) => option.label}
+                      getOptionValue={(option: any) => option.value}
+                      value={{ label: field.value, value: field.value }}
+                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                      closeMenuOnSelect={false}
+                      hideSelectedOptions={false}
+                    />
+                  )}
+                />
+
                 <Field
                   name="address"
                   control={form.control}
-                  value={editRow?.aaaa}
+                  value={editRow?.address}
                   Input={Input}
                   InputProps={{
                     type: "text",
@@ -160,7 +196,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 <Field
                   name="website"
                   control={form.control}
-                  value={editRow?.industry}
+                  value={editRow?.website}
                   Input={Input}
                   InputProps={{
                     type: "text",
@@ -172,7 +208,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 <Field
                   name="email"
                   control={form.control}
-                  value={editRow?.industry}
+                  value={editRow?.email}
                   Input={Input}
                   InputProps={{
                     type: "email",
@@ -180,33 +216,10 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                     placeholder: "example@gmail.com",
                   }}
                 />
-
-                <Controller
-                  name="country"
-                  control={form.control}
-                  render={({ field }) => (
-                    <CustomReactSelect
-                      {...field}
-                      isLoading={countriesLoading}
-                      isClearable
-                      placeholder="Country"
-                      options={countryItems.map((option: any) => ({
-                        value: option.name,
-                        label: option.name,
-                      }))}
-                      getOptionLabel={(option: any) => option.label}
-                      getOptionValue={(option: any) => option.value}
-                      value={{ label: field.value, value: field.value }}
-                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
-                      closeMenuOnSelect={false}
-                      hideSelectedOptions={false}
-                    />
-                  )}
-                />
               </div>
 
               <Separator orientation="vertical" className="hidden lg:block h-80 w-[0.0625rem] bg-launchingBlue-05" />
-              <div className="w-full lg:w-1/2 flex flex-col justify-between h-full">
+              <div className="w-full lg:w-1/2 flex flex-col justify-between gap-2 space-y-4">
                 <Controller
                   name="industries"
                   control={form.control}
@@ -215,7 +228,8 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                       {...field}
                       isLoading={industriesLoading}
                       isClearable
-                      placeholder="Industry"
+                      label="Industry"
+                      placeholder="all"
                       isMulti
                       options={industryItems.map((option: any) => ({
                         value: option.name,

@@ -27,17 +27,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
+    const inputRef = React.useRef<any>(ref);
+    const triggerInput = () => {
+      inputRef.current?.focus();
+    };
+
     return (
       <div
-        className={cn(
-          `flex flex-col h-14 rounded-md py-2 px-4 hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 focus:border-launchingBlue-3 focus:ring-1  ${
-            props.disabled && "opacity-50 cursor-not-allowed text-disabled"
-          }`,
-          InputClasses.size[inputSize].px,
-          className
-        )}
+        className={
+          label &&
+          cn(
+            `flex flex-col h-14 rounded-md py-2 px-4 hover:cursor-pointer bg-launchingBlue-05 dark:bg-launchingBlue-8.5 border border-launchingBlue-1 dark:border-launchingBlue-7 focus-within:border-launchingBlue-3 focus-within:ring-1  ${
+              props.disabled && "opacity-50 cursor-not-allowed text-disabled"
+            }`,
+            InputClasses.size[inputSize].px,
+            className
+          )
+        }
+        onClick={triggerInput}
       >
-        <label className="text-text-xs font-regular text-launchingBlack dark:text-fg-white">{label}</label>
+        {label && (
+          <label className="text-text-xs font-regular text-launchingBlack dark:text-fg-white hover:cursor-pointer">
+            {label}
+          </label>
+        )}
         <div className="flex items-center space-x-md">
           {Leading}
           <input
@@ -49,7 +62,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               useLeadingDivider && Leading ? `border-l border-l-gray-300 ` + InputClasses.size[inputSize].pl : "",
               useTrailingDivider && Trailing ? "border-r border-r-gray-300 " + InputClasses.size[inputSize].pr : ""
             )}
-            ref={ref}
+            ref={inputRef}
             {...props}
           />
           {Trailing}
