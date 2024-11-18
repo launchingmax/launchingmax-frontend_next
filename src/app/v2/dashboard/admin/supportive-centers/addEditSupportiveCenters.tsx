@@ -10,11 +10,13 @@ import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { fetchIndustriesData } from "@/store/slices/industriesSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import FileUpload from "@/lib/fileUpload/fileUpload";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
+import { NextFetch } from "@/configs/api/next-fetch";
+import { group } from "console";
 
 interface IProps {
   editRow?: any;
@@ -26,6 +28,9 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
   const form = useForm();
 
   const dispatch = useAppDispatch();
+
+  const [selectedCountryID, setSelectedCourtyID] = useState<string>("");
+  const [cityItems, setCityItems] = useState([]);
 
   const {
     industryItems,
@@ -40,10 +45,31 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
   }, []);
 
   useEffect(() => {
+    console.log("edit - - -     :   ", editRow);
+    countryItems.find((item) => {
+      if (item.name === editRow.country) setSelectedCourtyID(item._id);
+    });
     if (editRow) {
       form.reset(editRow);
     }
   }, [editRow]);
+
+  const fetchCitiesData = async (countryID: string) => {
+    try {
+      const response = await NextFetch(`/v1/city?page=0&country=${countryID}`, { method: "GET" });
+      if (response.ok) {
+        const res = await response.json();
+        setCityItems(res);
+        return res;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    selectedCountryID.length > 0 && fetchCitiesData(selectedCountryID);
+  }, [selectedCountryID]);
 
   const strategyOptions = [
     { label: "Invest", value: "Invest" },
@@ -164,12 +190,12 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 />
 
                 <Field
-                  name="tel"
+                  name="tel.0"
                   control={form.control}
                   value={editRow?.tel}
                   Input={Input}
                   InputProps={{
-                    type: "number",
+                    type: "text",
                     label: "Phone Number",
                     placeholder: "For example (+1)408 875 3000",
                   }}
@@ -188,7 +214,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 />
 
                 <Field
-                  name="email"
+                  name="email.0"
                   control={form.control}
                   value={editRow?.email}
                   Input={Input}
@@ -207,18 +233,23 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                   render={({ field }) => (
                     <CustomReactSelect
                       {...field}
-                      label="country"
+                      label="Country"
                       isLoading={countriesLoading}
                       isClearable
                       placeholder="Select"
                       options={countryItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
+                        id: option._id,
                       }))}
                       getOptionLabel={(option: any) => option.label}
                       getOptionValue={(option: any) => option.value}
                       value={{ label: field.value, value: field.value }}
-                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                      onChange={(selectedOption: any) => {
+                        console.log("mm 4040 - - -   ", selectedOption);
+                        setSelectedCourtyID(selectedOption?.id);
+                        field.onChange(selectedOption?.value);
+                      }}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
                     />
@@ -234,7 +265,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                       // isLoading={countriesLoading}
                       isClearable
                       placeholder="Select"
-                      options={countryItems.map((option: any) => ({
+                      options={cityItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
                       }))}

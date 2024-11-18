@@ -3,13 +3,13 @@ import React from "react";
 import Select from "react-select";
 
 const controlStyles = {
-  base: "rounded-lg !w-full -mt-2 -mb-5 pl-2 hover:cursor-pointer ",
+  base: "rounded-lg !w-full -mt-[11px] -mb-[8px] pl-2 hover:cursor-pointer  dark:bg-launchingBlue-8.5",
   focus: "",
   nonFocus: " hover:launchingBlue-3",
 };
 const placeholderStyles = "text-gray-500 dark:text-fg-white pl-1 py-0.5";
 const selectInputStyles = "pl-1";
-const valueContainerStyles = "gap-1 mt-[3px]";
+const valueContainerStyles = "gap-1 mt-2";
 const singleValueStyles = "leading-7 ml-1";
 const multiValueStyles = "bg-gray-100 dark:bg-launchingBlue-7 rounded items-center px-1 gap-1";
 const multiValueLabelStyles = "leading-6 py-0.5";
@@ -43,7 +43,7 @@ const CustomReactSelect = (props: any) => {
       }`}
       onClick={triggerInput}
     >
-      <label className="text-text-xs px-3 font-regular text-launchingBlack dark:text-fg-white hover:cursor-pointer z-[2]">
+      <label className="text-text-xs px-3 font-regular text-launchingBlack dark:text-fg-white hover:cursor-pointer">
         {props.label}
       </label>
 

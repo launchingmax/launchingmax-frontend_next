@@ -14,7 +14,7 @@ async function getSupportiveCentersData() {
 export default async function SupportiveCenters() {
   const res = await getSupportiveCentersData();
 
-  // console.log(" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  -----------  ", res);
+  console.log(" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  -----------  ", res);
   return (
     <div>
       <SupportiveCentersSearch data={res} />
