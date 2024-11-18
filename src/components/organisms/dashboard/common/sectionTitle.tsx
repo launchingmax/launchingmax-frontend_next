@@ -4,7 +4,7 @@ interface IProps {
 
 const SectionTitle: React.FC<IProps> = ({ title }) => {
   return (
-    <div className="flex flex-row items-center space-x-6 h-12">
+    <div className="flex flex-row items-center space-x-6 h-12 px-4 py-8">
       {typeof title === "string" ? (
         <h2 className="font-bold text-3xl tracking-wide text-launchingBlue-5 dark:text-white">
           <em>{title}</em>

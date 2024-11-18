@@ -17,6 +17,7 @@ import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/for
 import { Checkbox } from "@/components/ui/checkbox";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { group } from "console";
+import { AppContants } from "@/lib/constants";
 
 interface IProps {
   editRow?: any;
@@ -45,7 +46,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
   }, []);
 
   useEffect(() => {
-    console.log("edit - - -     :   ", editRow);
+    console.log("mm 4040 -- --    ", industryItems);
     countryItems.find((item) => {
       if (item.name === editRow.country) setSelectedCourtyID(item._id);
     });
@@ -71,20 +72,6 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
     selectedCountryID.length > 0 && fetchCitiesData(selectedCountryID);
   }, [selectedCountryID]);
 
-  const strategyOptions = [
-    { label: "Invest", value: "Invest" },
-    { label: "Develop", value: "Develop" },
-    { label: "Letter of support", value: "LOS" },
-  ];
-
-  const typeOptions = [
-    { label: "Accelerator", value: "Accelerator" },
-    { label: "Incubator", value: "Incubator" },
-    { label: "Venture Capital", value: "Venture Capital" },
-    { label: "Individual/Angel", value: "Individual/Angel" },
-    { label: "Private Equity Firm", value: "Private Equity Firm" },
-  ];
-
   return (
     <div className="h-[80vh] lg:h-max w-max overflow-y-auto">
       <div className="hidden">
@@ -94,26 +81,10 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
         <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
 
-      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem] h-max">
+      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem] h-max px-8">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(addEditRender)}>
             <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-2 lg:space-y-0">
-              {/* <div className="flex flex-col p-[0.44rem] items-center w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
-                <div
-                  //onClick={triggerFileInput}
-                  className="w-full max-w-xs h-48 flex flex-col items-center justify-center border-2 p-1 rounded-md gap-y-[0.48rem] border-dashed border-launchingBlue-2 dark:border-launchingBlue-6 cursor-pointer"
-                >
-                  <Icon
-                    icon="solar:cloud-upload-bold-duotone"
-                    className="text-display-xl text-launchingBlue-4 dark:text-launchingBlue-1.5"
-                  />
-
-                  <span className="text-[0.55rem] font-regular leading-[0.01rem] text-launchingBlue-6 dark:text-launchingBlue-1.5">
-                    Document Upload
-                  </span>
-                </div> */}
-              {/* <input type="file" ref={inputRef} onChange={handleFileSelect} className="hidden" /> */}
-
               <div className="w-[6.625rem] lg:w-[7.625rem] h-[6.625rem] rounded-md bg-launchingBlue-05 dark:bg-launchingBlue-8.5">
                 <Controller
                   name="logo"
@@ -121,8 +92,6 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                   render={({ field }) => <FileUpload field={{ ...field }} />}
                 />
               </div>
-              {/* </div> */}
-
               <Controller
                 name="about"
                 control={form.control}
@@ -153,7 +122,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 <Controller
                   name="industries"
                   control={form.control}
-                  render={({ field }) => (
+                  render={({ field, formState }) => (
                     <CustomReactSelect
                       {...field}
                       isLoading={industriesLoading}
@@ -161,16 +130,17 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                       label="Industry"
                       placeholder="all"
                       isMulti
-                      options={industryItems.map((option: any) => ({
-                        value: option.name,
-                        label: option.name,
-                      }))}
-                      getOptionLabel={(option: any) => option.label}
-                      getOptionValue={(option: any) => option.value}
-                      value={field?.value?.map((item: any) => {
-                        return { label: item, value: item };
-                      })}
-                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                      options={industryItems}
+                      getOptionLabel={(option: any) => (typeof option === "string" ? option : option.name)}
+                      getOptionValue={(option: any) => (typeof option === "string" ? option : option.name)}
+                      value={field?.value}
+                      onChange={(selectedOption: any) => {
+                        console.log("-----", selectedOption);
+                        form.setValue(
+                          field.name,
+                          selectedOption?.map((a: any) => (typeof a === "string" ? a : a.name))
+                        );
+                      }}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
                     />
@@ -246,7 +216,6 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                       getOptionValue={(option: any) => option.value}
                       value={{ label: field.value, value: field.value }}
                       onChange={(selectedOption: any) => {
-                        console.log("mm 4040 - - -   ", selectedOption);
                         setSelectedCourtyID(selectedOption?.id);
                         field.onChange(selectedOption?.value);
                       }}
@@ -300,7 +269,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                         name="group"
                         render={() => (
                           <FormItem>
-                            {typeOptions.map((item, index) => (
+                            {AppContants.groupOptions.map((item, index) => (
                               <FormField
                                 key={`${item.value}-${index}`}
                                 control={form.control}
@@ -309,7 +278,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                                   return (
                                     <FormItem
                                       key={item.value}
-                                      className="flex flex-row items-center space-y-0 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                                      className="flex flex-row items-center space-y-0 mb-1 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
                                     >
                                       <FormControl>
                                         <Checkbox
@@ -343,7 +312,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                         name="strategy"
                         render={() => (
                           <FormItem>
-                            {strategyOptions.map((item, index) => (
+                            {AppContants.strategyOptions.map((item, index) => (
                               <FormField
                                 key={`${item.value}-${index}`}
                                 control={form.control}
@@ -352,7 +321,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                                   return (
                                     <FormItem
                                       key={item.value}
-                                      className="flex flex-row items-center space-y-0 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                                      className="flex flex-row items-center space-y-0 mb-1 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
                                     >
                                       <FormControl>
                                         <Checkbox

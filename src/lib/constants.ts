@@ -18,4 +18,18 @@ export enum Direction {
 
 export class AppContants {
   public static ParseSessionCookieName = "parse_session_cookie";
+
+  public static strategyOptions = [
+    { label: "Invest", value: "Invest" },
+    { label: "Develop", value: "Develop" },
+    { label: "Letter of support", value: "LOS" },
+  ];
+
+  public static groupOptions = [
+    { label: "Accelerator", value: "Accelerator" },
+    { label: "Incubator", value: "Incubator" },
+    { label: "Venture Capital", value: "Venture Capital" },
+    { label: "Individual/Angel", value: "Individual/Angel" },
+    { label: "Private Equity Firm", value: "Private Equity Firm" },
+  ];
 }
