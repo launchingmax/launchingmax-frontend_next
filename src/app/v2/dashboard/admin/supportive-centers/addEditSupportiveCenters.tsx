@@ -111,7 +111,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
             </div>
 
             <div className="flex flex-col lg:flex-row  lg:mt-6 mt-2 gap-2 lg:gap-4 ">
-              <div className="flex flex-col justify-between w-full lg:w-1/2 gap-2">
+              <div className="w-full lg:w-1/2 flex flex-col gap-2">
                 <Field
                   name="name"
                   control={form.control}
@@ -120,27 +120,30 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                   InputProps={{
                     type: "text",
                     label: "Name",
-                    placeholder: "Write the Adress",
+                    //placeholder: "Write the Adress",
                   }}
                 />
 
                 <Controller
-                  name="country"
+                  name="industries"
                   control={form.control}
                   render={({ field }) => (
                     <CustomReactSelect
                       {...field}
-                      label="Country"
-                      isLoading={countriesLoading}
+                      isLoading={industriesLoading}
                       isClearable
-                      placeholder="Select"
-                      options={countryItems.map((option: any) => ({
+                      label="Industry"
+                      placeholder="all"
+                      isMulti
+                      options={industryItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
                       }))}
                       getOptionLabel={(option: any) => option.label}
                       getOptionValue={(option: any) => option.value}
-                      value={{ label: field.value, value: field.value }}
+                      value={field?.value?.map((item: any) => {
+                        return { label: item, value: item };
+                      })}
                       onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
@@ -196,35 +199,55 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                   }}
                 />
               </div>
-
               <Separator orientation="vertical" className="hidden lg:block h-80 w-[0.0625rem] bg-launchingBlue-05" />
-              <div className="w-full lg:w-1/2 flex flex-col justify-between gap-2 space-y-4">
+              <div className="w-full lg:w-1/2 flex flex-col gap-2">
                 <Controller
-                  name="industries"
+                  name="country"
                   control={form.control}
                   render={({ field }) => (
                     <CustomReactSelect
                       {...field}
-                      isLoading={industriesLoading}
+                      label="country"
+                      isLoading={countriesLoading}
                       isClearable
-                      label="Industry"
-                      placeholder="all"
-                      isMulti
-                      options={industryItems.map((option: any) => ({
+                      placeholder="Select"
+                      options={countryItems.map((option: any) => ({
                         value: option.name,
                         label: option.name,
                       }))}
                       getOptionLabel={(option: any) => option.label}
                       getOptionValue={(option: any) => option.value}
-                      value={field?.value?.map((item: any) => {
-                        return { label: item, value: item };
-                      })}
+                      value={{ label: field.value, value: field.value }}
                       onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
                     />
                   )}
                 />
+                <Controller
+                  name="city"
+                  control={form.control}
+                  render={({ field }) => (
+                    <CustomReactSelect
+                      {...field}
+                      label="City"
+                      // isLoading={countriesLoading}
+                      isClearable
+                      placeholder="Select"
+                      options={countryItems.map((option: any) => ({
+                        value: option.name,
+                        label: option.name,
+                      }))}
+                      getOptionLabel={(option: any) => option.label}
+                      getOptionValue={(option: any) => option.value}
+                      value={{ label: field.value, value: field.value }}
+                      onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                      closeMenuOnSelect={false}
+                      hideSelectedOptions={false}
+                    />
+                  )}
+                />
+
                 <div className="flex flex-col mt-2 my-auto">
                   <div className="flex flex-row">
                     <h2 className="w-1/2  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
@@ -239,7 +262,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                     orientation="horizontal"
                     className="h-[0.1rem] w-full col-span-12 bg-launchingBlue-05 pr-6"
                   />
-                  <div className="flex flex-row">
+                  <div className="flex flex-row ">
                     <div className="flex justify-between my-2 w-1/2 flex-col">
                       <FormField
                         control={form.control}

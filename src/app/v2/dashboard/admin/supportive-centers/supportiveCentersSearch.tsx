@@ -199,7 +199,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
         }
       />
 
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto ">
         <DataTable
           //@ts-ignore
           columns={columns}
