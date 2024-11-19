@@ -16,12 +16,14 @@ import SupportiveCenterDetail from "./supportiveCenterDetail";
 import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
 import { IPagination } from "@/lib/types/types";
 import { NextFetch } from "@/configs/api/next-fetch";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface IProps {
-  data?: IPagination<ISupportiveCenter>;
+  initialData?: any; //IPagination<ISupportiveCenter>;
 }
 
-const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
+const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
+  console.log("mm 203030  -- --   ", initialData);
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
   const [addOrEditType, setAddOrEditType] = useState<"add" | "edit">("add");
@@ -34,6 +36,59 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
     },
     actives: activeSortItems,
   };
+
+  const queryClient = useQueryClient();
+
+  // Fetch data
+  const {
+    data: supportiveCentersData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["exampleData"],
+    queryFn: async () => {
+      const response = await NextFetch(`/v1/supportive-center?page=1&sort=${JSON.stringify({ createdAt: -1 })}`, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data: IPagination<ISupportiveCenter> = await response.json();
+        return data;
+      }
+    },
+    initialData,
+  });
+
+  // Mutate data
+  const mutation = useMutation({
+    mutationFn: async (values: any) => {
+      try {
+        const response =
+          addOrEditType == "edit"
+            ? await NextFetch(`/v1/supportive-center/${values._id}`, {
+                method: "PUT",
+                body: JSON.stringify(values),
+              })
+            : await NextFetch(`/v1/supportive-center`, {
+                method: "POST",
+                body: JSON.stringify(values),
+              });
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: async () => {
+      // Invalidate query to refetch the latest data
+      await queryClient.invalidateQueries({
+        queryKey: ["exampleData"],
+      });
+
+      setOpenAddEditDialog(false);
+    },
+  });
 
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val }));
@@ -52,12 +107,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
   const [selectedRowState, setSelectedRowState] = useState<any>({});
   const [openAddEditDialog, setOpenAddEditDialog] = useState<boolean>(false);
   const [openDetailDialog, setOpenDetailDialog] = useState<boolean>(false);
-
-  const [dataState, setDataState] = useState<ISupportiveCenter[]>([]);
-
-  useEffect(() => {
-    data?.items && setDataState(data.items);
-  }, [data]);
 
   const columns: ColumnDef<ISupportiveCenter>[] = [
     {
@@ -144,36 +193,38 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
   ];
 
   const handleSubmit = async (values: ISupportiveCenter) => {
-    console.log("mmm 2000000000 ----    ", values);
-    try {
-      const response =
-        addOrEditType == "edit"
-          ? await NextFetch(`/v1/supportive-center/${values._id}`, {
-              method: "PUT",
-              body: JSON.stringify(values),
-            })
-          : await NextFetch(`/v1/supportive-center`, {
-              method: "POST",
-              body: JSON.stringify(values),
-            });
+    mutation.mutate(values);
 
-      if (response.ok) {
-        const res = await response.json();
-        setOpenAddEditDialog(false);
-        return res;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    console.log("mmm 2000000000 ----    ", values);
+    // try {
+    //   const response =
+    //     addOrEditType == "edit"
+    //       ? await NextFetch(`/v1/supportive-center/${values._id}`, {
+    //           method: "PUT",
+    //           body: JSON.stringify(values),
+    //         })
+    //       : await NextFetch(`/v1/supportive-center`, {
+    //           method: "POST",
+    //           body: JSON.stringify(values),
+    //         });
+
+    //   if (response.ok) {
+    //     const res = await response.json();
+    //     setOpenAddEditDialog(false);
+    //     return res;
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     if (!values) return;
     // Only keep fields that have changed
     const changedFields = Object.fromEntries(
       Object.entries(values).filter(([key, value]) => values[key as keyof ISupportiveCenter] !== undefined)
     ) as Partial<ISupportiveCenter>;
-    setDataState((prevData) =>
-      prevData.map((row) => (row._id === selectedRowState.id ? { ...row, ...changedFields } : row))
-    );
+    // setDataState((prevData) =>
+    //   prevData.map((row) => (row._id === selectedRowState.id ? { ...row, ...changedFields } : row))
+    // );
   };
 
   return (
@@ -201,11 +252,15 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ data }) => {
       />
 
       <div className="container mx-auto ">
-        <DataTable
-          //@ts-ignore
-          columns={columns}
-          data={dataState}
-        />
+        {!isLoading ? (
+          <DataTable
+            //@ts-ignore
+            columns={columns}
+            data={supportiveCentersData?.items}
+          />
+        ) : (
+          <h2 className="text-text-xl font-bold text-red-300 leading-10 tracking-widest">LOADING ...</h2>
+        )}
 
         <MyDialog
           open={openAddEditDialog}

@@ -71,7 +71,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
       <div className="p-1 space-y-6 overflow-y-auto md:w-[24.8rem] sm:w-[70vw] xs:w-[80vw]">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(filterRender as any)}>
-            <div className="w-full px-8 my-6">
+            <div className="w-full px-6 my-4">
               <Slider
                 value={[(form.watch("startupValue") as number) ?? startupValue / 2]}
                 //@ts-ignore
@@ -98,11 +98,11 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             </h2>
             <Separator
               orientation="horizontal"
-              className="w-full mb-6 bg-gradient-to-r
+              className="w-full bg-gradient-to-r
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
             />
 
-            <div className="flex flex-col items-center justify-between px-8  my-6">
+            <div className="flex flex-col items-center justify-between px-6 my-4">
               <DualRangeSlider
                 label={(value) => value}
                 value={[
@@ -134,11 +134,11 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             </h2>
             <Separator
               orientation="horizontal"
-              className="w-full mb-6 bg-gradient-to-r
+              className="w-full bg-gradient-to-r
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
             />
 
-            <div className="px-4">
+            <div className="px-6 my-4">
               <Controller
                 name="placement.country"
                 control={form.control}
@@ -174,7 +174,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
        from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded mb-6"
             />
 
-            <div className="px-4">
+            <div className="px-6 my-4">
               <Controller
                 name="industries"
                 control={form.control}
@@ -200,7 +200,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
               />
             </div>
 
-            <div className="flex flex-row space-x-2 w-full mt-12">
+            <div className="flex flex-row space-x-2 w-full p-4">
               <Button
                 className="w-max p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
                 onClick={clearFilter}
