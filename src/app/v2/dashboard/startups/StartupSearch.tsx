@@ -2,7 +2,6 @@
 import ScrollTab from "@/components/organisms/dashboard/common/ScrollTab";
 import Search from "@/components/organisms/dashboard/common/search";
 import StartupCard from "@/components/organisms/dashboard/common/startupCard";
-import StartupFilter from "@/app/v2/dashboard/investors/startupFilter";
 import { IStartup } from "@/lib/models/startup.model";
 import { IPagination } from "@/lib/types/types";
 import { isEmpty, isNil, omitBy, trimStart } from "lodash-es";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useGlobal } from "@/contexts/GlobalLayout";
 import { flattenObject } from "@/lib/utils";
 import { NextFetch } from "@/configs/api/next-fetch";
+import StartupFilter from "./startupFilter";
 
 interface IStartupsParams {
   sort?: { [key: string]: 1 | -1 };
