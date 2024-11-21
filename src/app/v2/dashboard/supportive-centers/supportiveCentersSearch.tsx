@@ -17,13 +17,14 @@ import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
 import { IPagination } from "@/lib/types/types";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { encodeQueryString } from "@/lib/helper";
+import { isNil, omitBy } from "lodash-es";
 
 interface IProps {
   initialData?: any; //IPagination<ISupportiveCenter>;
 }
 
 const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
-  console.log("mm 203030  -- --   ", initialData);
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
   const [addOrEditType, setAddOrEditType] = useState<"add" | "edit">("add");
@@ -45,17 +46,24 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["exampleData"],
+    queryKey: ["exampleData", JSON.stringify(filters)],
     queryFn: async () => {
-      const response = await NextFetch(`/v1/supportive-center?page=1&sort=${JSON.stringify({ createdAt: -1 })}`, {
-        method: "GET",
-      });
+      const response = await NextFetch(
+        `/v1/supportive-center${encodeQueryString({
+          ...filters,
+          page: 1,
+        })}`,
+        {
+          method: "GET",
+        }
+      );
       if (response.ok) {
         const data: IPagination<ISupportiveCenter> = await response.json();
         return data;
       }
     },
     initialData,
+    enabled: !!filters,
   });
 
   // Mutate data
@@ -91,6 +99,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const filterRender = (val: any) => {
+    console.log("val", val);
     setFilters((s) => ({ ...s, ...val }));
   };
 
@@ -194,47 +203,34 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
 
   const handleSubmit = async (values: ISupportiveCenter) => {
     mutation.mutate(values);
-
-    console.log("mmm 2000000000 ----    ", values);
-    // try {
-    //   const response =
-    //     addOrEditType == "edit"
-    //       ? await NextFetch(`/v1/supportive-center/${values._id}`, {
-    //           method: "PUT",
-    //           body: JSON.stringify(values),
-    //         })
-    //       : await NextFetch(`/v1/supportive-center`, {
-    //           method: "POST",
-    //           body: JSON.stringify(values),
-    //         });
-
-    //   if (response.ok) {
-    //     const res = await response.json();
-    //     setOpenAddEditDialog(false);
-    //     return res;
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    if (!values) return;
-    // Only keep fields that have changed
-    const changedFields = Object.fromEntries(
-      Object.entries(values).filter(([key, value]) => values[key as keyof ISupportiveCenter] !== undefined)
-    ) as Partial<ISupportiveCenter>;
-    // setDataState((prevData) =>
-    //   prevData.map((row) => (row._id === selectedRowState.id ? { ...row, ...changedFields } : row))
-    // );
   };
+
+  useEffect(() => {
+    let sort = undefined;
+    if (activeSortItems?.items.length !== 0) {
+      const sortBy = activeSortItems?.items;
+      const cerateAt = activeSortItems?.createdAt;
+      sort = JSON.stringify({ [sortBy]: cerateAt });
+    }
+    // else {
+    //   const cerateAt = activeSortItems?.createdAt;
+    //   sort = JSON.stringify({ cerateAt: cerateAt });
+    // }
+    setFilters((s) => ({ ...s, sort }));
+  }, [activeSortItems]);
+
+  useEffect(() => {
+    //@ts-ignore
+    queryClient.invalidateQueries(["exampleData"]);
+  }, [filters]);
 
   return (
     <div className="py-6">
-      {/* <AddEditSupportiveCenters editRow={editRow} addEditRender={handleEditSubmit} /> */}
-
       <Search
         filterRender={filterRender}
         clearFilter={clearFilter}
         sortRender={sortRender}
+        searchInputName="name"
         initData={filters}
         Filter={SupportiveCentersFilter}
         menuItems={menuItems}

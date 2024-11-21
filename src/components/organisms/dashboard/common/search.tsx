@@ -25,6 +25,7 @@ interface ISearch {
   menuItems?: any;
   resetForm?: boolean;
   children?: React.ReactNode;
+  searchInputName: string;
 }
 const Search: React.FC<ISearch> = ({
   className,
@@ -36,9 +37,12 @@ const Search: React.FC<ISearch> = ({
   Filter,
   menuItems,
   resetForm,
+  searchInputName,
   children,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+
+  console.log(searchInputName, "searchInputName");
 
   const callback = (val: any) => {
     setDialogOpen(() => {
@@ -74,7 +78,7 @@ const Search: React.FC<ISearch> = ({
             onKeyDown={(v: any) => {
               v.code === "Enter" &&
                 filterRender &&
-                filterRender({ "brainStorming.title": v.target.value !== "" ? v.target.value : undefined });
+                filterRender({ [searchInputName]: v.target.value !== "" ? `/${v.target.value}/` : undefined });
             }}
             placeholder="Search it..."
             className="border-0 w-full bg-transparent focus-within:outline-none focus-within:border-0 focus-within:ring-0"

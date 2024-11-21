@@ -73,14 +73,11 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
     selectedCountryID.length > 0 && fetchCitiesData(selectedCountryID);
   }, [selectedCountryID]);
 
-  const submit = (val: any) => {
-    console.log(val);
-  };
   return (
     <div className="h-max w-[24.9rem] overflow-y-auto">
       <SectionTitle title="Filters" />
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(submit)}>
+        <form onSubmit={form.handleSubmit(filterRender as any)}>
           <div className="flex flex-col mt-2 my-auto">
             <div className="flex flex-row">
               <h2 className="w-1/2  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">

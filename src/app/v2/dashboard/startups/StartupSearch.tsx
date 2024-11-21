@@ -95,9 +95,9 @@ const StartupSearch = () => {
       filters["$and"] = and;
     }
 
-    if (filters && filters["brainStorming.title"]) {
-      filters["brainStorming.title"] = `/${filters["brainStorming.title"]}/`;
-    }
+    // if (filters && filters["brainStorming.title"]) {
+    //   filters["brainStorming.title"] = `/${filters["brainStorming.title"]}/`;
+    // }
     const query = JSON.stringify(filters);
 
     console.log("query", query);
@@ -157,6 +157,7 @@ const StartupSearch = () => {
         initData={filters}
         Filter={StartupFilter}
         menuItems={menuItems}
+        searchInputName="brainStorming.title"
       />
 
       <div className="w-full flex flex-wrap  justify-center 2xl:px-8">
