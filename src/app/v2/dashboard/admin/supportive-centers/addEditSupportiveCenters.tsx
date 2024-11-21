@@ -89,7 +89,7 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                 <Controller
                   name="logo"
                   control={form.control}
-                  render={({ field }) => <FileUpload field={{ ...field }} />}
+                  render={({ field }) => <FileUpload field={{ ...field }} name={editRow.name} logo={editRow.logo} />}
                 />
               </div>
               <Controller

@@ -20,10 +20,19 @@ type FileUploadProps = {
     value: any;
     onChange: (value: any) => void;
   };
+  name: string;
+  logo?: string;
 };
 
-const FileUpload: React.FC<FileUploadProps> = ({ field }) => {
-  const [files, setFiles] = useState<any[]>([]);
+const FileUpload: React.FC<FileUploadProps> = ({ field, name, logo }) => {
+  const [files, setFiles] = useState<any[]>([
+    {
+      source: logo ? `${process.env.NEXT_PUBLIC_ALL_API}${logo}` : `${process.env.NEXT_PUBLIC_ALL_API}/sc/${name}.png`,
+      options: {
+        type: "local",
+      },
+    },
+  ]);
 
   const [fileID, setFileID] = useState<string>("");
 
@@ -85,6 +94,27 @@ const FileUpload: React.FC<FileUploadProps> = ({ field }) => {
               }
               return formData;
             },
+          },
+          load: (source, load, error, progress, abort) => {
+            fetch(source) // Source is the `downloadUrl` returned in process.onload
+              .then((response) => {
+                if (response.ok) {
+                  return response.blob();
+                }
+                throw new Error("Failed to fetch file");
+              })
+              .then(load) // Pass blob to load
+              .catch((err) => {
+                console.error("Error loading file:", err);
+                error("File could not be loaded.");
+              });
+            // Optional: Handle abort
+            return {
+              abort: () => {
+                console.log("File load aborted");
+                abort();
+              },
+            };
           },
           revert: {
             url: `/v1/storage/${fileID}`,
