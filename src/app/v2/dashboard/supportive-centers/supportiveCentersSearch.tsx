@@ -26,13 +26,13 @@ interface IProps {
 
 const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   const [filters, setFilters] = useState<Record<string, unknown>>({});
-  const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
+  const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: -1 });
   const [addOrEditType, setAddOrEditType] = useState<"add" | "edit">("add");
   const menuItems = {
     options: {
       items: [
         { label: "Name", value: "name" },
-        { label: "Date", value: "date" },
+        { label: "Date", value: "createdAt" },
       ],
     },
     actives: activeSortItems,
@@ -51,7 +51,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       const response = await NextFetch(
         `/v1/supportive-center${encodeQueryString({
           ...filters,
-          page: 1,
+          //page: 1,
         })}`,
         {
           method: "GET",
@@ -63,7 +63,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       }
     },
     initialData,
-    enabled: !!filters,
+    enabled: !!filters && Object.keys(filters).length > 0,
   });
 
   // Mutate data

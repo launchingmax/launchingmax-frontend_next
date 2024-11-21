@@ -5,7 +5,7 @@ import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
 import { IPagination } from "@/lib/types/types";
 
 export async function getSupportiveCentersData() {
-  const response = await NextFetch(`/v1/supportive-center?page=1&sort=${JSON.stringify({ createdAt: -1 })}`, {
+  const response = await NextFetch(`/v1/supportive-center`, {
     method: "GET",
   });
   if (response.ok) {

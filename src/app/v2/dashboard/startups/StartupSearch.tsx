@@ -31,7 +31,7 @@ const StartupSearch = () => {
     options: {
       items: [
         { label: "Name", value: "name" },
-        { label: "Date", value: "date" },
+        { label: "Date", value: "createdAt" },
       ],
     },
     actives: activeSortItems,
