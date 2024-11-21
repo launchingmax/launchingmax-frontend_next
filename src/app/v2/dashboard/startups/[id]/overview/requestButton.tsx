@@ -37,7 +37,7 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
     });
   };
   const pathname = usePathname();
-  const startUpID = pathname.replace("/v2/dashboard/investors/", "");
+  const startUpID = pathname.replace("/v2/dashboard/startups/", "");
 
   const sendRequest = () => {
     const body = { user: userDetail?._id, status: "requested", requester: "other" };

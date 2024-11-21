@@ -67,7 +67,7 @@ const MyProjectsList = () => {
               ${item?.maxStartupValue}
             </div>
             <div className="col-span-12 md:col-span-2 lg:col-span-2 w-full h-14 flex items-center justify-end md:pl-6">
-              <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>
+              <Link href={`${"/" + trimStart(`/v2/dashboard/startups/${item._id}/#Overview`, "/")}`}>
                 <button
                   className="h-10 w-full bg-[#E8F0F7] hover:bg-launchingBlue-1.5 rounded-md px-6 py-4 text-salmon-8 font-medium text-text-md leading-[0.02rem]"
                   //onClick={() => setDialogOpen(true)}

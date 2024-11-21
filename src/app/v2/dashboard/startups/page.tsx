@@ -89,7 +89,7 @@ export default async function InvestorPage() {
           {res?.items?.map((item: IStartup) => {
             if (item.isTop)
               return (
-                <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>
+                <Link href={`${"/" + trimStart(`/v2/dashboard/startups/${item._id}/#Overview`, "/")}`}>
                   <StartupCard key={item._id} startup={item} />
                 </Link>
               );

@@ -162,7 +162,7 @@ const StartupSearch = () => {
       <div className="w-full flex flex-wrap  justify-center 2xl:px-8">
         {filteredStartup?.items?.map((item: IStartup) => (
           <div className="w-[100%] xl:w-[45%] m-3">
-            <Link href={`${"/" + trimStart(`/v2/dashboard/investors/${item._id}/#Overview`, "/")}`}>
+            <Link href={`${"/" + trimStart(`/v2/dashboard/startups/${item._id}/#Overview`, "/")}`}>
               <StartupCard key={item._id} startup={item} />
             </Link>
           </div>
