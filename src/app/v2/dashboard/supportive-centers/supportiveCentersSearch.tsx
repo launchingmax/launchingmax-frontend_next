@@ -37,6 +37,12 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     },
     actives: activeSortItems,
   };
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
 
   const queryClient = useQueryClient();
 
@@ -46,12 +52,12 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["exampleData", JSON.stringify(filters)],
+    queryKey: ["exampleData", JSON.stringify(filters), currentPage],
     queryFn: async () => {
       const response = await NextFetch(
         `/v1/supportive-center${encodeQueryString({
           ...filters,
-          //page: 1,
+          // page: currentPage,
         })}`,
         {
           method: "GET",
@@ -100,6 +106,8 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
 
   const filterRender = (val: any) => {
     console.log("val", val);
+    // val.page = 1;
+
     setFilters((s) => ({ ...s, ...val }));
   };
 
@@ -110,6 +118,11 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   const sortRender = (val: any) => {
     setActiveSortItems((s) => ({ ...s, ...val }));
   };
+
+  useEffect(() => {
+    console.log(" mm 303030 - ---    ", currentPage);
+    setFilters((s) => ({ ...s, page: currentPage }));
+  }, [currentPage]);
 
   // **************  TABLE  ****************
 
@@ -253,6 +266,10 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
             //@ts-ignore
             columns={columns}
             data={supportiveCentersData?.items}
+            //currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            pagination={pagination}
+            setPagination={setPagination}
           />
         ) : (
           <h2 className="text-text-xl font-bold text-red-300 leading-10 tracking-widest">LOADING ...</h2>
