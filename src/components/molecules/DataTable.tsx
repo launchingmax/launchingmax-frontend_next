@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="rounded-md border border-launchingBlue-05 dark:border-launchingBlue-7">
-        <Table className="">
+        <Table className="border-b-[1px] border-launchingBlue-05 dark:border-launchingBlue-7 ">
           <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
@@ -69,7 +69,10 @@ export function DataTable<TData, TValue>({
               >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="px-3">
+                    <TableHead
+                      key={header.id}
+                      className="px-3 border-l-[1px] border-r-[1px] border-launchingBlue-05 dark:border-launchingBlue-7"
+                    >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -86,7 +89,10 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-3 py-[0.625rem]" key={cell.id}>
+                    <TableCell
+                      className="px-3 py-[0.625rem] border-l-[1px] border-r-[1px] border-launchingBlue-05 dark:border-launchingBlue-7 !text-red-500 dark:!text-fg-white !text-text-sm !font-regular leading-[1.1375rem]"
+                      key={cell.id}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -101,34 +107,34 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
 
-      <div className="mt-1 flex justify-center space-x-2">
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel={
-            <span className="text-text-xl">
-              <Icon icon="solar:alt-arrow-right-linear" />
-            </span>
-          }
-          onPageChange={handlePageClick}
-          marginPagesDisplayed={2} // Number of pages to show at the beginning and end
-          pageRangeDisplayed={3} // Number of pages to show around the current page
-          pageCount={pageCount}
-          previousLabel={
-            <span className="text-text-xl">
-              <Icon icon="solar:alt-arrow-left-linear" />
-            </span>
-          }
-          renderOnZeroPageCount={null}
-          containerClassName="flex items-center justify-center  mt-4"
-          pageClassName="w-8 h-8 flex items-center justify-center rounded-sm text-launchingGray-5 dark:text-fg-white hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 focus:bg-launchingBlue-2"
-          activeClassName="bg-launchingBlue-5 !text-fg-white hover:!text-fg-white"
-          previousClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
-          nextClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
-          disabledClassName="opacity-50 cursor-not-allowed"
-          breakClassName="w-8 h-8 flex items-center justify-center rounded-sm text-gray-600 hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 "
-        />
+        <div className=" flex justify-center items-center my-1">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel={
+              <span className="text-text-xl">
+                <Icon icon="solar:alt-arrow-right-linear" />
+              </span>
+            }
+            onPageChange={handlePageClick}
+            marginPagesDisplayed={2} // Number of pages to show at the beginning and end
+            pageRangeDisplayed={3} // Number of pages to show around the current page
+            pageCount={pageCount}
+            previousLabel={
+              <span className="text-text-xl">
+                <Icon icon="solar:alt-arrow-left-linear" />
+              </span>
+            }
+            renderOnZeroPageCount={null}
+            containerClassName="flex items-center justify-center"
+            pageClassName="w-8 h-8 flex items-center justify-center rounded-sm text-launchingGray-5 dark:text-fg-white hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 focus:bg-launchingBlue-2"
+            activeClassName="bg-launchingBlue-5 !text-fg-white hover:!text-fg-white"
+            previousClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
+            nextClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
+            disabledClassName="opacity-50 cursor-not-allowed"
+            breakClassName="w-8 h-8 flex items-center justify-center rounded-sm text-gray-600 hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 "
+          />
+        </div>
       </div>
     </div>
   );

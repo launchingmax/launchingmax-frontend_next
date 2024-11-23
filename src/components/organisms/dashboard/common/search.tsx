@@ -62,7 +62,7 @@ const Search: React.FC<ISearch> = ({
   ];
 
   return (
-    <div className={"flex items-center md:px-6 py-3 space-x-2 md:space-x-3"}>
+    <div className={"flex items-center py-3 space-x-2 md:space-x-3"}>
       <div className="flex flex-col w-full ">
         <div className={cn(className, "flex space-x-3 pb-1 items-center")}>
           <Icon

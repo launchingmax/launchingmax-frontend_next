@@ -36,7 +36,7 @@ const Sidebar = () => {
         duration: 0.5,
         ease: "easeInOut",
       }} // Smooth spring animation
-      className={`relative hidden md:block w-64 bg-primary-alt  rounded-xl`}
+      className={`relative hidden md:block w-64 bg-white dark:md:bg-launchingBlue-8 dark:bg-launchingBlack  rounded-xl`}
     >
       <motion.div
         animate={{
@@ -49,7 +49,7 @@ const Sidebar = () => {
           duration: 0.5,
           ease: "easeInOut",
         }} // Smooth spring animation
-        className={`absolute -right-3 top-8 flex items-center justify-center bg-primary-alt w-6 h-6 rounded-full border dark:border-launchingBlue-7 z-10`}
+        className={`absolute -right-3 top-8 flex items-center justify-center bg-white dark:md:bg-launchingBlue-8 dark:bg-launchingBlack w-6 h-6 rounded-full border dark:border-launchingBlue-7 z-10`}
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         {isCollapsed ? (

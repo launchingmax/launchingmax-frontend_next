@@ -19,6 +19,7 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { encodeQueryString } from "@/lib/helper";
 import { isNil, omitBy } from "lodash-es";
+import SupportiveCenterCard from "./supportiveCenterCard";
 
 interface IProps {
   initialData?: any; //IPagination<ISupportiveCenter>;
@@ -145,7 +146,9 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
               height={200}
               className="w-6 h-6"
             />
-            <h2>{name}</h2>
+            <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
+              {name}
+            </h2>
           </div>
         );
       },
@@ -159,7 +162,9 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         return (
           <div className="flex items-center gap-x-3">
             <Icon icon={`twemoji:flag-${country.toLowerCase().replaceAll(" ", "-")}`} className="h-4 w-4" />
-            <h2>{country}</h2>
+            <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
+              {country}
+            </h2>
           </div>
         );
       },
@@ -257,7 +262,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         }
       />
 
-      <div className="container mx-auto ">
+      <div className="hidden md:block">
         {!isLoading ? (
           <DataTable
             //@ts-ignore
@@ -270,22 +275,32 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         ) : (
           <h2 className="text-text-xl font-bold text-red-300 leading-10 tracking-widest">LOADING ...</h2>
         )}
-
-        <MyDialog
-          open={openAddEditDialog}
-          setOpen={setOpenAddEditDialog}
-          className={{ dialogContent: "" }}
-          body={
-            <AddEditSupportiveCenters editRow={selectedRowState} addEditRender={handleSubmit} type={addOrEditType} />
-          }
-        />
-
-        <MyDialog
-          open={openDetailDialog}
-          setOpen={setOpenDetailDialog}
-          body={<SupportiveCenterDetail data={selectedRowState} />}
-        />
       </div>
+
+      <div className="block md:hidden">
+        {supportiveCentersData?.items.map((item: ISupportiveCenter) => (
+          <SupportiveCenterCard
+            item={item}
+            setSelectedRowState={setSelectedRowState}
+            setOpenAddEditDialog={setOpenAddEditDialog}
+            setAddOrEditType={setAddOrEditType}
+            setOpenDetailDialog={setOpenDetailDialog}
+          />
+        ))}
+      </div>
+
+      <MyDialog
+        open={openAddEditDialog}
+        setOpen={setOpenAddEditDialog}
+        className={{ dialogContent: "" }}
+        body={<AddEditSupportiveCenters editRow={selectedRowState} addEditRender={handleSubmit} type={addOrEditType} />}
+      />
+
+      <MyDialog
+        open={openDetailDialog}
+        setOpen={setOpenDetailDialog}
+        body={<SupportiveCenterDetail data={selectedRowState} />}
+      />
     </div>
   );
 };
