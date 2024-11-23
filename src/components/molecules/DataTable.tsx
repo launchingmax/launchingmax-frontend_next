@@ -12,13 +12,12 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { useState } from "react";
+import ReactPaginate from "react-paginate";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pageSize?: number;
-  currentPage?: number;
-  setCurrentPage: (page: number) => void;
   pagination: {
     pageIndex: number;
     pageSize: number;
@@ -29,48 +28,34 @@ interface DataTableProps<TData, TValue> {
       pageSize: number;
     }>
   >;
+  total: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  pageSize = 5,
-  //currentPage = 1,
-  setCurrentPage,
   pagination,
   setPagination,
+  total,
 }: DataTableProps<TData, TValue>) {
-  // const [pagination, setPagination] = useState<PaginationState>({
-  //   pageIndex: 0,
-  //   pageSize: pageSize,
-  // });
-
-  const [currentPageState, setCurrentPageState] = useState(1);
-  const itemsPerPage = 2;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  //const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  const handlePageChange = (page: number) => {
-    console.log("mmmm  page   , ", page);
-    setCurrentPageState(page);
-    setCurrentPage(page);
-  };
-
   const table = useReactTable({
     data,
     columns,
+    getCoreRowModel: getCoreRowModel(),
+    //getPaginationRowModel: getPaginationRowModel(),
+    //onPaginationChange: setPagination,
     //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
     state: {
       pagination,
     },
-    autoResetPageIndex: false, // turn off page index reset when sorting or filtering
-    pageCount: Math.ceil(data.length / pagination.pageSize),
-    onPaginationChange: setPagination, // Update parent pagination state
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
+    // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
   });
+
+  const pageCount = Math.ceil(total / pagination.pageSize);
+
+  const handlePageClick = (event: any) => {
+    setPagination((s) => ({ ...s, pageIndex: event.selected + 1 }));
+  };
 
   return (
     <div>
@@ -118,37 +103,32 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="mt-4 flex justify-center space-x-2">
-        <button
-          className="px-3 py-1 text-gray-500 bg-gray-200 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => handlePageChange(currentPageState - 1)}
-          disabled={currentPageState === 1}
-        >
-          Previous
-        </button>
-
-        {Array.from({ length: totalPages }, (_, index) => {
-          const page = index + 1;
-          return (
-            <button
-              key={page}
-              className={`px-3 py-1 rounded-md ${
-                page === currentPageState ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
-            </button>
-          );
-        })}
-
-        <button
-          className="px-3 py-1 text-gray-500 bg-gray-200 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => handlePageChange(currentPageState + 1)}
-          disabled={currentPageState === totalPages}
-        >
-          Next
-        </button>
+      <div className="mt-1 flex justify-center space-x-2">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel={
+            <span className="text-text-xl">
+              <Icon icon="solar:alt-arrow-right-linear" />
+            </span>
+          }
+          onPageChange={handlePageClick}
+          marginPagesDisplayed={2} // Number of pages to show at the beginning and end
+          pageRangeDisplayed={3} // Number of pages to show around the current page
+          pageCount={pageCount}
+          previousLabel={
+            <span className="text-text-xl">
+              <Icon icon="solar:alt-arrow-left-linear" />
+            </span>
+          }
+          renderOnZeroPageCount={null}
+          containerClassName="flex items-center justify-center  mt-4"
+          pageClassName="w-8 h-8 flex items-center justify-center rounded-sm text-launchingGray-5 dark:text-fg-white hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 focus:bg-launchingBlue-2"
+          activeClassName="bg-launchingBlue-5 !text-fg-white hover:!text-fg-white"
+          previousClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
+          nextClassName="px-2 py-2 text-launchingBlue-5 rounded-sm hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 dark:text-launchingBlue-2"
+          disabledClassName="opacity-50 cursor-not-allowed"
+          breakClassName="w-8 h-8 flex items-center justify-center rounded-sm text-gray-600 hover:bg-launchingBlue-2 hover:text-fg-white dark:hover:bg-launchingBlue-7 "
+        />
       </div>
     </div>
   );

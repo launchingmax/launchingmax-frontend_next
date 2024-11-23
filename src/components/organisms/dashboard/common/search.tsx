@@ -42,8 +42,6 @@ const Search: React.FC<ISearch> = ({
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
-  console.log(searchInputName, "searchInputName");
-
   const callback = (val: any) => {
     setDialogOpen(() => {
       filterRender && filterRender(val);

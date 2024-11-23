@@ -3,7 +3,7 @@
 import Search from "@/components/organisms/dashboard/common/search";
 import { useEffect, useState } from "react";
 import SupportiveCentersFilter from "./supportiveCentersFilter";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { DataTable } from "@/components/molecules/DataTable";
@@ -37,11 +37,10 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     },
     actives: activeSortItems,
   };
-  const [currentPage, setCurrentPage] = useState<number>(0);
 
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 1,
+    pageSize: 20,
   });
 
   const queryClient = useQueryClient();
@@ -52,12 +51,12 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["exampleData", JSON.stringify(filters), currentPage],
+    queryKey: ["exampleData", filters, pagination.pageIndex],
     queryFn: async () => {
       const response = await NextFetch(
         `/v1/supportive-center${encodeQueryString({
           ...filters,
-          // page: currentPage,
+          // page: pagination.pageIndex,
         })}`,
         {
           method: "GET",
@@ -69,8 +68,12 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       }
     },
     initialData,
-    enabled: !!filters && Object.keys(filters).length > 0,
+    enabled: true, //!!filters && !!pagination.pageIndex,
   });
+
+  useEffect(() => {
+    console.log("mm-888   ---   supportiveCentersData   ", supportiveCentersData);
+  }, [supportiveCentersData]);
 
   // Mutate data
   const mutation = useMutation({
@@ -106,9 +109,8 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
 
   const filterRender = (val: any) => {
     console.log("val", val);
-    // val.page = 1;
-
-    setFilters((s) => ({ ...s, ...val }));
+    setFilters((s) => ({ ...s, ...val, page: 1 }));
+    setPagination((s) => ({ ...s, pageIndex: 1 }));
   };
 
   const clearFilter = () => {
@@ -118,11 +120,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   const sortRender = (val: any) => {
     setActiveSortItems((s) => ({ ...s, ...val }));
   };
-
-  useEffect(() => {
-    console.log(" mm 303030 - ---    ", currentPage);
-    setFilters((s) => ({ ...s, page: currentPage }));
-  }, [currentPage]);
 
   // **************  TABLE  ****************
 
@@ -225,10 +222,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       const cerateAt = activeSortItems?.createdAt;
       sort = JSON.stringify({ [sortBy]: cerateAt });
     }
-    // else {
-    //   const cerateAt = activeSortItems?.createdAt;
-    //   sort = JSON.stringify({ cerateAt: cerateAt });
-    // }
     setFilters((s) => ({ ...s, sort }));
   }, [activeSortItems]);
 
@@ -236,6 +229,10 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     //@ts-ignore
     queryClient.invalidateQueries(["exampleData"]);
   }, [filters]);
+
+  useEffect(() => {
+    setFilters((s) => ({ ...s, page: pagination.pageIndex }));
+  }, [pagination]);
 
   return (
     <div className="py-6">
@@ -266,10 +263,9 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
             //@ts-ignore
             columns={columns}
             data={supportiveCentersData?.items}
-            //currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
             pagination={pagination}
             setPagination={setPagination}
+            total={supportiveCentersData.total}
           />
         ) : (
           <h2 className="text-text-xl font-bold text-red-300 leading-10 tracking-widest">LOADING ...</h2>
