@@ -20,6 +20,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { encodeQueryString } from "@/lib/helper";
 import { isNil, omitBy } from "lodash-es";
 import SupportiveCenterCard from "./supportiveCenterCard";
+import ReactPaginate from "react-paginate";
+import MyReactPaginate from "@/components/molecules/MyReactPaginate";
 
 interface IProps {
   initialData?: any; //IPagination<ISupportiveCenter>;
@@ -287,6 +289,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
             setOpenDetailDialog={setOpenDetailDialog}
           />
         ))}
+        <MyReactPaginate total={supportiveCentersData.total} pagination={pagination} setPagination={setPagination} />
       </div>
 
       <MyDialog
