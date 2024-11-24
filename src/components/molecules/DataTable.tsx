@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      className="px-3 py-[0.625rem] border-l-[1px] border-r-[1px] border-launchingBlue-05 dark:border-launchingBlue-7 !text-red-500 dark:!text-fg-white !text-text-sm !font-regular leading-[1.1375rem]"
+                      className="px-3 py-[0.625rem] border-l-[1px] border-r-[1px] border-launchingBlue-05 dark:border-launchingBlue-7"
                       key={cell.id}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -11,18 +11,28 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
   return (
     <div className="w-full">
       <div className="flex gap-2 my-2 w-full rounded-md">
-        <div className="h-12 w-12  flex justify-center items-center bg-launchingBlue-1 dark:bg-launchingBlue-6 rounded-md">
+        <div className="h-12 w-12  flex justify-center items-center bg-launchingBlue-1 dark:bg-launchingBlue-6 rounded-md text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
           Row
         </div>
         <div className="grid grid-cols-10  flex-grow h-12 bg-launchingBlue-1 dark:bg-launchingBlue-6 rounded-md">
-          <div className="col-span-3 flex justify-center items-center gap-x-2 text-text-md font-semibold">Name</div>
-          <div className=" col-span-2 flex justify-center items-center gap-1">Countries</div>
-          <div className=" col-span-2 flex justify-center items-center">Investment Range</div>
-          <div className=" col-span-2 flex justify-center items-center">Investment Term</div>
-          <div className=" col-span-1 flex justify-center items-center">jjjjjjjj</div>
+          <div className="col-span-3 flex justify-center items-center gap-x-2 text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
+            Name
+          </div>
+          <div className=" col-span-2 flex justify-center items-center text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
+            Countries
+          </div>
+          <div className=" col-span-2 flex justify-center items-center text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
+            Investment Range
+          </div>
+          <div className=" col-span-2 flex justify-center items-center text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
+            Investment Term
+          </div>
+          <div className=" col-span-1 flex justify-center items-center text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
+            jjjjjjjj
+          </div>
         </div>
 
-        <div className="h-12 w-40 flex justify-center items-center bg-launchingBlue-1 dark:bg-launchingBlue-6 rounded-md">
+        <div className="h-12 w-40 flex justify-center items-center bg-launchingBlue-1 dark:bg-launchingBlue-6 rounded-md text-text-md font-semibold leading-5 text-launchingGray-7 dark:text-fg-white">
           Actions
         </div>
       </div>
