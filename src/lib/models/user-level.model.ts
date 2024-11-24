@@ -131,6 +131,7 @@ export interface IMenu {
   default?: boolean;
   icon?: string;
   link: string;
+  href?: string;
   subMenus?: IMenu[];
 }
 

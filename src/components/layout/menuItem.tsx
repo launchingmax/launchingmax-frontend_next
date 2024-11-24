@@ -46,7 +46,7 @@ const MenuItem = ({
           const isActive = pathname.toLowerCase().includes(item.title.toLowerCase());
           return (
             <li key={index} className="">
-              <Link href={item.subMenus ? "" : `/v2/dashboard/${item.title.toLowerCase()}`} replace key={index}>
+              <Link href={item.subMenus ? "" : `${item.href}`} replace key={index}>
                 <div
                   className={`relative group flex items-center justify-between cursor-pointer p-2 rounded h-10 ${
                     item.subMenus ? "" : "space-x-2"
@@ -112,11 +112,7 @@ const MenuItem = ({
                           !isCollapsed && "border-l border-b border-l-gray-300 border-b-gray-300 rounded-bl-lg"
                         }`}
                       >
-                        <Link
-                          href={`/v2/dashboard/${item.title.toLowerCase()}/${subItem.title.toLowerCase()}` ?? "#"}
-                          replace
-                          key={subIndex}
-                        >
+                        <Link href={`${subItem.href}` ?? "#"} replace key={subIndex}>
                           {subItem.icon && <Icon icon={subItem.icon} />}
 
                           <span
