@@ -73,15 +73,15 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
   }, [selectedCountryID]);
 
   return (
-    <div className="h-[80vh] lg:h-max w-max overflow-y-auto">
-      <div className="hidden">
+    <div className="h-[80vh] lg:h-max md:w-max w-[90vw] overflow-y-auto">
+      <div className="block lg:hidden">
         <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
       <div className="hidden lg:block">
         <SectionTitle title={`${type == "add" ? "Add new supportive center" : "Edit supportive center"}`} />
       </div>
 
-      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem] h-max px-8">
+      <div className="p-1 space-y-6 overflow-y-auto lg:w-[48rem] h-max md:px-8 px-4">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(addEditRender)}>
             <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-2 lg:space-y-0">

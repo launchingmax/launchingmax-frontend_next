@@ -12,7 +12,7 @@ const selectInputStyles = "pl-1";
 const valueContainerStyles = "gap-1 mt-2";
 const singleValueStyles = "leading-7 ml-1";
 const multiValueStyles = "bg-gray-100 dark:bg-launchingBlue-7 rounded items-center px-1 gap-1";
-const multiValueLabelStyles = "leading-6 py-0.5";
+const multiValueLabelStyles = "leading-6 py-0.5 flex flex-wrap";
 const multiValueRemoveStyles =
   "hover:text-launchingBlue-3 dark:hover:text-launchingBlue-3 text-gray-500 hover:border-red-300 dark:hover:border-launchingBlue-4 rounded-md";
 const indicatorsContainerStyles = " p-1 gap-1";
@@ -64,7 +64,6 @@ const CustomReactSelect = (props: any) => {
           multiValueLabel: (base) => ({
             ...base,
             display: "flex",
-            flexDirection: "row", // Align selected items in a row
             borderRadius: "4px",
           }),
           multiValue: (base) => ({

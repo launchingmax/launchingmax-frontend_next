@@ -174,14 +174,38 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     {
       accessorKey: "industries",
       header: "Industry",
+      cell: ({ row }) => {
+        const industries: string = row.getValue("industries");
+        return (
+          <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
+            {industries}
+          </h2>
+        );
+      },
     },
     {
       accessorKey: "strategy",
       header: "Strategy",
+      cell: ({ row }) => {
+        const strategy: string = row.getValue("strategy");
+        return (
+          <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
+            {strategy}
+          </h2>
+        );
+      },
     },
     {
       accessorKey: "group",
       header: "Group",
+      cell: ({ row }) => {
+        const group: string = row.getValue("group");
+        return (
+          <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
+            {group}
+          </h2>
+        );
+      },
     },
 
     {
@@ -280,15 +304,19 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       </div>
 
       <div className="block md:hidden">
-        {supportiveCentersData?.items.map((item: ISupportiveCenter) => (
-          <SupportiveCenterCard
-            item={item}
-            setSelectedRowState={setSelectedRowState}
-            setOpenAddEditDialog={setOpenAddEditDialog}
-            setAddOrEditType={setAddOrEditType}
-            setOpenDetailDialog={setOpenDetailDialog}
-          />
-        ))}
+        {supportiveCentersData?.items.length > 0 ? (
+          supportiveCentersData?.items.map((item: ISupportiveCenter) => (
+            <SupportiveCenterCard
+              item={item}
+              setSelectedRowState={setSelectedRowState}
+              setOpenAddEditDialog={setOpenAddEditDialog}
+              setAddOrEditType={setAddOrEditType}
+              setOpenDetailDialog={setOpenDetailDialog}
+            />
+          ))
+        ) : (
+          <h2>No item</h2>
+        )}
         <MyReactPaginate total={supportiveCentersData.total} pagination={pagination} setPagination={setPagination} />
       </div>
 
