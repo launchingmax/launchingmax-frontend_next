@@ -36,7 +36,7 @@ const DashSection: React.FC<IProps> = ({
   return (
     <section className={cn("flex flex-col w-full relative p-0 m-0", className)}>
       {/* Title of the section */}
-      <div className="flex items-center w-full gap-x-6 sticky -top-1 pt-6 pb-6 md:pb-0 bg-white dark:bg-launchingBlue-8.5 z-10">
+      <div className="flex items-center w-full gap-x-6 sticky -top-1  pb-6 md:pb-0 bg-white dark:bg-launchingBlue-8 z-10">
         {/* Back Url buttton */}
         {backUrl &&
           (renderBackBtn ? (
@@ -52,7 +52,7 @@ const DashSection: React.FC<IProps> = ({
 
         {/* title of the section  */}
         {typeof heading === "string" ? (
-          <h2 className="font-bold text-3xl tracking-wide text-launchingBlue-5 dark:text-white">
+          <h2 className="font-bold text-3xl tracking-wide text-launchingBlue-5 dark:text-white leading-[2.8rem] ">
             <em>{heading}</em>
           </h2>
         ) : (

@@ -1,5 +1,6 @@
 import { IUserLevel } from "./user-level.model";
 import { LoginType, UserStatus, UserType } from "../constants/user.const";
+import { IProfile } from "./profile.model";
 
 export interface IP {
   address: string;
@@ -36,31 +37,59 @@ interface IType {
 export interface IUser {
   _id?: string;
 
+  code?: number;
+
+  refCode?: number;
+
   username?: string;
 
   email?: string;
+
+  googleId?: string;
+
+  facebookId?: string;
+
+  linkedinId?: string;
 
   firstName: string;
 
   lastName: string;
 
+  avatar?: string;
+
   isEmailVerified?: boolean;
+
+  password?: string;
+
+  salt?: string;
 
   type?: UserType; // the current type of user
 
+  types?: IType[];
+
   status?: UserStatus;
 
-  profile?: string; // profile object
+  position?: string;
+
+  profile?: IProfile; // profile object
 
   level?: IUserLevel;
 
-  types?: IType[];
+  auths?: IAuth[];
+
+  activationToken?: string;
+
+  resetToken?: string;
+
+  showInOurTeam?: boolean;
+
+  slug?: string;
+
+  orderInOurTeam?: number;
 
   createdAt: Date;
 
   updatedAt: Date;
-
-  code?: number;
 }
 
 export interface IUserResponse {

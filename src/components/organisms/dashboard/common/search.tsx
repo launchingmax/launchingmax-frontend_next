@@ -15,7 +15,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface ISearch {
-  className?: string;
+  className?: {
+    separator?: string;
+    searchInput?: string;
+  };
   initData?: Record<string, unknown>;
   filterRender?: (params: any) => void;
   clearFilter?: () => void;
@@ -26,6 +29,7 @@ interface ISearch {
   resetForm?: boolean;
   children?: React.ReactNode;
   searchInputName: string;
+  heading?: React.ReactNode;
 }
 const Search: React.FC<ISearch> = ({
   className,
@@ -38,6 +42,7 @@ const Search: React.FC<ISearch> = ({
   menuItems,
   resetForm,
   searchInputName,
+  heading,
   children,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -64,25 +69,50 @@ const Search: React.FC<ISearch> = ({
   return (
     <div className={"flex items-center py-3 space-x-2 md:space-x-3"}>
       <div className="flex flex-col w-full ">
-        <div className={cn(className, "flex space-x-3 pb-1 items-center")}>
-          <Icon
-            icon="solar:minimalistic-magnifer-bold-duotone"
-            className="text-2xl text-launchingBlue-5 dark:text-launchingBlue-1"
-          />
+        {heading ? (
+          <div className="flex flex-row justify-between px-4">
+            {heading}
+            <div className={cn("flex space-x-1 pb-1 items-center", className?.searchInput)}>
+              <Input
+                name="search"
+                onKeyDown={(v: any) => {
+                  v.code === "Enter" &&
+                    filterRender &&
+                    filterRender({ [searchInputName]: v.target.value !== "" ? `/${v.target.value}/` : undefined });
+                }}
+                placeholder="Search it..."
+                className="flex items-end justify-end border-0 w-full bg-transparent focus-within:outline-none focus-within:border-0 focus-within:ring-0"
+              />
 
-          <Separator orientation="vertical" className="h-6" />
-          <Input
-            name="search"
-            onKeyDown={(v: any) => {
-              v.code === "Enter" &&
-                filterRender &&
-                filterRender({ [searchInputName]: v.target.value !== "" ? `/${v.target.value}/` : undefined });
-            }}
-            placeholder="Search it..."
-            className="border-0 w-full bg-transparent focus-within:outline-none focus-within:border-0 focus-within:ring-0"
-          />
-        </div>
-        <Separator orientation="horizontal" className="w-full" />
+              <Separator orientation="vertical" className="h-6" />
+
+              <Icon
+                icon="solar:minimalistic-magnifer-bold-duotone"
+                className="text-2xl text-launchingBlue-5 dark:text-launchingBlue-1"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className={cn("flex space-x-3 pb-1 items-center", className?.searchInput)}>
+            <Icon
+              icon="solar:minimalistic-magnifer-bold-duotone"
+              className="text-2xl text-launchingBlue-5 dark:text-launchingBlue-1"
+            />
+
+            <Separator orientation="vertical" className="h-6" />
+            <Input
+              name="search"
+              onKeyDown={(v: any) => {
+                v.code === "Enter" &&
+                  filterRender &&
+                  filterRender({ [searchInputName]: v.target.value !== "" ? `/${v.target.value}/` : undefined });
+              }}
+              placeholder="Search it..."
+              className="border-0 w-full bg-transparent focus-within:outline-none focus-within:border-0 focus-within:ring-0"
+            />
+          </div>
+        )}
+        <Separator orientation="horizontal" className={cn("w-full", className?.separator)} />
       </div>
 
       {Filter && (

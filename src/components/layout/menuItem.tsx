@@ -43,7 +43,7 @@ const MenuItem = ({
       {showSeparator && <Separator />}
       <ul className="space-y-2  my-3">
         {items?.map((item: IMenu, index) => {
-          const isActive = pathname.toLowerCase().includes(item.title.toLowerCase());
+          const isActive = item.href && pathname.toLowerCase().includes(item.href);
           return (
             <li key={index} className="">
               <Link href={item.subMenus ? "" : `${item.href}`} replace key={index}>
@@ -104,7 +104,7 @@ const MenuItem = ({
                   transition={{ duration: 0.5 }}
                 >
                   {item.subMenus.map((subItem: IMenu, subIndex) => {
-                    //console.log(subItem);
+                    const isActive = subItem.href && pathname.toLowerCase().includes(subItem.href);
                     return (
                       <li
                         key={subIndex}
@@ -116,7 +116,9 @@ const MenuItem = ({
                           {subItem.icon && <Icon icon={subItem.icon} />}
 
                           <span
-                            className={`-mb-2 line-clamp-1 group-hover:text-launchingGray-6 ml-1.5 bg-primary-alt !w-[300%] text-lightBlue-4 px-2 text-sm`}
+                            className={`-mb-2 line-clamp-1 group-hover:text-launchingBlue-5 ml-1.5 bg-primary-alt !w-[300%] ${
+                              isActive ? "text-launchingBlue-5" : "text-launchingGray-4"
+                            }  px-2 text-sm`}
                           >
                             {subItem.title}
                           </span>
