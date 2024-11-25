@@ -49,7 +49,7 @@ const NavBar = () => {
         <Icon icon="solar:refresh-bold-duotone" className="text-mauve-5 text-2xl cursor-pointer " />
       </div>
 
-      <div className="absolute hidden md:flex justify-center gap-4 items-center  right-1 bg-white dark:bg-launchingBlue-8.5">
+      <div className="absolute hidden md:flex justify-center gap-4 items-center  right-1 bg-white dark:bg-launchingBlue-8">
         <ThemeToggler />
 
         <Icon icon="solar:bell-bold-duotone" className="text-2xl text-primary cursor-pointer" />

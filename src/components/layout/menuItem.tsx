@@ -116,8 +116,10 @@ const MenuItem = ({
                           {subItem.icon && <Icon icon={subItem.icon} />}
 
                           <span
-                            className={`-mb-2 line-clamp-1 group-hover:text-launchingBlue-5 ml-1.5 bg-primary-alt !w-[300%] ${
-                              isActive ? "text-launchingBlue-5" : "text-launchingGray-4"
+                            className={`-mb-2 line-clamp-1 group-hover:text-launchingBlue-5 ml-1.5 bg-white dark:bg-launchingBlue-8 !w-[300%] ${
+                              isActive
+                                ? "text-launchingBlue-5 dark:text-launchingBlue-3"
+                                : "text-launchingGray-4 dark:text-fg-white"
                             }  px-2 text-sm`}
                           >
                             {subItem.title}

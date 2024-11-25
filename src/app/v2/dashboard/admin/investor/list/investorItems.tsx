@@ -40,7 +40,7 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
       {data?.map((item: IUser, index: number) => {
         return (
           <div className="flex gap-1 xl:gap-2 my-2 w-full">
-            <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-[#F9F5F9] dark:bg-mauve-6 rounded-md flex justify-center items-center">
+            <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-[#F9F5F9] dark:bg-mauve-6 rounded-md flex justify-center items-center text-text-md font-regular text-launchingGray-8 dark:text-fg-white leading-5">
               {index + 1}
             </div>
             <div className="flex flex-col xl:flex-row w-full gap-1 xl:gap-2">
@@ -61,7 +61,7 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
                       />
                     )}
                   </div>
-                  <h2 className="truncate flex-grow">
+                  <h2 className="truncate flex-grow text-text-md font-medium text-launchingGray-8 dark:text-fg-white leading-5">
                     {" "}
                     {item.firstName} ${item.lastName}
                   </h2>
@@ -71,7 +71,7 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
                     <Icon icon={`twemoji:flag-${item.toLowerCase().replaceAll(" ", "-")}`} className="h-4 w-4" />
                   ))}
                 </div>
-                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem]">
+                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
                   {item?.profile?.invRange?.length == 2 ? (
                     <h2>
                       {item?.profile?.invRange[0]} to {item?.profile?.invRange[1]}
@@ -82,10 +82,10 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
                     <h2>-</h2>
                   )}
                 </div>
-                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem]">
+                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
                   {!isEmpty(item?.profile?.invTerm) ? <h2>{item?.profile?.invTerm}</h2> : <h2>-</h2>}
                 </div>
-                <div className="lg:col-span-1 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem]">
+                <div className="lg:col-span-1 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
                   1 year
                 </div>
               </div>
