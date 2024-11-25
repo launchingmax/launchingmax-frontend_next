@@ -5,8 +5,10 @@ import Image from "next/image";
 
 interface IPorps {
   data: IUser[];
+  setSelectedRow: (data: IUser) => void;
+  setOpenDialog: (open: boolean) => void;
 }
-const InvestorItems: React.FC<IPorps> = ({ data }) => {
+const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }) => {
   console.log(process.env.NEXT_PUBLIC_ALL_API);
   return (
     <div className="w-full">
@@ -92,7 +94,14 @@ const InvestorItems: React.FC<IPorps> = ({ data }) => {
 
               <div className="flex flex-row max-w-full xl:w-40 gap-1 xl:gap-2">
                 <div className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer">
-                  <Icon icon="solar:info-square-bold-duotone" className="text-mauve-5 dark:text-mauve-05 text-2xl" />
+                  <Icon
+                    icon="solar:info-square-bold-duotone"
+                    className="text-mauve-5 dark:text-mauve-05 text-2xl"
+                    onClick={() => {
+                      setSelectedRow(item);
+                      setOpenDialog(true);
+                    }}
+                  />
                 </div>
                 <div className="h-12 w-1/3 xl:min-w-12 bg-lightBlue-05 dark:bg-lightBlue-7 rounded-md flex justify-center items-center hover:cursor-pointer">
                   <Icon icon="solar:dialog-bold-duotone" className="text-lightBlue-6 dark:text-lightBlue-05 text-2xl" />

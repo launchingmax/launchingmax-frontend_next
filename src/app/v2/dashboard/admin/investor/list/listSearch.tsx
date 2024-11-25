@@ -16,6 +16,8 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import { encodeQueryString } from "@/lib/helper";
 import { UserType } from "@/lib/constants/user.const";
 import { isObject } from "lodash-es";
+import MyDialog from "@/components/molecules/MyDialog";
+import InvestorDetail from "./investorDetail";
 
 interface IProps {
   initialData: IPagination<IUser>;
@@ -39,6 +41,9 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const [shouldFetch, setShouldFetch] = useState(false); // Initially disabled
+
+  const [openInfoDialog, setOpenInfoDialog] = useState<boolean>(false);
+  const [selectedRow, setSelectedRow] = useState<IUser>();
 
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val, page: 1 }));
@@ -185,9 +190,15 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         useRegex={false}
       />
 
-      {usersData && <InvestorItems data={usersData.items} />}
+      {usersData && (
+        <InvestorItems data={usersData.items} setOpenDialog={setOpenInfoDialog} setSelectedRow={setSelectedRow} />
+      )}
 
       {usersData && <MyReactPaginate total={usersData.total} pagination={pagination} setPagination={setPagination} />}
+
+      {selectedRow && (
+        <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<InvestorDetail user={selectedRow} />} />
+      )}
     </div>
   );
 };
