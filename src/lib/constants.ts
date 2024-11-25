@@ -32,4 +32,10 @@ export class AppContants {
     { label: "Individual/Angel", value: "Individual/Angel" },
     { label: "Private Equity Firm", value: "Private Equity Firm" },
   ];
+
+  public static investmentTerm = [
+    { label: "Long-term", value: "Long-term" },
+    { label: "Mid-term", value: "Mid-term" },
+    { label: "ShortTerm", value: "ShortTerm" },
+  ];
 }

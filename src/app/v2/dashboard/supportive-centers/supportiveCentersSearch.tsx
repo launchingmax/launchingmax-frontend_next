@@ -57,7 +57,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     queryKey: ["exampleData", filters, pagination.pageIndex],
     queryFn: async () => {
       const response = await NextFetch(
-        `/v1/supportive-center${encodeQueryString({
+        `/v1/supportive-center?${encodeQueryString({
           ...filters,
           // page: pagination.pageIndex,
         })}`,

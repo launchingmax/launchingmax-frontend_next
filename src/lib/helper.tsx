@@ -30,22 +30,21 @@ export default function AnimatedText({
 export function encodeQueryString(params: Record<string, any>) {
   const keys = params && Object.keys(params);
   return keys && keys.length
-    ? "?" +
-        keys
-          .filter((key) => params[key] !== undefined) // Filter out keys with undefined values
-          .map((key) => {
-            const value = params[key];
-            if (Array.isArray(value)) {
-              // Handle arrays by wrapping them in $all
-              return encodeURIComponent(key) + "=" + encodeURIComponent(JSON.stringify({ $all: value }));
-            } else if (typeof value === "object" && value !== null) {
-              // Handle objects by encoding them directly
-              return encodeURIComponent(key) + "=" + encodeURIComponent(JSON.stringify(value));
-            }
-            // Default case for primitives (string, number, boolean)
-            return encodeURIComponent(key) + "=" + encodeURIComponent(value);
-          })
-          .join("&")
+    ? keys
+        .filter((key) => params[key] !== undefined) // Filter out keys with undefined values
+        .map((key) => {
+          const value = params[key];
+          if (Array.isArray(value)) {
+            // Handle arrays by wrapping them in $all
+            return encodeURIComponent(key) + "=" + encodeURIComponent(JSON.stringify({ $all: value }));
+          } else if (typeof value === "object" && value !== null) {
+            // Handle objects by encoding them directly
+            return encodeURIComponent(key) + "=" + encodeURIComponent(JSON.stringify(value));
+          }
+          // Default case for primitives (string, number, boolean)
+          return encodeURIComponent(key) + "=" + encodeURIComponent(value);
+        })
+        .join("&")
     : "";
 }
 

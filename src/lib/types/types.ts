@@ -7,5 +7,5 @@ export interface IPagination<T> {
   itemsCount?: number;
   page?: number;
   pages?: number;
-  total?: number;
+  total: number;
 }

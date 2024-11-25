@@ -24,9 +24,11 @@ const fetchUserData = async () => {
 export default async function AdminInvestorsList() {
   const res = await fetchUserData();
 
+  console.log("mm 3030303030303003 ress ", res);
+
   return (
     <>
-      <ListSearch data={res} />
+      <ListSearch initialData={res} />
     </>
   );
 }
