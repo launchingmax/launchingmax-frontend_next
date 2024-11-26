@@ -17,6 +17,7 @@ import { isObject } from "lodash-es";
 import MyDialog from "@/components/molecules/MyDialog";
 import RequestItems from "./requestItems";
 import { IStartup } from "@/lib/models/startup.model";
+import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
 
 interface IProps {
   initialData: IPagination<IStartup>;
@@ -43,8 +44,9 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const [shouldFetch, setShouldFetch] = useState(false); // Initially disabled
 
   const [openInfoDialog, setOpenInfoDialog] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<IUser>();
-
+  const [selectedRow, setSelectedRow] = useState<IStartup>();
+  const [openAcceptDialog, setOpenAcceptDialog] = useState<boolean>(false);
+  const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false);
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val, page: 1 }));
     setPagination((s) => ({ ...s, pageIndex: 1 }));
@@ -155,22 +157,48 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         }
         className={{
           headingSeparator:
-            "bg-gradient-to-r from-[#1665AE]/100 to-[#1665AE00]/0 dark:from-mauve-3/100 dark:to-mauve-3/0",
+            "bg-gradient-to-r from-[#1665AE]/100 to-[#1665AE00]/0 dark:from-[#FFF]/100 dark:to-launchingBlue-7",
         }}
         useRegex={false}
       />
 
       {requestsData && (
-        <RequestItems data={requestsData.items} setOpenDialog={setOpenInfoDialog} setSelectedRow={setSelectedRow} />
+        <RequestItems
+          data={requestsData.items}
+          setOpenInfoDialog={setOpenInfoDialog}
+          setSelectedRow={setSelectedRow}
+          setOpenAcceptDialog={setOpenAcceptDialog}
+          setOpenRejectDialog={setOpenRejectDialog}
+        />
       )}
 
       {requestsData && (
         <MyReactPaginate total={requestsData.total} pagination={pagination} setPagination={setPagination} />
       )}
 
-      {/* {selectedRow && (
-        <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<InvestorDetail user={selectedRow} />} />
-      )} */}
+      <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<h1>show detail</h1>} />
+
+      <ConfirmDialog
+        type="success"
+        open={openAcceptDialog}
+        setOpen={setOpenAcceptDialog}
+        title="Are you sure you want to accept this request?"
+        actionButtonRender={() => console.log("accepted...")}
+        cancelButtonRender={() => setOpenAcceptDialog(false)}
+        actionButtonTitle="Accept Reaquest"
+        cancelButtonTitle="Cancel"
+      />
+
+      <ConfirmDialog
+        type="error"
+        open={openRejectDialog}
+        setOpen={setOpenRejectDialog}
+        title="Are you sure you want to reject this request?"
+        actionButtonRender={() => console.log("rejected...")}
+        cancelButtonRender={() => setOpenRejectDialog(false)}
+        actionButtonTitle="Reject Reaquest"
+        cancelButtonTitle="Cancel"
+      />
     </div>
   );
 };

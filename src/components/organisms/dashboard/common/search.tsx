@@ -120,7 +120,7 @@ const Search: React.FC<ISearch> = ({
                     <Icon
                       onClick={() => setDialogOpen(!isDialogOpen)}
                       icon="solar:filter-bold-duotone"
-                      className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+                      className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-5 p-1 rounded-md"
                     />
                   }
                   body={
@@ -139,7 +139,7 @@ const Search: React.FC<ISearch> = ({
                   <DropdownMenuTrigger asChild>
                     <Icon
                       icon="solar:sort-from-bottom-to-top-line-duotone"
-                      className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+                      className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-5 p-1 rounded-md"
                     />
                   </DropdownMenuTrigger>
 

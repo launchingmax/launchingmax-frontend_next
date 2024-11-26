@@ -6,10 +6,9 @@ import ListSearch from "./listSearch";
 const fetchUserData = async () => {
   try {
     const response = await NextFetch(
-      `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup`
-      // &populate=${JSON.stringify([
-      //   { path: "" },
-      // ])}
+      `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
+        { path: "owner" },
+      ])}`
     );
     if (response.ok) {
       const data = response.json();

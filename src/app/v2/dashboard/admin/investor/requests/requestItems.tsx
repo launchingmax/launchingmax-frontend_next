@@ -5,11 +5,19 @@ import { isEmpty } from "lodash-es";
 import Image from "next/image";
 
 interface IPorps {
-  data?: IStartup[];
-  setSelectedRow?: (data: IUser) => void;
-  setOpenDialog?: (open: boolean) => void;
+  data: IStartup[];
+  setSelectedRow: (data: IStartup) => void;
+  setOpenInfoDialog: (open: boolean) => void;
+  setOpenAcceptDialog: (open: boolean) => void;
+  setOpenRejectDialog: (open: boolean) => void;
 }
-const RequestItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }) => {
+const RequestItems: React.FC<IPorps> = ({
+  data,
+  setSelectedRow,
+  setOpenInfoDialog,
+  setOpenRejectDialog,
+  setOpenAcceptDialog,
+}) => {
   console.log("mm-4567 ---  dataaaa   ", data);
   return (
     <div className="w-full">
@@ -43,60 +51,67 @@ const RequestItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog })
       {data?.map((item: IStartup, index: number) => {
         return (
           <div className="flex gap-1 xl:gap-2 my-2 w-full">
-            <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-[#F9F5F9] dark:bg-mauve-6 rounded-md flex justify-center items-center text-text-md font-regular text-launchingGray-8 dark:text-fg-white leading-5">
+            <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-launchingBlue-05 dark:bg-launchingBlue-7 rounded-md flex justify-center items-center text-text-md font-regular text-launchingGray-5 dark:text-fg-white leading-5">
               {index + 1}
             </div>
-            <div className="flex flex-col xl:flex-row w-full gap-1 xl:gap-2">
-              <div className="grid grid-cols-10 gap-2 w-full rounded-md max-h-full lg:h-12 bg-[#F9F5F9] dark:bg-mauve-6  pl-1 pt-1 lg:pt-1">
-                <div className="lg:col-span-3 col-span-10 flex justify-start items-center gap-x-2 w-full overflow-hidden">
-                  <div className="min-w-10 h-10  rounded-md bg-white dark:bg-launchingBlue-6"></div>
-                  <h2 className="truncate flex-grow text-text-md font-medium text-launchingGray-8 dark:text-fg-white leading-5">
-                    {" "}
-                    {/* {item.firstName} ${item.lastName} */}
-                  </h2>
+            <div className="flex flex-col xl:flex-row w-full  gap-1 xl:gap-2">
+              <div className="h-12 bg-launchingBlue-05 dark:bg-launchingBlue-7 rounded-md w-full flex justify-start items-center px-6 gap-5 ">
+                <div className="w-max truncate text-launchingBlue-5 dark:text-fg-white text-text-md font-bold tracking-tight">
+                  {item.owner.firstName} {item.owner.lastName}
                 </div>
-                <div className="lg:col-span-2 col-span-5 flex justify-center items-center gap-1 lg:p-0 px-3 py-[0.625rem]">
-                  {["iran", "canada"].map((item: string) => (
-                    <Icon icon={`twemoji:flag-${item.toLowerCase().replaceAll(" ", "-")}`} className="h-4 w-4" />
-                  ))}
+                <div className="felx flex-grow divide-y divide-dashed">
+                  <span className="flex items-center flex-grow">
+                    <div className="relative w-full h-[0.5px] my-4 mx-4">
+                      <div className="absolute top-0 left-0 w-full h-full border-t-2 border-dashed border-launchingBlue-1.5"></div>
+                    </div>
+                    <div
+                      className="w-0 h-0 translate-x-1
+              border-t-[8px] border-t-transparent
+              border-l-[10px] border-l-launchingBlue-1.5 dark:border-l-white
+              border-b-[8px] border-b-transparent"
+                    />
+                  </span>
                 </div>
-                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
-                  {/* {item?.profile?.invRange?.length == 2 ? (
-                    <h2>
-                      {item?.profile?.invRange[0]} to {item?.profile?.invRange[1]}
-                    </h2>
-                  ) : item?.profile?.invRange?.length == 1 ? (
-                    <h2>{item?.profile?.invRange}</h2>
-                  ) : (
-                    <h2>-</h2>
-                  )} */}
-                </div>
-                <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
-                  {/* {!isEmpty(item?.profile?.invTerm) ? <h2>{item?.profile?.invTerm}</h2> : <h2>-</h2>} */}
-                </div>
-                <div className="lg:col-span-1 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">
-                  1 year
+                <div className="w-max truncate text-launchingBlue-5 dark:text-fg-white text-text-md font-regular tracking-tight">
+                  rrr
                 </div>
               </div>
 
               <div className="flex flex-row max-w-full xl:w-40 gap-1 xl:gap-2">
-                <div className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer">
+                <div
+                  className="h-12 w-1/3 xl:min-w-12 bg-launchingBlue-05 dark:bg-launchingBlue-5 rounded-md flex justify-center items-center hover:cursor-pointer"
+                  onClick={() => {
+                    setSelectedRow(item);
+                    setOpenInfoDialog(true);
+                  }}
+                >
                   <Icon
                     icon="solar:info-square-bold-duotone"
-                    className="text-mauve-5 dark:text-mauve-05 text-2xl"
-                    // onClick={() => {
-                    //   setSelectedRow(item);
-                    //   setOpenDialog(true);
-                    // }}
+                    className="text-launchingBlue-5 dark:text-launchingBlue-05 text-2xl"
                   />
                 </div>
-                <div className="h-12 w-1/3 xl:min-w-12 bg-lightBlue-05 dark:bg-lightBlue-7 rounded-md flex justify-center items-center hover:cursor-pointer">
-                  <Icon icon="solar:dialog-bold-duotone" className="text-lightBlue-6 dark:text-lightBlue-05 text-2xl" />
+                <div
+                  className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                  onClick={() => setOpenRejectDialog(true)}
+                >
+                  <Icon icon="entypo:squared-cross" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
                 </div>
-                <div className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-6 rounded-md flex justify-center items-center hover:cursor-pointer">
-                  <Icon icon="solar:user-block-bold-duotone" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
+                <div
+                  className="h-12 w-1/3 xl:min-w-12 bg-teal-05 dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                  onClick={() => setOpenAcceptDialog(true)}
+                >
+                  <Icon icon="solar:check-square-bold-duotone" className="text-teal-6 dark:text-teal-05 text-2xl" />
                 </div>
               </div>
+
+              {/* <div className="flex flex-row max-w-full xl:w-48 gap-1 xl:gap-2">
+            <div className="h-12 w-1/2 xl:min-w-12 bg-salmon-05 dark:bg-salmon-7 rounded-md flex justify-center items-center hover:cursor-pointer text-text-md font-regular tracking-tight text-salmon-6 dark:text-salmon-05 ">
+              Reject
+            </div>
+            <div className="h-12 w-1/2 xl:min-w-12 bg-teal-05 dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer text-text-md font-regular tracking-tight text-teal-6 dark:text-teal-05 ">
+              Accept
+            </div>
+          </div> */}
             </div>
           </div>
         );

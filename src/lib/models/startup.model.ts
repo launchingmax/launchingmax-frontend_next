@@ -37,7 +37,7 @@ export interface IStartup extends BaseIdea {
 
   idea: IIdea;
 
-  owner: string;
+  owner: any; //string;
 
   business: string;
 

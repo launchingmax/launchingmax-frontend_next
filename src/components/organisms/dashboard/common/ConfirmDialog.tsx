@@ -8,7 +8,7 @@ interface IProps {
   note?: string;
   actionButtonRender?: (value?: any) => void;
   cancelButtonRender?: (value?: any) => void;
-  type?: "success" | "error" | "default";
+  type?: "successResult" | "error" | "default" | "success";
   cancelButtonTitle?: string;
   actionButtonTitle?: string;
   open: boolean;
@@ -35,10 +35,10 @@ const ConfirmDialog: React.FC<IProps> = ({
     <MyDialog
       open={open}
       setOpen={setOpen}
-      className={{ dialogContent: `${type == "success" ? "bg-teal-05 dark:bg-teal-05" : ""}` }}
+      className={{ dialogContent: `${type == "successResult" ? "bg-teal-05 dark:bg-teal-05" : ""}` }}
       dialogTrigger={dialogTrigger}
       body={
-        <div className="w-full h-max flex flex-col">
+        <div className="w-full h-max flex flex-col px-4 pt-4">
           {/*title - desc*/}
           <div className="w-full h-max flex flex-row space-x-2 mb-8">
             <div
@@ -46,15 +46,17 @@ const ConfirmDialog: React.FC<IProps> = ({
             ${
               type == "default"
                 ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
-                : type == "success"
+                : type == "successResult"
                 ? "bg-teal-5 dark:bg-teal-5"
+                : type == "success"
+                ? "bg-teal-6"
                 : "bg-salmon-5 dark:bg-salmon-6"
             }
           `}
             ></div>
             <div
               className={`flex flex-col ${
-                type == "success" ? "text-teal-7" : "text-launchingBlue-8.5 dark:text-fg-white"
+                type == "successResult" ? "text-teal-7" : "text-launchingBlue-8.5 dark:text-fg-white"
               }`}
             >
               <h2 className={`text-display-xs leading-8`}>{title}</h2>
@@ -76,8 +78,10 @@ const ConfirmDialog: React.FC<IProps> = ({
                 className={`w-1/2 border-b-2 h-[2.6875rem] ${
                   type == "default"
                     ? "border-launchingBlue-5 dark:border-launchingBlue-4 text-launchingBlue-7 dark:text-fg-white"
-                    : type == "success"
+                    : type == "successResult"
                     ? "border-teal-5 text-teal-7"
+                    : type == "success"
+                    ? "border-teal-6 text-teal-7 dark:border-teal-05 dark:text-teal-05"
                     : "border-salmon-5 text-salmon-7 dark:border-salmon-05 dark:text-fg-white"
                 }`}
                 onClick={cancelButtonRender}
@@ -90,8 +94,10 @@ const ConfirmDialog: React.FC<IProps> = ({
                 className={`w-1/2 h-[2.6875rem] rounded-md text-fg-white ${
                   type == "default"
                     ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
-                    : type == "success"
+                    : type == "successResult"
                     ? "bg-teal-5"
+                    : type == "success"
+                    ? "bg-teal-6"
                     : "bg-salmon-5 dark:bg-salmon-6 "
                 }`}
                 onClick={actionButtonRender}
