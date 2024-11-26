@@ -23,7 +23,7 @@ const StartupSearch = () => {
   const [filteredStartup, setFilteredStartUp] = useState<IPagination<IStartup>>();
   const [activeTab, setActiveTab] = useState("");
   const [tabs, setTabs] = useState<string[]>(["All Industries"]);
-  const [filters, setFilters] = useState<Record<string, unknown>>({});
+  const [filters, setFilters] = useState<Record<string, unknown>>({ status: "startup" });
   const { setIsLoading, isLoading } = useGlobal();
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
 
@@ -35,13 +35,6 @@ const StartupSearch = () => {
       ],
     },
     actives: activeSortItems,
-  };
-
-  const params: IStartupsParams = {
-    sort: { createdAt: 1 },
-    // projection: "firstName lastName avatar email", sort=JSON.stringify({createAt: 01, name: --1})
-    page: 1,
-    itemsCount: 20,
   };
 
   const fetchIndustry = async () => {
@@ -163,7 +156,7 @@ const StartupSearch = () => {
       <div className="w-full flex flex-wrap  justify-center 2xl:px-8">
         {filteredStartup?.items?.map((item: IStartup) => (
           <div className="w-[100%] xl:w-[45%] m-3">
-            <Link href={`${"/" + trimStart(`/v2/dashboard/startups/${item._id}/#Overview`, "/")}`}>
+            <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
               <StartupCard key={item._id} startup={item} />
             </Link>
           </div>

@@ -8,17 +8,11 @@ import { Button } from "@/components/ui/button";
 import MyRequests from "@/components/organisms/investor/MyRequests";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { trimStart } from "lodash-es";
-interface IStartupsParams {
-  sort?: 1 | -1;
-  projection?: string;
-  page?: number;
-  itemsCount?: number;
-}
 
 async function fetchData() {
   try {
     const response = await NextFetch(
-      `v1/startup?populate=${JSON.stringify([
+      `v1/startup?status=startup&populate=${JSON.stringify([
         {
           path: "idea",
           populate: [{ path: "team.user", select: "firstName lastName avatar email" }],
@@ -91,7 +85,7 @@ export default async function InvestorPage() {
           {res?.items?.map((item: IStartup) => {
             if (item.isTop)
               return (
-                <Link href={`${"/" + trimStart(`/v2/dashboard/startups/${item._id}/#Overview`, "/")}`}>
+                <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
                   <StartupCard key={item._id} startup={item} />
                 </Link>
               );

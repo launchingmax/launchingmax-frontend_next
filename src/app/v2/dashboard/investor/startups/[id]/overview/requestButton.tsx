@@ -26,7 +26,6 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
   }>({ open: false });
 
   useEffect(() => {
-    console.log(" -------------------------------------------- ", foundItem);
     foundItem && setIsRequestSent(true);
   }, [foundItem]);
 
@@ -37,7 +36,7 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
     });
   };
   const pathname = usePathname();
-  const startUpID = pathname.replace("/v2/dashboard/startups/", "");
+  const startUpID = pathname.replace("/v2/dashboard/investor/startups/", "");
 
   const sendRequest = () => {
     const body = { user: userDetail?._id, status: "requested", requester: "other" };
