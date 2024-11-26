@@ -1,3 +1,4 @@
+import TooltipWrapper from "@/components/molecules/TooltipWrapper";
 import { IStartup } from "@/lib/models/startup.model";
 import { IUser } from "@/lib/models/user.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -78,30 +79,47 @@ const RequestItems: React.FC<IPorps> = ({
               </div>
 
               <div className="flex flex-row max-w-full xl:w-40 gap-1 xl:gap-2">
-                <div
-                  className="h-12 w-1/3 xl:min-w-12 bg-launchingBlue-05 dark:bg-launchingBlue-5 rounded-md flex justify-center items-center hover:cursor-pointer"
-                  onClick={() => {
-                    setSelectedRow(item);
-                    setOpenInfoDialog(true);
-                  }}
-                >
-                  <Icon
-                    icon="solar:info-square-bold-duotone"
-                    className="text-launchingBlue-5 dark:text-launchingBlue-05 text-2xl"
-                  />
-                </div>
-                <div
-                  className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-7 rounded-md flex justify-center items-center hover:cursor-pointer"
-                  onClick={() => setOpenRejectDialog(true)}
-                >
-                  <Icon icon="entypo:squared-cross" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
-                </div>
-                <div
-                  className="h-12 w-1/3 xl:min-w-12 bg-teal-05 dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer"
-                  onClick={() => setOpenAcceptDialog(true)}
-                >
-                  <Icon icon="solar:check-square-bold-duotone" className="text-teal-6 dark:text-teal-05 text-2xl" />
-                </div>
+                <TooltipWrapper
+                  title="Detail"
+                  tooltipTrigger={
+                    <div
+                      className="h-12 w-1/3 xl:min-w-12 bg-launchingBlue-05 dark:bg-launchingBlue-5 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      onClick={() => {
+                        setSelectedRow(item);
+                        setOpenInfoDialog(true);
+                      }}
+                    >
+                      <Icon
+                        icon="solar:info-square-bold-duotone"
+                        className="text-launchingBlue-5 dark:text-launchingBlue-05 text-2xl"
+                      />
+                    </div>
+                  }
+                />
+
+                <TooltipWrapper
+                  title="Reject"
+                  tooltipTrigger={
+                    <div
+                      className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      onClick={() => setOpenRejectDialog(true)}
+                    >
+                      <Icon icon="entypo:squared-cross" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
+                    </div>
+                  }
+                />
+
+                <TooltipWrapper
+                  title="Accept"
+                  tooltipTrigger={
+                    <div
+                      className="h-12 w-1/3 xl:min-w-12 bg-teal-05 dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      onClick={() => setOpenAcceptDialog(true)}
+                    >
+                      <Icon icon="solar:check-square-bold-duotone" className="text-teal-6 dark:text-teal-05 text-2xl" />
+                    </div>
+                  }
+                />
               </div>
 
               {/* <div className="flex flex-row max-w-full xl:w-48 gap-1 xl:gap-2">

@@ -1,3 +1,4 @@
+import TooltipWrapper from "@/components/molecules/TooltipWrapper";
 import { IUser } from "@/lib/models/user.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { isEmpty } from "lodash-es";
@@ -93,19 +94,26 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
               </div>
 
               <div className="flex flex-row max-w-full xl:w-40 gap-1 xl:gap-2">
-                <div className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer">
-                  <Icon
-                    icon="solar:info-square-bold-duotone"
-                    className="text-mauve-5 dark:text-mauve-05 text-2xl"
-                    onClick={() => {
-                      setSelectedRow(item);
-                      setOpenDialog(true);
-                    }}
-                  />
-                </div>
+                <TooltipWrapper
+                  title="Detail"
+                  tooltipTrigger={
+                    <div className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer">
+                      <Icon
+                        icon="solar:info-square-bold-duotone"
+                        className="text-mauve-5 dark:text-mauve-05 text-2xl"
+                        onClick={() => {
+                          setSelectedRow(item);
+                          setOpenDialog(true);
+                        }}
+                      />
+                    </div>
+                  }
+                />
+
                 <div className="h-12 w-1/3 xl:min-w-12 bg-lightBlue-05 dark:bg-lightBlue-7 rounded-md flex justify-center items-center hover:cursor-pointer">
                   <Icon icon="solar:dialog-bold-duotone" className="text-lightBlue-6 dark:text-lightBlue-05 text-2xl" />
                 </div>
+
                 <div className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-6 rounded-md flex justify-center items-center hover:cursor-pointer">
                   <Icon icon="solar:user-block-bold-duotone" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
                 </div>
