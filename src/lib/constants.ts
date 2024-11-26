@@ -36,6 +36,6 @@ export class AppContants {
   public static investmentTerm = [
     { label: "Long-term", value: "Long-term" },
     { label: "Mid-term", value: "Mid-term" },
-    { label: "ShortTerm", value: "ShortTerm" },
+    { label: "Short-term", value: "Short-term" },
   ];
 }

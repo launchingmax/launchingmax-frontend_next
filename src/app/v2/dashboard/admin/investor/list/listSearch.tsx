@@ -28,7 +28,8 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const menuItems = {
     options: {
       items: [
-        { label: "Name", value: "name" },
+        { label: "First name", value: "firstName" },
+        { label: "Last name", value: "lastName" },
         // { label: "Date", value: "createdAt" },
       ],
     },
@@ -82,7 +83,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       ];
     }
 
-    query["types.type"] = "investor"; // Always include this
+    query["types.type"] = UserType.Investor; // Always include this
 
     return query;
   };
@@ -95,14 +96,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   } = useQuery({
     queryKey: ["usersData", filters, pagination.pageIndex],
     queryFn: async () => {
-      console.log(
-        " mm 203030 - - - -   ",
-        filters,
-        filters.inputSearch,
-        new RegExp((filters.inputSearch as string)!, "i")
-      );
-
-      const body = [
+      const body: Record<string, unknown>[] = [
         {
           $lookup:
             /**
@@ -140,6 +134,9 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
             },
         },
       ];
+      if (filters.sort) {
+        body.push({ $sort: JSON.parse(filters.sort as string) });
+      }
       console.log("----", body);
       const response = await NextFetch(`/v1/aggregate/users`, {
         method: "POST",
@@ -153,6 +150,16 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
     initialData,
     enabled: shouldFetch, //!!filters && !!pagination.pageIndex,
   });
+
+  useEffect(() => {
+    let sort = undefined;
+    if (activeSortItems?.items.length !== 0) {
+      const sortBy = activeSortItems?.items;
+      const cerateAt = activeSortItems?.createdAt;
+      sort = JSON.stringify({ [sortBy]: cerateAt });
+    }
+    setFilters((s) => ({ ...s, sort }));
+  }, [activeSortItems]);
 
   // Enable fetching when `filters` changes
   useEffect(() => {
@@ -169,6 +176,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       <Search
         searchInputName="inputSearch"
         Filter={InvestorFilter}
+        initData={filters}
         filterRender={filterRender}
         sortRender={sortRender}
         clearFilter={clearFilter}

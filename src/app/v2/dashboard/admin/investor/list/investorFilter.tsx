@@ -29,7 +29,7 @@ interface IProps {
   initData?: Record<string, unknown>;
 }
 
-const minInvRange = 1000;
+const minInvRange = 0;
 const maxInvRange = 1000000;
 
 const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }) => {
@@ -117,7 +117,7 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
             </div>
 
             <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Funding Requirement
+              Investment Range
             </h2>
             <Separator
               orientation="horizontal"
@@ -154,7 +154,7 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
 
             <div className="flex flex-row">
               <h2 className="text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
-                Investment range
+                Investment Term
               </h2>
             </div>
 
