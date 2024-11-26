@@ -45,7 +45,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
 
   const [openInfoDialog, setOpenInfoDialog] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<IStartup>();
-  const [openAcceptDialog, setOpenAcceptDialog] = useState<boolean>(false);
+  const [openRestoreDialog, setOpenRestoreDialog] = useState<boolean>(false);
   const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false);
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val, page: 1 }));
@@ -161,8 +161,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
           data={requestsData.items}
           setOpenInfoDialog={setOpenInfoDialog}
           setSelectedRow={setSelectedRow}
-          setOpenAcceptDialog={setOpenAcceptDialog}
-          setOpenRejectDialog={setOpenRejectDialog}
+          setOpenRestoreDialog={setOpenRestoreDialog}
         />
       )}
 
@@ -174,23 +173,12 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
 
       <ConfirmDialog
         type="success"
-        open={openAcceptDialog}
-        setOpen={setOpenAcceptDialog}
-        title="Are you sure you want to accept this request?"
-        actionButtonRender={() => console.log("accepted...")}
-        cancelButtonRender={() => setOpenAcceptDialog(false)}
-        actionButtonTitle="Accept Reaquest"
-        cancelButtonTitle="Cancel"
-      />
-
-      <ConfirmDialog
-        type="error"
-        open={openRejectDialog}
-        setOpen={setOpenRejectDialog}
-        title="Are you sure you want to reject this request?"
-        actionButtonRender={() => console.log("rejected...")}
-        cancelButtonRender={() => setOpenRejectDialog(false)}
-        actionButtonTitle="Reject Reaquest"
+        open={openRestoreDialog}
+        setOpen={setOpenRestoreDialog}
+        title="Are you sure you want to restore this request?"
+        actionButtonRender={() => console.log("restored...")}
+        cancelButtonRender={() => setOpenRestoreDialog(false)}
+        actionButtonTitle="Restore"
         cancelButtonTitle="Cancel"
       />
     </div>

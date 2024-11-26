@@ -9,16 +9,9 @@ interface IPorps {
   data: IStartup[];
   setSelectedRow: (data: IStartup) => void;
   setOpenInfoDialog: (open: boolean) => void;
-  setOpenAcceptDialog: (open: boolean) => void;
-  setOpenRejectDialog: (open: boolean) => void;
+  setOpenRestoreDialog: (open: boolean) => void;
 }
-const RequestItems: React.FC<IPorps> = ({
-  data,
-  setSelectedRow,
-  setOpenInfoDialog,
-  setOpenRejectDialog,
-  setOpenAcceptDialog,
-}) => {
+const RequestItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenInfoDialog, setOpenRestoreDialog }) => {
   console.log("mm-4567 ---  dataaaa   ", data);
   return (
     <div className="w-full">
@@ -47,8 +40,8 @@ const RequestItems: React.FC<IPorps> = ({
                     <div
                       className="h-12 w-full xl:min-w-12 bg-teal-05 dark:bg-teal-8 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
-                        setSelectedRow(item);
-                        setOpenInfoDialog(true);
+                        //setSelectedRow(item);
+                        setOpenRestoreDialog(true);
                       }}
                     >
                       <Icon icon="ic:baseline-restore-from-trash" className="text-teal-6 dark:text-teal-05 text-2xl" />
@@ -64,4 +57,4 @@ const RequestItems: React.FC<IPorps> = ({
   );
 };
 
-export default RequestItems;
+export default RequestItem;
