@@ -8,10 +8,9 @@ import Image from "next/image";
 interface IPorps {
   data: IStartup[];
   setSelectedRow: (data: IStartup) => void;
-  setOpenInfoDialog: (open: boolean) => void;
   setOpenRestoreDialog: (open: boolean) => void;
 }
-const RequestItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenInfoDialog, setOpenRestoreDialog }) => {
+const ArchiveItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenRestoreDialog }) => {
   console.log("mm-4567 ---  dataaaa   ", data);
   return (
     <div className="w-full">
@@ -22,14 +21,25 @@ const RequestItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenInfoDialog
               {index + 1}
             </div>
             <div className="flex flex-col xl:flex-row w-full  gap-1 xl:gap-2">
-              <div className="min-h-12 h-full grid grid-cols-3 bg-salmon-05 dark:bg-salmon-8 rounded-md w-full justify-start items-center px-6 gap-5 py-2 lg:py-0">
-                <h2 className="col-span-3 lg:col-span-1 truncate overflow-hidden text-salmon-7 dark:text-fg-white text-text-md font-bold tracking-tight">
-                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                </h2>
-
-                <div className="col-span-3 lg:col-span-2 truncate break-words text-salmon-7 dark:text-fg-white text-text-md font-regular tracking-tight">
-                  <span className="font-bold">Title: </span>
-                  bbbbbbbbbbbbbssssssssssssssssssssssssssssss
+              <div className="h-12 bg-salmon-05 dark:bg-salmon-8 rounded-md w-full flex justify-start items-center px-6 gap-5 ">
+                <div className="w-max truncate text-salmon-7 dark:text-fg-white text-text-md font-bold tracking-tight">
+                  {item?.investors?.[0]?.user?.firstName} {item?.investors?.[0]?.user?.lastName}
+                </div>
+                <div className="felx flex-grow divide-y divide-dashed">
+                  <span className="flex items-center flex-grow">
+                    <div className="relative w-full h-[0.5px] my-4 mx-">
+                      <div className="absolute top-0 left-0 w-full h-full border-t-2 border-dashed border-salmon-3"></div>
+                    </div>
+                    <div
+                      className="w-0 h-0 translate-x-1
+              border-t-[8px] border-t-transparent
+              border-l-[10px] border-l-salmon-3 dark:border-l-white
+              border-b-[8px] border-b-transparent"
+                    />
+                  </span>
+                </div>
+                <div className="w-max truncate text-salmon-7 dark:text-fg-white text-text-md font-regular tracking-tight">
+                  {item?.brainStorming?.title}
                 </div>
               </div>
 
@@ -40,7 +50,7 @@ const RequestItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenInfoDialog
                     <div
                       className="h-12 w-full xl:min-w-12 bg-teal-05 dark:bg-teal-8 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
-                        //setSelectedRow(item);
+                        setSelectedRow(item);
                         setOpenRestoreDialog(true);
                       }}
                     >
@@ -57,4 +67,4 @@ const RequestItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenInfoDialog
   );
 };
 
-export default RequestItem;
+export default ArchiveItem;

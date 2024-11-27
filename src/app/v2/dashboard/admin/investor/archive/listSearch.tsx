@@ -1,112 +1,69 @@
 "use client";
-
 import Search from "@/components/organisms/dashboard/common/search";
-import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import DashSection from "@/components/organisms/dashboard/DashSection";
-import { IUser } from "@/lib/models/user.model";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { IPagination } from "@/lib/types/types";
-import { useEffect, useState } from "react";
-import { PaginationState } from "@tanstack/react-table";
-import MyReactPaginate from "@/components/molecules/MyReactPaginate";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { NextFetch } from "@/configs/api/next-fetch";
-import { encodeQueryString } from "@/lib/helper";
-import { UserType } from "@/lib/constants/user.const";
-import { isObject } from "lodash-es";
-import MyDialog from "@/components/molecules/MyDialog";
-import RequestItems from "./archiveItem";
+import { RequestStatus } from "@/lib/constants/request.enum";
 import { IStartup } from "@/lib/models/startup.model";
+import { IPagination } from "@/lib/types/types";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { PaginationState } from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import ArchiveItem from "./archiveItem";
+import MyReactPaginate from "@/components/molecules/MyReactPaginate";
 import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
+import _ from "lodash";
 
 interface IProps {
   initialData: IPagination<IStartup>;
 }
+
 const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const [filters, setFilters] = useState<Record<string, unknown>>({});
-  const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: -1 });
-  const menuItems = {
-    options: {
-      items: [
-        { label: "First name", value: "firstName" },
-        { label: "Last name", value: "lastName" },
-        // { label: "Date", value: "createdAt" },
-      ],
-    },
-    actives: activeSortItems,
-  };
-
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 1,
-    pageSize: 20,
+    pageSize: 50,
   });
 
   const [shouldFetch, setShouldFetch] = useState(false); // Initially disabled
 
-  const [openInfoDialog, setOpenInfoDialog] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<IStartup>();
+  const [selectedStartup, setSelectedStartup] = useState<IStartup>();
   const [openRestoreDialog, setOpenRestoreDialog] = useState<boolean>(false);
-  const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false);
+  const [requestsData, setRequestsData] = useState<IPagination<IStartup>>(initialData);
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val, page: 1 }));
     setPagination((s) => ({ ...s, pageIndex: 1 }));
   };
-
-  const clearFilter = () => {
-    setFilters((s) => ({}));
-  };
-
-  const sortRender = (val: any) => {
-    setActiveSortItems((s) => ({ ...s, ...val }));
-  };
-
   const queryClient = useQueryClient();
 
-  // const buildQuery = (filters: any) => {
-  //   const query: any = {};
-  //   // Check each key and add only if it has a value
-  //   if (filters.invTerm && filters.invTerm.length > 0) {
-  //     query["profile.invTerm"] = { $in: filters.invTerm };
-  //   }
-
-  //   if (filters.countries && filters.countries.length > 0) {
-  //     query["profile.targetCountries"] = { $in: filters.countries };
-  //   }
-
-  //   if (filters.invRange) {
-  //     query["profile.invRange"] = filters.invRange;
-  //   }
-
-  //   if (filters.inputSearch) {
-  //     query.$or = [
-  //       { firstName: { $regex: filters.inputSearch, $options: "i" } },
-  //       { lastName: { $regex: filters.inputSearch, $options: "i" } },
-  //     ];
-  //   }
-
-  //   query["types.type"] = UserType.Investor; // Always include this
-
-  //   return query;
-  // };
-
   // Fetch data
-  const {
-    data: requestsData,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["requestsData", filters, pagination.pageIndex],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["archiveData", filters, pagination.pageIndex],
     queryFn: async () => {
-      // if (filters.sort) {
-      //   body.push({ $sort: JSON.parse(filters.sort as string) });
-      // }
-      // console.log("----", body);
-      const response = await NextFetch(``, {
-        method: "POST",
-        // body: JSON.stringify(body),
-      });
+      const response = await NextFetch(
+        `/v1/startup?status=archive&populate=${JSON.stringify([
+          { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
+        ])}`,
+        {
+          method: "Get",
+        }
+      );
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
+        data.items = data.items.reduce((pre: any, cur: any) => {
+          const investors = cur.investors?.reduce((p: any, c: any) => {
+            const d = {
+              ...cur,
+              investors: [c],
+            };
+            if (c.status === RequestStatus.Rejected) p.push(d);
+            return p;
+          }, []);
+
+          pre.push(...investors);
+          return pre;
+        }, []);
+
         return data;
       }
     },
@@ -115,22 +72,54 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   useEffect(() => {
-    let sort = undefined;
-    if (activeSortItems?.items.length !== 0) {
-      const sortBy = activeSortItems?.items;
-      const cerateAt = activeSortItems?.createdAt;
-      sort = JSON.stringify({ [sortBy]: cerateAt });
-    }
-    setFilters((s) => ({ ...s, sort }));
-  }, [activeSortItems]);
+    console.log("mm890 - data changed !!!!     ", data);
+    data ? setRequestsData(data) : setRequestsData(initialData);
+  }, [data]);
 
-  // Enable fetching when `filters` changes
+  // filter client side
   useEffect(() => {
-    if (Object.keys(filters).length !== 0) {
-      setShouldFetch(true);
-    }
-    queryClient.invalidateQueries({ queryKey: ["requestsData"] });
+    const filteredData: IStartup[] = _.filter(
+      requestsData?.items,
+      (item: IStartup) =>
+        item?.investors?.[0]?.user?.firstName?.toLowerCase().includes(filters?.inputSearch) ||
+        item?.investors?.[0]?.user?.lastName?.toLowerCase().includes(filters?.inputSearch)
+    ) as IStartup[];
+
+    setRequestsData((s) => ({ ...s, items: filters?.inputSearch ? filteredData : data?.items ?? [] }));
   }, [filters]);
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const userId = selectedStartup?.investors?.[0]?.user?._id;
+      const body = {
+        user: userId,
+        status: RequestStatus.Requested,
+      };
+      try {
+        console.log("mm 000 -- - - -    ", body);
+        console.log("mm 000 -- - - -    ", selectedStartup);
+        const response = await NextFetch(`/v1/startup/${selectedStartup?._id}/investor-request/${userId}`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          data.acknowledged && data.modifiedCount > 0 && setShouldFetch(true);
+          return data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["archiveData"] });
+      setOpenRestoreDialog(false);
+    },
+  });
+
+  const handleAcceptOrRejectSubmit = async () => {
+    mutation.mutate();
+  };
 
   return (
     <div>
@@ -141,9 +130,6 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         //Filter={InvestorFilter}
         initData={filters}
         filterRender={filterRender}
-        // sortRender={sortRender}
-        clearFilter={clearFilter}
-        menuItems={menuItems}
         heading={
           <div className="flex flex-row justify-start items-center space-x-3 p-3">
             <Icon icon="solar:archive-bold-duotone" className="text-2xl text-salmon-6 dark:text-salmon-5" />
@@ -156,11 +142,10 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         useRegex={false}
       />
 
-      {requestsData && (
-        <RequestItems
+      {requestsData.items && (
+        <ArchiveItem
           data={requestsData.items}
-          setOpenInfoDialog={setOpenInfoDialog}
-          setSelectedRow={setSelectedRow}
+          setSelectedRow={setSelectedStartup}
           setOpenRestoreDialog={setOpenRestoreDialog}
         />
       )}
@@ -169,16 +154,14 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         <MyReactPaginate total={requestsData.total} pagination={pagination} setPagination={setPagination} />
       )}
 
-      <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<h1>show detail</h1>} />
-
       <ConfirmDialog
         type="success"
         open={openRestoreDialog}
         setOpen={setOpenRestoreDialog}
         title="Are you sure you want to restore this request?"
-        actionButtonRender={() => console.log("restored...")}
+        actionButtonRender={handleAcceptOrRejectSubmit}
         cancelButtonRender={() => setOpenRestoreDialog(false)}
-        actionButtonTitle="Restore"
+        actionButtonTitle="Restore Request"
         cancelButtonTitle="Cancel"
       />
     </div>

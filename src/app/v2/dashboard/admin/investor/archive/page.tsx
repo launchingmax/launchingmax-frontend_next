@@ -4,7 +4,11 @@ import ListSearch from "./listSearch";
 
 const fetchArchiveData = async () => {
   try {
-    const response = await NextFetch(`/v1/startup?status=archive`);
+    const response = await NextFetch(
+      `/v1/startup?status=archive&populate=${JSON.stringify([
+        { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
+      ])}`
+    );
     if (response.ok) {
       const data = response.json();
       return data;
@@ -17,7 +21,19 @@ const fetchArchiveData = async () => {
 export default async function AdminInvestorsArchiveList() {
   const res = await fetchArchiveData();
 
-  console.log("mm archive ress ", res);
+  res.items = res.items.reduce((pre: any, cur: any) => {
+    const investors = cur.investors?.reduce((p: any, c: any) => {
+      const d = {
+        ...cur,
+        investors: [c],
+      };
+      if (c.status === RequestStatus.Rejected) p.push(d);
+      return p;
+    }, []);
+
+    pre.push(...investors);
+    return pre;
+  }, []);
 
   return (
     <>
