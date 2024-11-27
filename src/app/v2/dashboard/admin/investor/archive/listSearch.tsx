@@ -41,7 +41,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
     queryKey: ["archiveData", filters, pagination.pageIndex],
     queryFn: async () => {
       const response = await NextFetch(
-        `/v1/startup?status=archive&populate=${JSON.stringify([
+        `/v1/startup?status=startup&populate=${JSON.stringify([
           { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
         ])}`,
         {

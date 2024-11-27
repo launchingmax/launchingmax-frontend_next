@@ -5,7 +5,7 @@ import ListSearch from "./listSearch";
 const fetchArchiveData = async () => {
   try {
     const response = await NextFetch(
-      `/v1/startup?status=archive&populate=${JSON.stringify([
+      `/v1/startup?status=startup&populate=${JSON.stringify([
         { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
       ])}`
     );
