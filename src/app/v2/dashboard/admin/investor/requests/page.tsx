@@ -2,13 +2,13 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import { UserType } from "@/lib/constants/user.const";
 import ListSearch from "./listSearch";
+import { reduceItems } from "./helper";
 
-const fetchUserData = async () => {
+const fetchRequestData = async () => {
   try {
     const response = await NextFetch(
       `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
         { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
-        ,
       ])}`
     );
     if (response.ok) {
@@ -20,8 +20,8 @@ const fetchUserData = async () => {
   }
 };
 
-export default async function AdminInvestorsList() {
-  const res = await fetchUserData();
+export default async function AdminInvestorsRequestList() {
+  const res = await fetchRequestData();
 
   res.items = res.items.reduce((pre: any, cur: any) => {
     const investors = cur.investors?.reduce((p: any, c: any) => {
@@ -29,7 +29,7 @@ export default async function AdminInvestorsList() {
         ...cur,
         investors: [c],
       };
-      p.push(d);
+      if (c.status === "requested") p.push(d);
       return p;
     }, []);
 

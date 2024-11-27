@@ -2,26 +2,22 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import ListSearch from "./listSearch";
 
-const fetchUserData = async () => {
+const fetchArchiveData = async () => {
   try {
-    const response = await NextFetch(
-      `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
-        { path: "owner" },
-      ])}`
-    );
+    const response = await NextFetch(`/v1/startup?status=archive`);
     if (response.ok) {
       const data = response.json();
       return data;
     }
   } catch (error) {
-    console.log("mm 3030303030303003 errr ", error);
+    console.log("mm archive errr ", error);
   }
 };
 
-export default async function AdminInvestorsList() {
-  const res = await fetchUserData();
+export default async function AdminInvestorsArchiveList() {
+  const res = await fetchArchiveData();
 
-  console.log("mm 3030303030303003 ress ", res);
+  console.log("mm archive ress ", res);
 
   return (
     <>

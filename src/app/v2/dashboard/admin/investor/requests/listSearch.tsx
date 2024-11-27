@@ -50,7 +50,6 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       const response = await NextFetch(
         `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
           { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
-          ,
         ])}`,
         {
           method: "Get",
@@ -58,18 +57,31 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       );
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
+        data.items = data.items.reduce((pre: any, cur: any) => {
+          const investors = cur.investors?.reduce((p: any, c: any) => {
+            const d = {
+              ...cur,
+              investors: [c],
+            };
+            if (c.status === "requested") p.push(d);
+            return p;
+          }, []);
+
+          pre.push(...investors);
+          return pre;
+        }, []);
+
         return data;
       }
     },
     initialData,
-    // enabled: shouldFetch, //!!filters && !!pagination.pageIndex,
+    enabled: shouldFetch, //!!filters && !!pagination.pageIndex,
   });
 
   useEffect(() => {
-    console.log("mm890 - init data    ", initialData);
-    console.log("mm890 - --- data    ", data);
+    console.log("mm890 - data changed !!!!     ", data);
     data ? setRequestsData(data) : setRequestsData(initialData);
-  }, []);
+  }, [data]);
 
   // filter client side
   useEffect(() => {
@@ -85,22 +97,23 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
 
   const mutation = useMutation({
     mutationFn: async () => {
+      const userId = selectedStartup?.investors?.[0]?.user?._id;
       const body = {
-        //user: selectedStartup?.owner._id,
+        user: userId,
         status: acceptRejectType,
       };
       try {
         console.log("mm 000 -- - - -    ", body);
         console.log("mm 000 -- - - -    ", selectedStartup);
-        // const response = await NextFetch(
-        //   `/v1/startup/${selectedStartup?._id}/investor-request/${selectedStartup?.owner._id}`,
-        //   { method: "PUT", body: JSON.stringify(body) }
-        // );
-        // if (response.ok) {
-        //   const data = await response.json();
-        //   setShouldFetch(true);
-        //   return data;
-        // }
+        const response = await NextFetch(`/v1/startup/${selectedStartup?._id}/investor-request/${userId}`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          data.acknowledged && data.modifiedCount > 0 && setShouldFetch(true);
+          return data;
+        }
       } catch (error) {
         console.log(error);
       }
