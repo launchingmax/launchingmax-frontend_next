@@ -47,7 +47,7 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
               {index + 1}
             </div>
             <div className="flex flex-col xl:flex-row w-full gap-1 xl:gap-2">
-              <div className="grid grid-cols-10 gap-2 w-full rounded-md max-h-full lg:h-12 bg-[#F9F5F9] dark:bg-mauve-6  pl-1 pt-1 lg:pt-1">
+              <div className="grid grid-cols-10 gap-2 w-full rounded-md max-h-full lg:h-12 bg-[#F9F5F9] dark:bg-mauve-6  pl-1 pt-1 lg:pt-0">
                 <div className="lg:col-span-3 col-span-10 flex justify-start items-center gap-x-2 w-full overflow-hidden">
                   <div className="min-w-10 h-10  rounded-md bg-white dark:bg-launchingBlue-6">
                     {item?.avatar && (
@@ -97,24 +97,26 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
                 <TooltipWrapper
                   title="Detail"
                   tooltipTrigger={
-                    <div className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer">
+                    <div
+                      className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      onClick={() => {
+                        setSelectedRow(item);
+                        setOpenDialog(true);
+                      }}
+                    >
                       <Icon
                         icon="solar:info-square-bold-duotone"
                         className="text-mauve-5 dark:text-mauve-05 text-2xl"
-                        onClick={() => {
-                          setSelectedRow(item);
-                          setOpenDialog(true);
-                        }}
                       />
                     </div>
                   }
                 />
 
-                <div className="h-12 w-1/3 xl:min-w-12 bg-lightBlue-05 dark:bg-lightBlue-7 rounded-md flex justify-center items-center hover:cursor-pointer">
+                <div className="h-12 w-1/3 xl:min-w-12 bg-lightBlue-05 dark:bg-lightBlue-7 rounded-md flex justify-center items-center hover:cursor-not-allowed">
                   <Icon icon="solar:dialog-bold-duotone" className="text-lightBlue-6 dark:text-lightBlue-05 text-2xl" />
                 </div>
 
-                <div className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-6 rounded-md flex justify-center items-center hover:cursor-pointer">
+                <div className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-6 rounded-md flex justify-center items-center hover:cursor-not-allowed">
                   <Icon icon="solar:user-block-bold-duotone" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
                 </div>
               </div>

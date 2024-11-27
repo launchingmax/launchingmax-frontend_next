@@ -1,3 +1,4 @@
+import { Status } from "../constants/general.status";
 import { IdeaStatus } from "../constants/idea.enum";
 import { IAssignee } from "../submodels/assignee";
 import { ITeam } from "../submodels/Team";
@@ -42,7 +43,7 @@ interface BaseIdea {
 export interface IIdea extends BaseIdea {
   userData: BaseIdea; // All user data relating to the idea is here.
 
-  owner: any; //any;//Types.ObjectId;
+  owner: any; //IUser;//Types.ObjectId;
 
   cooperator?: any; //Types.ObjectId;
 

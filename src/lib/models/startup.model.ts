@@ -5,6 +5,7 @@ import { IAssignee } from "../submodels/assignee";
 import { ITeam } from "../submodels/Team";
 import { IBrainStorming, IVisualBranding } from "./all-roadmaps";
 import { IIdea } from "./idea.model";
+import { IUser } from "./user.model";
 
 export interface IPlacement {
   country: String;
@@ -37,7 +38,7 @@ export interface IStartup extends BaseIdea {
 
   idea: IIdea;
 
-  owner: any; //string;
+  owner: IUser | string | any;
 
   business: string;
 
@@ -82,4 +83,6 @@ export interface IStartup extends BaseIdea {
   minStartupValue?: number;
   maxStartupValue?: number;
   investmentFee?: number;
+
+  __v?: number;
 }

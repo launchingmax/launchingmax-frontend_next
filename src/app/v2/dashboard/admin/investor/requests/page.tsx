@@ -7,7 +7,8 @@ const fetchUserData = async () => {
   try {
     const response = await NextFetch(
       `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
-        { path: "owner" },
+        { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
+        ,
       ])}`
     );
     if (response.ok) {
@@ -22,7 +23,19 @@ const fetchUserData = async () => {
 export default async function AdminInvestorsList() {
   const res = await fetchUserData();
 
-  console.log("mm 3030303030303003 ress ", res);
+  res.items = res.items.reduce((pre: any, cur: any) => {
+    const investors = cur.investors?.reduce((p: any, c: any) => {
+      const d = {
+        ...cur,
+        investors: [c],
+      };
+      p.push(d);
+      return p;
+    }, []);
+
+    pre.push(...investors);
+    return pre;
+  }, []);
 
   return (
     <>

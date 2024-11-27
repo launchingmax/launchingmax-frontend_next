@@ -87,9 +87,10 @@ export interface IUser {
 
   orderInOurTeam?: number;
 
-  createdAt: Date;
+  createdAt?: Date;
 
-  updatedAt: Date;
+  updatedAt?: Date;
+  __v?: number;
 }
 
 export interface IUserResponse {
