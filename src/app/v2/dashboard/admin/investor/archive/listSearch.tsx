@@ -13,7 +13,7 @@ import ArchiveItem from "./archiveItem";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
 import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 import _ from "lodash";
-import { SonnerToasterWrapper } from "@/components/molecules/SonnerToasterWrapper";
+import { SonnerToasterWrapper, SonnerType } from "@/components/molecules/SonnerToasterWrapper";
 
 interface IProps {
   initialData: IPagination<IStartup>;
@@ -27,7 +27,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const [shouldFetch, setShouldFetch] = useState(false); // Initially disabled
-
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedStartup, setSelectedStartup] = useState<IStartup>();
   const [openRestoreDialog, setOpenRestoreDialog] = useState<boolean>(false);
   const [requestsData, setRequestsData] = useState<IPagination<IStartup>>(initialData);
@@ -38,7 +38,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const queryClient = useQueryClient();
 
   // Fetch data
-  const { data, isLoading, isError } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["archiveData", filters, pagination.pageIndex],
     queryFn: async () => {
       const response = await NextFetch(
@@ -62,6 +62,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
           }, []);
 
           pre.push(...investors);
+          setIsLoading(false);
           return pre;
         }, []);
 
@@ -73,7 +74,6 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   useEffect(() => {
-    console.log("mm890 - data changed !!!!     ", data);
     data ? setRequestsData(data) : setRequestsData(initialData);
   }, [data]);
 
@@ -105,13 +105,13 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
           const data = await response.json();
           if (data.acknowledged && data.modifiedCount > 0) {
             SonnerToasterWrapper("successful!", {
-              type: "error",
+              type: SonnerType.success,
               description: "The request was restored successfully.",
             });
             setShouldFetch(true);
           } else {
             SonnerToasterWrapper("error!", {
-              type: "error",
+              type: SonnerType.error,
               description: "The request was not restored successfully.",
             });
           }
@@ -128,6 +128,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const handleAcceptOrRejectSubmit = async () => {
+    setIsLoading(true);
     mutation.mutate();
   };
 

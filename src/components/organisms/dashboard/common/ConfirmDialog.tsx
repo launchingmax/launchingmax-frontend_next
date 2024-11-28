@@ -38,6 +38,7 @@ const ConfirmDialog: React.FC<IProps> = ({
   setOpen,
   dialogTrigger,
   BodyContent,
+  loading,
 }) => {
   return (
     <MyDialog
@@ -85,12 +86,12 @@ const ConfirmDialog: React.FC<IProps> = ({
               <button
                 className={`w-full border-b-2 h-[2.6875rem] ${
                   type == ConfirmDialogType.default
-                    ? "border-launchingBlue-5 dark:border-launchingBlue-4 text-launchingBlue-7 dark:text-fg-white"
+                    ? "border-launchingBlue-5 dark:border-launchingBlue-4 text-launchingBlue-7 dark:text-fg-white hover:border-launchingBlue-6 hover:dark:border-launchingBlue-5 hover:text-launchingBlue-6 hover:dark:text-launchingBlue-1"
                     : type == ConfirmDialogType.successResult
-                    ? "border-teal-5 text-teal-7"
+                    ? "border-teal-5 text-teal-7 hover:border-teal-6 hover:text-teal-6"
                     : type == ConfirmDialogType.success
-                    ? "border-teal-6 text-teal-7 dark:border-teal-05 dark:text-teal-05"
-                    : "border-salmon-5 text-salmon-7 dark:border-salmon-05 dark:text-fg-white"
+                    ? "border-teal-6 text-teal-7 dark:border-teal-05 dark:text-teal-05 hover:border-teal-5 hover:text-teal-6 hover:dark:border-teal-3 hover:dark:text-teal-1"
+                    : "border-salmon-5 text-salmon-7 dark:border-salmon-05 dark:text-fg-white hover:border-salmon-6 hover:text-salmon-8 hover:dark:border-salmon-4 hover:dark:text-salmon-4"
                 }`}
                 onClick={cancelButtonRender}
               >
@@ -101,14 +102,15 @@ const ConfirmDialog: React.FC<IProps> = ({
               <Button
                 className={`w-full h-[2.6875rem] rounded-md text-fg-white ${
                   type == ConfirmDialogType.default
-                    ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
+                    ? "bg-launchingBlue-5 dark:bg-launchingBlue-4 hover:bg-launchingBlue-6 dark:hover:bg-launchingBlue-5"
                     : type == ConfirmDialogType.successResult
-                    ? "bg-teal-5"
+                    ? "bg-teal-5 hover:bg-teal-6"
                     : type == ConfirmDialogType.success
-                    ? "bg-teal-6"
-                    : "bg-salmon-5 dark:bg-salmon-6 "
+                    ? "bg-teal-6 hover:bg-teal-5"
+                    : "bg-salmon-5 dark:bg-salmon-6 hover:bg-salmon-6 dark:hover:bg-salmon-5"
                 }`}
                 onClick={actionButtonRender}
+                loading={loading}
               >
                 {actionButtonTitle}
               </Button>

@@ -1,8 +1,14 @@
 import { Toaster as SonnerToaster, toast as baseToast } from "sonner";
 import "./style.css";
 
+export enum SonnerType {
+  success = "success",
+  error = "error",
+  warning = "warning",
+  info = "info",
+}
 interface ToastOptions {
-  type?: "success" | "error" | "warning" | "info"; // Add types
+  type?: SonnerType;
   description?: string; // Add description
   action?: {
     label: string;

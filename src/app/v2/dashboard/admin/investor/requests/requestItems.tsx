@@ -1,10 +1,7 @@
 import TooltipWrapper from "@/components/molecules/TooltipWrapper";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import { IStartup } from "@/lib/models/startup.model";
-import { IUser } from "@/lib/models/user.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { isEmpty } from "lodash-es";
-import Image from "next/image";
 
 interface IPorps {
   data: IStartup[];
@@ -22,7 +19,6 @@ const RequestItems: React.FC<IPorps> = ({
   setOpenAcceptDialog,
   setAcceptRejectType,
 }) => {
-  console.log("mm-4567 ---  dataaaa   ", data);
   return (
     <div className="w-full">
       {data?.map((item: IStartup, index: number) => {
@@ -59,7 +55,7 @@ const RequestItems: React.FC<IPorps> = ({
                   title="Detail"
                   tooltipTrigger={
                     <div
-                      className="h-12 w-1/3 xl:min-w-12 bg-launchingBlue-05 dark:bg-launchingBlue-5 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      className="h-12 w-1/3 xl:min-w-12 group bg-launchingBlue-05 dark:bg-launchingBlue-5 hover:bg-launchingBlue-1 hover:dark:bg-launchingBlue-4 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
                         setSelectedRow(item);
                         setOpenInfoDialog(true);
@@ -67,7 +63,7 @@ const RequestItems: React.FC<IPorps> = ({
                     >
                       <Icon
                         icon="solar:info-square-bold-duotone"
-                        className="text-launchingBlue-5 dark:text-launchingBlue-05 text-2xl"
+                        className="text-launchingBlue-5 dark:text-launchingBlue-05 group-hover:text-launchingBlue-7 group-hover:dark:text-launchingBlue-1 text-2xl"
                       />
                     </div>
                   }
@@ -77,14 +73,17 @@ const RequestItems: React.FC<IPorps> = ({
                   title="Reject"
                   tooltipTrigger={
                     <div
-                      className="h-12 w-1/3 xl:min-w-12 bg-salmon-05 dark:bg-salmon-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      className="h-12 w-1/3 xl:min-w-12 group bg-salmon-05 dark:bg-salmon-7 hover:bg-salmon-1 hover:dark:bg-salmon-6 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
                         setSelectedRow(item);
                         setOpenRejectDialog(true);
                         setAcceptRejectType(RequestStatus.Rejected);
                       }}
                     >
-                      <Icon icon="entypo:squared-cross" className="text-salmon-6 dark:text-salmon-05 text-2xl" />
+                      <Icon
+                        icon="entypo:squared-cross"
+                        className="text-salmon-6 dark:text-salmon-05 group-hover:text-salmon-7 group-hover:dark:text-salmon-1 text-2xl"
+                      />
                     </div>
                   }
                 />
@@ -93,14 +92,17 @@ const RequestItems: React.FC<IPorps> = ({
                   title="Accept"
                   tooltipTrigger={
                     <div
-                      className="h-12 w-1/3 xl:min-w-12 bg-teal-05 dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      className="h-12 w-1/3 xl:min-w-12 group bg-teal-05 dark:bg-teal-7 hover:bg-teal-1 hover:dark:bg-teal-6 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
                         setSelectedRow(item);
                         setOpenAcceptDialog(true);
                         setAcceptRejectType(RequestStatus.Accepted);
                       }}
                     >
-                      <Icon icon="solar:check-square-bold-duotone" className="text-teal-6 dark:text-teal-05 text-2xl" />
+                      <Icon
+                        icon="solar:check-square-bold-duotone"
+                        className="text-teal-6 dark:text-teal-05 group-hover:text-teal-7 group-hover:dark:text-teal-1 text-2xl"
+                      />
                     </div>
                   }
                 />

@@ -50,10 +50,10 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
               <div className="grid grid-cols-10 gap-2 w-full rounded-md max-h-full lg:h-12 bg-[#F9F5F9] dark:bg-mauve-6  pl-1 pt-1 lg:pt-0">
                 <div className="lg:col-span-3 col-span-10 flex justify-start items-center gap-x-2 w-full overflow-hidden">
                   <div className="min-w-10 h-10  rounded-md bg-white dark:bg-launchingBlue-6">
-                    {item?.avatar && (
+                    {(item?.avatar?.includes("lh3.googleusercontent.com") || item?.avatar?.includes("profiles")) && (
                       <Image
                         src={`${
-                          item.avatar.includes("lh3.googleusercontent.com")
+                          item?.avatar.includes("lh3.googleusercontent.com")
                             ? `${item.avatar}`
                             : `${process.env.NEXT_PUBLIC_ALL_API}${item.avatar}`
                         }`}

@@ -2,41 +2,38 @@
 
 import SectionTitle from "@/components/organisms/dashboard/common/sectionTitle";
 import { Separator } from "@/components/ui/separator";
-import { ISupportiveCenter } from "@/lib/models/supportive-center.model";
-
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
-
-import moment from "moment";
 import { IStartup } from "@/lib/models/startup.model";
 import TooltipWrapper from "@/components/molecules/TooltipWrapper";
-import { number } from "zod";
 import { formatNumberWithCommas } from "@/lib/utils";
 
 interface IProps {
   data?: IStartup;
 }
 const RequestDetail: React.FC<IProps> = ({ data }) => {
-  console.log(" mm 999999999999999999   ", data);
   return (
     <div className="w-[90vw] md:w-[45.5rem] ">
       <SectionTitle title={data?.investors?.[0]?.user?.firstName} />
 
       <div className="space-y-6 overflow-y-auto lg:w-full h-max md:px-8 px-4 pb-4">
         <div className="flex flex-col md:flex-row md:space-x-6 ">
-          {data?.investors?.map((item: any) => (
-            <Image
-              src={`${
-                item?.user?.avatar.includes("lh3.googleusercontent.com")
-                  ? `${item?.user?.avatar}`
-                  : `${process.env.NEXT_PUBLIC_ALL_API}${item?.user?.avatar}`
-              }`}
-              alt="Company Logo"
-              width={200}
-              height={200}
-              className="w-[6.625rem] h-[6.625rem] rounded-md"
-            />
-          ))}
+          {data?.investors?.map((item: any) => {
+            if (item?.user?.avatar?.includes("lh3.googleusercontent.com") || item?.user?.avatar?.includes("profi"))
+              return (
+                <Image
+                  src={`${
+                    item?.user?.avatar?.includes("lh3.googleusercontent.com")
+                      ? `${item?.user?.avatar}`
+                      : `${process.env.NEXT_PUBLIC_ALL_API}${item?.user?.avatar}`
+                  }`}
+                  alt="profile"
+                  height={200}
+                  width={200}
+                  className="w-[6.625rem] h-[6.625rem] rounded-md"
+                />
+              );
+          })}
 
           {/* <div className="flex flex-col space-y-2">
             <h2 className="text-text-xl font-bold leading-7 text-launchingGray-8 dark:text-fg-white">About</h2>

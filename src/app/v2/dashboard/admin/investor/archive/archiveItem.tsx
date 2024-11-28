@@ -1,9 +1,6 @@
 import TooltipWrapper from "@/components/molecules/TooltipWrapper";
 import { IStartup } from "@/lib/models/startup.model";
-import { IUser } from "@/lib/models/user.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { isEmpty } from "lodash-es";
-import Image from "next/image";
 
 interface IPorps {
   data: IStartup[];
@@ -11,7 +8,6 @@ interface IPorps {
   setOpenRestoreDialog: (open: boolean) => void;
 }
 const ArchiveItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenRestoreDialog }) => {
-  console.log("mm-4567 ---  dataaaa   ", data);
   return (
     <div className="w-full">
       {data?.map((item: IStartup, index: number) => {
@@ -43,18 +39,21 @@ const ArchiveItem: React.FC<IPorps> = ({ data, setSelectedRow, setOpenRestoreDia
                 </div>
               </div>
 
-              <div className="flex flex-row max-w-full gap-1 xl:gap-2">
+              <div className="flex flex-row max-w-full gap-1 xl:gap-2 group">
                 <TooltipWrapper
                   title="Restore"
                   tooltipTrigger={
                     <div
-                      className="h-12 w-full xl:min-w-12 bg-teal-05 dark:bg-teal-8 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      className="h-12 w-full xl:min-w-12 bg-teal-05 dark:bg-teal-8 group-hover:bg-teal-1 group-hover:dark:bg-teal-7 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
                         setSelectedRow(item);
                         setOpenRestoreDialog(true);
                       }}
                     >
-                      <Icon icon="ic:baseline-restore-from-trash" className="text-teal-6 dark:text-teal-05 text-2xl" />
+                      <Icon
+                        icon="ic:baseline-restore-from-trash"
+                        className="text-teal-6 dark:text-teal-05 group-hover:text-teal-7 group-hover:dark:text-teal-1 text-2xl"
+                      />
                     </div>
                   }
                 />

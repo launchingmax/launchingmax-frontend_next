@@ -2,7 +2,7 @@
 
 import Search from "@/components/organisms/dashboard/common/search";
 import DashSection from "@/components/organisms/dashboard/DashSection";
-import { IUser } from "@/lib/models/user.model";
+
 import { IPagination } from "@/lib/types/types";
 import { useEffect, useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
@@ -12,11 +12,12 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import MyDialog from "@/components/molecules/MyDialog";
 import RequestItems from "./requestItems";
 import { IStartup } from "@/lib/models/startup.model";
-import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
+import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 import RequestDetail from "./requestDetail";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import _ from "lodash";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { SonnerToasterWrapper, SonnerType } from "@/components/molecules/SonnerToasterWrapper";
 
 interface IProps {
   initialData: IPagination<IStartup>;
@@ -30,6 +31,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const [shouldFetch, setShouldFetch] = useState(false); // Initially disabled
+  const [isLoading, setIsLoading] = useState(false);
 
   const [openInfoDialog, setOpenInfoDialog] = useState<boolean>(false);
   const [selectedStartup, setSelectedStartup] = useState<IStartup>();
@@ -44,7 +46,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const queryClient = useQueryClient();
 
   // Fetch data
-  const { data, isLoading, isError } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["requestsData", filters, pagination.pageIndex],
     queryFn: async () => {
       const response = await NextFetch(
@@ -68,6 +70,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
           }, []);
 
           pre.push(...investors);
+          setIsLoading(false);
           return pre;
         }, []);
 
@@ -79,7 +82,6 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   useEffect(() => {
-    console.log("mm890 - data changed !!!!     ", data);
     data ? setRequestsData(data) : setRequestsData(initialData);
   }, [data]);
 
@@ -103,15 +105,28 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         status: acceptRejectType,
       };
       try {
-        console.log("mm 000 -- - - -    ", body);
-        console.log("mm 000 -- - - -    ", selectedStartup);
         const response = await NextFetch(`/v1/startup/${selectedStartup?._id}/investor-request/${userId}`, {
           method: "PUT",
           body: JSON.stringify(body),
         });
         if (response.ok) {
           const data = await response.json();
-          data.acknowledged && data.modifiedCount > 0 && setShouldFetch(true);
+          if (data.acknowledged && data.modifiedCount > 0) {
+            SonnerToasterWrapper("successful!", {
+              type: SonnerType.success,
+              description: `The request was ${
+                acceptRejectType == RequestStatus.Accepted ? "accepted" : "rejected"
+              } successfully.`,
+            });
+            setShouldFetch(true);
+          } else {
+            SonnerToasterWrapper("error!", {
+              type: SonnerType.error,
+              description: `The request was not ${
+                acceptRejectType == RequestStatus.Accepted ? "accepted" : "rejected"
+              } successfully.`,
+            });
+          }
           return data;
         }
       } catch (error) {
@@ -126,6 +141,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   const handleAcceptOrRejectSubmit = async () => {
+    setIsLoading(true);
     mutation.mutate();
   };
 
@@ -174,7 +190,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<RequestDetail data={selectedStartup} />} />
 
       <ConfirmDialog
-        type="success"
+        type={ConfirmDialogType.success}
         open={openAcceptDialog}
         setOpen={setOpenAcceptDialog}
         title="Are you sure you want to accept this request?"
@@ -182,10 +198,11 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         cancelButtonRender={() => setOpenAcceptDialog(false)}
         actionButtonTitle="Accept Request"
         cancelButtonTitle="Cancel"
+        loading={isLoading}
       />
 
       <ConfirmDialog
-        type="error"
+        type={ConfirmDialogType.error}
         open={openRejectDialog}
         setOpen={setOpenRejectDialog}
         title="Are you sure you want to reject this request?"
@@ -193,6 +210,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         cancelButtonRender={() => setOpenRejectDialog(false)}
         actionButtonTitle="Reject Request"
         cancelButtonTitle="Cancel"
+        loading={isLoading}
       />
     </div>
   );
