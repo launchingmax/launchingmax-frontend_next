@@ -1,6 +1,6 @@
 "use client";
 
-import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
+import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { useGlobal } from "@/contexts/GlobalLayout";
@@ -93,7 +93,7 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
             </Button>
           }
           title="Are you sure you want to send request?"
-          type="error"
+          type={ConfirmDialogType.error}
           cancelButtonRender={() => setDialogOpen(false)}
           actionButtonRender={sendRequest}
         />

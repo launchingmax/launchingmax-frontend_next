@@ -1,20 +1,28 @@
 import MyDialog from "@/components/molecules/MyDialog";
 import { Button } from "@/components/ui/button";
+import { RequestStatus } from "@/lib/constants/request.enum";
 import { Dispatch, SetStateAction } from "react";
 
+export enum ConfirmDialogType {
+  success = "success",
+  default = "default",
+  error = "error",
+  successResult = "successResult",
+}
 interface IProps {
   title?: string;
   desc?: string;
   note?: string;
   actionButtonRender?: (value?: any) => void;
   cancelButtonRender?: (value?: any) => void;
-  type?: "successResult" | "error" | "default" | "success";
+  type?: ConfirmDialogType;
   cancelButtonTitle?: string;
   actionButtonTitle?: string;
   open: boolean;
   setOpen?: Dispatch<SetStateAction<boolean>>;
   dialogTrigger?: React.ReactNode;
   BodyContent?: React.ReactNode;
+  loading?: boolean;
 }
 
 const ConfirmDialog: React.FC<IProps> = ({
@@ -23,7 +31,7 @@ const ConfirmDialog: React.FC<IProps> = ({
   note,
   actionButtonRender,
   cancelButtonRender,
-  type = "default",
+  type = ConfirmDialogType.default,
   cancelButtonTitle = "Cancel",
   actionButtonTitle = "Yes",
   open = false,
@@ -35,7 +43,7 @@ const ConfirmDialog: React.FC<IProps> = ({
     <MyDialog
       open={open}
       setOpen={setOpen}
-      className={{ dialogContent: `${type == "successResult" ? "bg-teal-05 dark:bg-teal-05" : ""}` }}
+      className={{ dialogContent: `${type == ConfirmDialogType.successResult ? "bg-teal-05 dark:bg-teal-05" : ""}` }}
       dialogTrigger={dialogTrigger}
       body={
         <div className="w-full h-max flex flex-col px-4 pt-4">
@@ -44,11 +52,11 @@ const ConfirmDialog: React.FC<IProps> = ({
             <div
               className={`flex min-w-1.5 min-h-max rounded-lg 
             ${
-              type == "default"
+              type == ConfirmDialogType.default
                 ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
-                : type == "successResult"
+                : type == ConfirmDialogType.successResult
                 ? "bg-teal-5 dark:bg-teal-5"
-                : type == "success"
+                : type == ConfirmDialogType.success
                 ? "bg-teal-6"
                 : "bg-salmon-5 dark:bg-salmon-6"
             }
@@ -56,7 +64,7 @@ const ConfirmDialog: React.FC<IProps> = ({
             ></div>
             <div
               className={`flex flex-col ${
-                type == "successResult" ? "text-teal-7" : "text-launchingBlue-8.5 dark:text-fg-white"
+                type == ConfirmDialogType.successResult ? "text-teal-7" : "text-launchingBlue-8.5 dark:text-fg-white"
               }`}
             >
               <h2 className={`text-display-xs leading-8`}>{title}</h2>
@@ -75,12 +83,12 @@ const ConfirmDialog: React.FC<IProps> = ({
           <div className="w-full flex flex-row justify-center space-x-[0.625rem]">
             {cancelButtonRender && (
               <button
-                className={`w-1/2 border-b-2 h-[2.6875rem] ${
-                  type == "default"
+                className={`w-full border-b-2 h-[2.6875rem] ${
+                  type == ConfirmDialogType.default
                     ? "border-launchingBlue-5 dark:border-launchingBlue-4 text-launchingBlue-7 dark:text-fg-white"
-                    : type == "successResult"
+                    : type == ConfirmDialogType.successResult
                     ? "border-teal-5 text-teal-7"
-                    : type == "success"
+                    : type == ConfirmDialogType.success
                     ? "border-teal-6 text-teal-7 dark:border-teal-05 dark:text-teal-05"
                     : "border-salmon-5 text-salmon-7 dark:border-salmon-05 dark:text-fg-white"
                 }`}
@@ -90,20 +98,20 @@ const ConfirmDialog: React.FC<IProps> = ({
               </button>
             )}
             {actionButtonRender && (
-              <button
-                className={`w-1/2 h-[2.6875rem] rounded-md text-fg-white ${
-                  type == "default"
+              <Button
+                className={`w-full h-[2.6875rem] rounded-md text-fg-white ${
+                  type == ConfirmDialogType.default
                     ? "bg-launchingBlue-5 dark:bg-launchingBlue-4"
-                    : type == "successResult"
+                    : type == ConfirmDialogType.successResult
                     ? "bg-teal-5"
-                    : type == "success"
+                    : type == ConfirmDialogType.success
                     ? "bg-teal-6"
                     : "bg-salmon-5 dark:bg-salmon-6 "
                 }`}
                 onClick={actionButtonRender}
               >
                 {actionButtonTitle}
-              </button>
+              </Button>
             )}
           </div>
         </div>

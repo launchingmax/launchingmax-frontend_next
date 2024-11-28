@@ -1,0 +1,19 @@
+.toast-success {
+  @apply bg-teal-05 text-teal-6;
+}
+
+.toast-error {
+  @apply bg-salmon-1 text-salmon-7;
+}
+
+.toast-warning {
+  @apply bg-yellow-500;
+}
+
+.toast-info {
+  @apply bg-blue-500;
+}
+
+.toast-default {
+  @apply bg-gray-800;
+}

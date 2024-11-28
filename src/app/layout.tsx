@@ -11,6 +11,7 @@ import { dir } from "i18next";
 import { Lato } from "next/font/google";
 import { cookies } from "next/headers";
 import { Providers } from "./providers";
+import { CustomSonnerToaster } from "@/components/molecules/SonnerToasterWrapper";
 // import { Provider } from "react-redux";
 // import store from "@/store/store";
 
@@ -40,7 +41,7 @@ export default function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
               {children}
               <Toaster />
-              <SoonerToaster />
+              <CustomSonnerToaster />
             </ThemeProvider>
           </Providers>
         </GlobalLayout>

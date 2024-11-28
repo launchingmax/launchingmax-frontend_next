@@ -11,8 +11,9 @@ import { PaginationState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import ArchiveItem from "./archiveItem";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
-import ConfirmDialog from "@/components/organisms/dashboard/common/ConfirmDialog";
+import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 import _ from "lodash";
+import { SonnerToasterWrapper } from "@/components/molecules/SonnerToasterWrapper";
 
 interface IProps {
   initialData: IPagination<IStartup>;
@@ -96,15 +97,24 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         status: RequestStatus.Requested,
       };
       try {
-        console.log("mm 000 -- - - -    ", body);
-        console.log("mm 000 -- - - -    ", selectedStartup);
         const response = await NextFetch(`/v1/startup/${selectedStartup?._id}/investor-request/${userId}`, {
           method: "PUT",
           body: JSON.stringify(body),
         });
         if (response.ok) {
           const data = await response.json();
-          data.acknowledged && data.modifiedCount > 0 && setShouldFetch(true);
+          if (data.acknowledged && data.modifiedCount > 0) {
+            SonnerToasterWrapper("successful!", {
+              type: "error",
+              description: "The request was restored successfully.",
+            });
+            setShouldFetch(true);
+          } else {
+            SonnerToasterWrapper("error!", {
+              type: "error",
+              description: "The request was not restored successfully.",
+            });
+          }
           return data;
         }
       } catch (error) {
@@ -155,7 +165,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       )}
 
       <ConfirmDialog
-        type="success"
+        type={ConfirmDialogType.default}
         open={openRestoreDialog}
         setOpen={setOpenRestoreDialog}
         title="Are you sure you want to restore this request?"
@@ -163,6 +173,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         cancelButtonRender={() => setOpenRestoreDialog(false)}
         actionButtonTitle="Restore Request"
         cancelButtonTitle="Cancel"
+        loading={isLoading}
       />
     </div>
   );

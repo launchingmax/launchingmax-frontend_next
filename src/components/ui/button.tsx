@@ -84,7 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
 
     return (
-      <div className="h-full w-max">
+      <div className="h-full w-full">
         <Comp
           className={`${cn(buttonVariants({ variant, size, className }))}`}
           style={variant === "primary" || "destructivePrimary" ? primaryDestructiveStyle : {}}
