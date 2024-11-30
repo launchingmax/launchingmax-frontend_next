@@ -24,7 +24,6 @@ const StartupSearch = () => {
   const [activeTab, setActiveTab] = useState("");
   const [tabs, setTabs] = useState<string[]>(["All Industries"]);
   const [filters, setFilters] = useState<Record<string, unknown>>({ status: "startup" });
-  const { setIsLoading, isLoading } = useGlobal();
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
 
   const menuItems = {
@@ -95,7 +94,7 @@ const StartupSearch = () => {
 
     console.log("query", query);
     try {
-      const response = await NextFetch(`v1/startup/search`, { method: "POST", body: query as any });
+      const response = await NextFetch(`v1/startup/search?status=startup`, { method: "POST", body: query as any });
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
         return data;
@@ -104,13 +103,11 @@ const StartupSearch = () => {
   };
 
   useEffect(() => {
-    if (isLoading) return;
     (async () => {
       filters?.industries && setActiveTab(filters?.industries as string);
-      setIsLoading(true);
       const data = await fetchData(filters);
+      console.log("mm 300 - -    ", data);
       setFilteredStartUp(data);
-      setIsLoading(false);
     })();
   }, [filters, activeSortItems]);
 
@@ -153,14 +150,16 @@ const StartupSearch = () => {
         searchInputName="brainStorming.title"
       />
 
-      <div className="w-full flex flex-wrap  justify-center 2xl:px-8">
-        {filteredStartup?.items?.map((item: IStartup) => (
-          <div className="w-[100%] xl:w-[45%] m-3">
-            <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
-              <StartupCard key={item._id} startup={item} />
-            </Link>
-          </div>
-        ))}
+      <div className="w-full flex justify-center 2xl:px-8 ">
+        <div className="w-full grid grid-cols-2 gap-6">
+          {filteredStartup?.items?.map((item: IStartup) => (
+            <div className="w-[100%] ">
+              <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
+                <StartupCard key={item._id} startup={item} />
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

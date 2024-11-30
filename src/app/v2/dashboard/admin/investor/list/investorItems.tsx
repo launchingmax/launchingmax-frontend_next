@@ -98,7 +98,7 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
                   title="Detail"
                   tooltipTrigger={
                     <div
-                      className="h-12 w-1/3 xl:min-w-12 bg-mauve-05 dark:bg-mauve-5 rounded-md flex justify-center items-center hover:cursor-pointer"
+                      className="h-12 w-1/3 xl:min-w-12 group bg-mauve-05 dark:bg-mauve-5 hover:bg-mauve-1 hover:dark:bg-mauve-4 rounded-md flex justify-center items-center hover:cursor-pointer"
                       onClick={() => {
                         setSelectedRow(item);
                         setOpenDialog(true);
@@ -106,7 +106,7 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
                     >
                       <Icon
                         icon="solar:info-square-bold-duotone"
-                        className="text-mauve-5 dark:text-mauve-05 text-2xl"
+                        className="text-mauve-5 dark:text-mauve-05 group-hover:text-mauve-6 group-hover:dark:text-mauve-1 text-2xl"
                       />
                     </div>
                   }

@@ -1,8 +1,8 @@
 import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
-import { UserType } from "@/lib/constants/user.const";
 import ListSearch from "./listSearch";
-import { reduceItems } from "./helper";
+import { Suspense } from "react";
+import Loading from "@/components/molecules/LoadingLayout";
 
 const fetchRequestData = async () => {
   try {

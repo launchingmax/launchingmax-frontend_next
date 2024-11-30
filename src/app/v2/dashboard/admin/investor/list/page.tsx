@@ -1,6 +1,8 @@
 import { NextFetch } from "@/configs/api/next-fetch";
 import { UserType } from "@/lib/constants/user.const";
 import ListSearch from "./listSearch";
+import { Suspense } from "react";
+import Loading from "@/components/molecules/LoadingLayout";
 
 const fetchUserData = async () => {
   try {
@@ -28,7 +30,9 @@ export default async function AdminInvestorsList() {
 
   return (
     <>
-      <ListSearch initialData={res} />
+      <Suspense fallback={<Loading />}>
+        <ListSearch initialData={res} />
+      </Suspense>
     </>
   );
 }

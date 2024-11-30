@@ -1,6 +1,8 @@
 import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import ListSearch from "./listSearch";
+import { Suspense } from "react";
+import Loading from "@/components/molecules/LoadingLayout";
 
 const fetchArchiveData = async () => {
   try {
@@ -37,7 +39,9 @@ export default async function AdminInvestorsArchiveList() {
 
   return (
     <>
-      <ListSearch initialData={res} />
+      <Suspense fallback={<Loading />}>
+        <ListSearch initialData={res} />
+      </Suspense>
     </>
   );
 }

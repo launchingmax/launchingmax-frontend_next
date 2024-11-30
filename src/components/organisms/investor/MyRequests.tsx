@@ -6,7 +6,7 @@ import { IStartup } from "@/lib/models/startup.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ConfirmDialog from "../dashboard/common/ConfirmDialog";
+import ConfirmDialog, { ConfirmDialogType } from "../dashboard/common/ConfirmDialog";
 
 const MyRequests = () => {
   const { userDetail } = useGlobal();
@@ -121,7 +121,7 @@ const MyRequests = () => {
                   open={isDialogOpen}
                   setOpen={setDialogOpen}
                   title="Are you sure you want to cancle this request?"
-                  type="error"
+                  type={ConfirmDialogType.error}
                   cancelButtonRender={() => setDialogOpen(false)}
                   actionButtonRender={() => cancleRequest(item._id)}
                 />
