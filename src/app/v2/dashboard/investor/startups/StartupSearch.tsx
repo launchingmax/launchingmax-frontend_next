@@ -11,6 +11,7 @@ import { useGlobal } from "@/contexts/GlobalLayout";
 import { flattenObject } from "@/lib/utils";
 import { NextFetch } from "@/configs/api/next-fetch";
 import StartupFilter from "./startupFilter";
+import Loading from "@/components/molecules/LoadingLayout";
 
 interface IStartupsParams {
   sort?: { [key: string]: 1 | -1 };
@@ -25,6 +26,7 @@ const StartupSearch = () => {
   const [tabs, setTabs] = useState<string[]>(["All Industries"]);
   const [filters, setFilters] = useState<Record<string, unknown>>({ status: "startup" });
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: 1 });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const menuItems = {
     options: {
@@ -94,9 +96,11 @@ const StartupSearch = () => {
 
     console.log("query", query);
     try {
+      setIsLoading(true);
       const response = await NextFetch(`v1/startup/search?status=startup`, { method: "POST", body: query as any });
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
+        setIsLoading(false);
         return data;
       }
     } catch {}
@@ -151,15 +155,19 @@ const StartupSearch = () => {
       />
 
       <div className="w-full flex justify-center 2xl:px-8 ">
-        <div className="w-full grid grid-cols-2 gap-6">
-          {filteredStartup?.items?.map((item: IStartup) => (
-            <div className="w-[100%] ">
-              <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
-                <StartupCard key={item._id} startup={item} />
-              </Link>
-            </div>
-          ))}
-        </div>
+        {!isLoading ? (
+          <div className="w-full grid grid-cols-2 gap-6">
+            {filteredStartup?.items?.map((item: IStartup) => (
+              <div className="w-[100%] ">
+                <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
+                  <StartupCard key={item._id} startup={item} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
     </div>
   );

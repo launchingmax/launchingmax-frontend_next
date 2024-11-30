@@ -4,6 +4,8 @@ import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboa
 import { Button } from "@/components/ui/button";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { useGlobal } from "@/contexts/GlobalLayout";
+import { RequestStatus } from "@/lib/constants/request.enum";
+import { IUser } from "@/lib/models/user.model";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,7 +13,13 @@ import { useEffect, useState } from "react";
 const RequestButton = ({ investors }: { investors: any[] }) => {
   const { userDetail } = useGlobal();
 
-  const foundItem = investors.length > 0 && investors?.find((item) => item.user === userDetail?._id); // for checking that the user has requested before
+  const foundItem: any =
+    investors.length > 0 &&
+    investors?.find((item) => {
+      console.log("mm500 - -  ", userDetail, item.user, item.user === userDetail?._id);
+
+      return item.user === userDetail?._id;
+    }); // for checking that the user has requested before
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isResultDialogOpen, setResultDialogOpen] = useState(false);
@@ -26,6 +34,7 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
   }>({ open: false });
 
   useEffect(() => {
+    console.log("found item - -    ", foundItem?.status);
     foundItem && setIsRequestSent(true);
   }, [foundItem]);
 
@@ -80,17 +89,19 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
           open={isDialogOpen}
           setOpen={setDialogOpen}
           dialogTrigger={
-            <Button
-              className="group flex py-3 w-[16vw] h-[6vh]  gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88] items-center  text-white font-semibold  transition-all duration-300 "
-              onClick={() => setDialogOpen(true)}
-            >
-              <span className="text-fg-white font-medium text-text-md transition-transform duration-300 transform group-hover:text-sm group-hover:translate-x-6">
-                Send Request
-              </span>
-              <span className="bg-yell text-fg-white transition-transform duration-300 transform group-hover:translate-x-20 group-hover:mr-4">
-                <Icon icon="solar:square-arrow-right-bold" className="text-xl group-hover:text-3xl" />
-              </span>
-            </Button>
+            <div className="flex justify-center ">
+              <Button
+                className="group flex py-3 min-w-[16vw] min-h-[6vh]  gap-x-8 bg-gradient-to-tr from-[#347CBE] to-[#074A88] items-center  text-white font-semibold  transition-all duration-300 "
+                onClick={() => setDialogOpen(true)}
+              >
+                <span className="text-fg-white font-medium text-text-md transition-transform duration-300 transform group-hover:text-sm group-hover:translate-x-6">
+                  Send Request
+                </span>
+                <span className="bg-yell text-fg-white transition-transform duration-300 transform group-hover:translate-x-20 group-hover:mr-4">
+                  <Icon icon="solar:square-arrow-right-bold" className="text-xl group-hover:text-3xl" />
+                </span>
+              </Button>
+            </div>
           }
           title="Are you sure you want to send request?"
           type={ConfirmDialogType.error}
@@ -98,9 +109,14 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
           actionButtonRender={sendRequest}
         />
       ) : (
-        <Button className="flex py-3 w-[16vw] h-[6vh] bg-launchingGray-6 text-fg-white" disabled>
-          You have requested
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            className="flex py-3 min-w-[16vw] min-h-[6vh] bg-launchingGray-6 text-fg-white !cursor-not-allowed"
+            disabled
+          >
+            {foundItem?.status == RequestStatus.Rejected ? "Your request has been rejected" : "You have requested"}
+          </Button>
+        </div>
       )}
 
       <ConfirmDialog

@@ -22,6 +22,7 @@ import { isNil, omitBy } from "lodash-es";
 import SupportiveCenterCard from "./supportiveCenterCard";
 import ReactPaginate from "react-paginate";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
+import _ from "lodash";
 
 interface IProps {
   initialData?: any; //IPagination<ISupportiveCenter>;
@@ -190,7 +191,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         const strategy: string = row.getValue("strategy");
         return (
           <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
-            {strategy}
+            {_.join(strategy, ", ")}
           </h2>
         );
       },
@@ -202,7 +203,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         const group: string = row.getValue("group");
         return (
           <h2 className="text-launchingGray-6 dark:text-fg-white text-text-sm font-regular leading-[1.1375rem]">
-            {group}
+            {_.join(group, ", ")}
           </h2>
         );
       },

@@ -56,6 +56,8 @@ async function fetchRelatedStartupsData(industry: string) {
 const StartupDetail = async ({ params: { id } }: any) => {
   const res = await fetchStartupData(id);
 
+  console.log("res - -    ", res);
+
   const relatedStartups = await fetchRelatedStartupsData(res.businessPlan.industry);
 
   let tabs: tabs[] = ["Overview", "Team", "Market", "Investment", "Documents"];
@@ -98,7 +100,7 @@ const StartupDetail = async ({ params: { id } }: any) => {
           )}
 
           <section id="Documents">
-            <Documents data={res} />
+            <Documents startup={res} />
           </section>
           {relatedStartups.length > 0 && (
             <>
