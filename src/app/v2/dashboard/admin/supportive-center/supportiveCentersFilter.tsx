@@ -20,10 +20,14 @@ import { NextFetch } from "@/configs/api/next-fetch";
 import { group } from "console";
 import { AppContants } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import Filter from "@/components/organisms/dashboard/common/filter/filter";
+import FilterButtons from "@/components/organisms/dashboard/common/filter/filterButton";
+import FilterTitle from "@/components/organisms/dashboard/common/filter/filterTitle";
+import HorizontalSeparator from "@/components/organisms/dashboard/common/filter/HorizontalSeparator";
 
 interface IProps {
   filterRender?: (param: any) => void;
-  clearFilter?: () => void;
+  clearFilter: () => void;
   initData?: Record<string, unknown>;
 }
 
@@ -74,18 +78,14 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
   }, [selectedCountryID]);
 
   return (
-    <div className="h-max w-[24.9rem] overflow-y-auto">
-      <SectionTitle title="Filters" />
+    <Filter className="w-[24.9rem]">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
           <div className="flex flex-col mt-2 my-auto">
-            <div className="flex flex-row">
-              <h2 className="w-1/2  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
-                Type
-              </h2>
-              <h2 className="w-1/2 flex justify-start  text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
-                Startegy
-              </h2>
+            <div className="flex flex-row justify-around">
+              <FilterTitle title="Type" />
+
+              <FilterTitle title="Strategy" />
             </div>
 
             <Separator
@@ -176,15 +176,10 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
             </div>
           </div>
 
-          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-            Location
-          </h2>
-          <Separator
-            orientation="horizontal"
-            className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-          />
-          <div className="flex flex-col gap-y-2 my-4 px-6">
+          <FilterTitle title="Location" />
+          <HorizontalSeparator />
+
+          <div className="flex flex-col gap-y-2 my-6 px-6">
             <Controller
               name="country"
               control={form.control}
@@ -238,16 +233,10 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
             />
           </div>
 
-          <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-            Industry
-          </h2>
-          <Separator
-            orientation="horizontal"
-            className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-          />
+          <FilterTitle title="Industry" />
+          <HorizontalSeparator />
 
-          <div className="px-6 my-4">
+          <div className="px-6 my-6">
             <Controller
               name="industries"
               control={form.control}
@@ -277,27 +266,10 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
             />
           </div>
 
-          <div className="flex flex-row space-x-2 w-full p-4">
-            <div className="w-1/5">
-              <Button
-                className="w-full p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-                onClick={clearFilter}
-              >
-                Clear
-              </Button>
-            </div>
-            <div className="w-4/5">
-              <Button
-                className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
-                type="submit"
-              >
-                Filter it
-              </Button>
-            </div>
-          </div>
+          <FilterButtons clearRender={clearFilter} />
         </form>
       </FormProvider>
-    </div>
+    </Filter>
   );
 };
 

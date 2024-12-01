@@ -94,23 +94,23 @@ const StartupSearch = () => {
     // }
     const query = JSON.stringify(filters);
 
-    console.log("query", query);
     try {
       setIsLoading(true);
-      const response = await NextFetch(`v1/startup/search?status=startup`, { method: "POST", body: query as any });
+      const response = await NextFetch(`v1/startup/search`, { method: "POST", body: query as any });
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
         setIsLoading(false);
         return data;
       }
-    } catch {}
+    } catch {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     (async () => {
       filters?.industries && setActiveTab(filters?.industries as string);
       const data = await fetchData(filters);
-      console.log("mm 300 - -    ", data);
       setFilteredStartUp(data);
     })();
   }, [filters, activeSortItems]);

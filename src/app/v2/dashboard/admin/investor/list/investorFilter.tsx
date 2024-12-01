@@ -22,10 +22,14 @@ import { AppContants } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { DualRangeSlider } from "@/components/ui/dual-range-sider";
 import { formatNumberWithCommas } from "@/lib/utils";
+import Filter from "@/components/organisms/dashboard/common/filter/filter";
+import FilterButtons from "@/components/organisms/dashboard/common/filter/filterButton";
+import HorizontalSeparator from "@/components/organisms/dashboard/common/filter/HorizontalSeparator";
+import FilterTitle from "@/components/organisms/dashboard/common/filter/filterTitle";
 
 interface IProps {
   filterRender?: (param: any) => void;
-  clearFilter?: () => void;
+  clearFilter: () => void;
   initData?: Record<string, unknown>;
 }
 
@@ -73,21 +77,14 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
   }, [selectedCountryID]);
 
   return (
-    <div className="h-max w-[24.9rem] overflow-y-auto">
-      <SectionTitle title="Filters" />
+    <Filter className="w-[24.9rem]">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
-          <div className="flex flex-col mt-2 my-auto">
-            <h2 className="pb-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Location
-            </h2>
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-            />
+          <div className="flex flex-col">
+            <FilterTitle title="Location" />
+            <HorizontalSeparator />
 
-            <div className="px-6 my-4">
+            <div className="px-6 my-6">
               <Controller
                 name="countries"
                 control={form.control}
@@ -116,16 +113,10 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
               />
             </div>
 
-            <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Investment Range
-            </h2>
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-            />
+            <FilterTitle title="Investment Range" />
+            <HorizontalSeparator />
 
-            <div className="flex flex-col items-center justify-between px-6 my-4">
+            <div className="flex flex-col items-center justify-between px-6 my-6">
               <DualRangeSlider
                 label={(value) => value}
                 value={[
@@ -153,18 +144,12 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
             </div>
 
             <div className="flex flex-row">
-              <h2 className="text-text-md font-medium leading-[0.02rem] text-launchingBlue-5 dark:text-launchingBlue-1.5 px-6 py-4">
-                Investment Term
-              </h2>
+              <FilterTitle title="Investment Term" />
             </div>
 
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-            />
+            <HorizontalSeparator />
 
-            <div className="flex flex-row px-6 ">
+            <div className="flex flex-row px-6 my-4 ">
               <div className="flex justify-between my-2 flex-col">
                 <FormField
                   control={form.control}
@@ -205,27 +190,10 @@ const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData 
             </div>
           </div>
 
-          <div className="flex flex-row space-x-2 w-full p-4">
-            <div className="w-1/5">
-              <Button
-                className="w-full p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-                onClick={clearFilter}
-              >
-                Clear
-              </Button>
-            </div>
-            <div className="w-4/5">
-              <Button
-                className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
-                type="submit"
-              >
-                Filter it
-              </Button>
-            </div>
-          </div>
+          <FilterButtons clearRender={clearFilter} />
         </form>
       </FormProvider>
-    </div>
+    </Filter>
   );
 };
 

@@ -11,10 +11,14 @@ import { fetchCountriesData } from "@/store/slices/countriesSlice";
 import { Button } from "@/components/ui/button";
 import { formatNumberWithCommas } from "@/lib/utils";
 import CustomReactSelect from "@/components/molecules/select/CustomReactSelect";
+import HorizontalSeparator from "@/components/organisms/dashboard/common/filter/HorizontalSeparator";
+import Filter from "@/components/organisms/dashboard/common/filter/filter";
+import FilterButtons from "@/components/organisms/dashboard/common/filter/filterButton";
+import FilterTitle from "@/components/organisms/dashboard/common/filter/filterTitle";
 
 interface IProps {
-  filterRender?: (param: any) => void;
-  clearFilter?: () => void;
+  filterRender: (param: any) => void;
+  clearFilter: () => void;
   initData?: Record<string, unknown>;
 }
 
@@ -56,172 +60,133 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
     countryItems?.length == 0 && dispatch(fetchCountriesData());
   }, []);
 
+  const filterrr = () => {
+    console.log("eeee");
+    form.handleSubmit(filterRender as any);
+  };
+
   return (
-    <div className="h-max w-max overflow-y-auto">
-      <SectionTitle title="Filters" />
-      <h2 className="py-2 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-        Valuation
-      </h2>
-      <Separator
-        orientation="horizontal"
-        className="w-full mb-6 bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
-      />
+    <Filter className="md:w-[24.8rem] sm:w-[70vw] xs:w-[80vw]">
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(filterRender as any)}>
+          <FilterTitle title="Valuation" />
+          <HorizontalSeparator />
 
-      <div className="p-1 space-y-6 overflow-y-auto md:w-[24.8rem] sm:w-[70vw] xs:w-[80vw]">
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(filterRender as any)}>
-            <div className="w-full px-6 my-4">
-              <Slider
-                value={[(form.watch("startupValue") as number) ?? startupValue / 2]}
-                //@ts-ignore
-                onValueChange={(val) => form.setValue("startupValue", val[0])}
-                min={0}
-                max={startupValue}
-                step={500}
-                className="w-full"
-              />
-
-              <div className="flex justify-between w-full mt-3">
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
-                <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md translate-x-8">
-                  ${formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
-                </span>
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
-                  ${formatNumberWithCommas(startupValue)}
-                </span>
-              </div>
-            </div>
-
-            <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Funding Requirement
-            </h2>
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
+          <div className="w-full px-6 my-6">
+            <Slider
+              value={[(form.watch("startupValue") as number) ?? startupValue / 2]}
+              //@ts-ignore
+              onValueChange={(val) => form.setValue("startupValue", val[0])}
+              min={0}
+              max={startupValue}
+              step={500}
+              className="w-full"
             />
 
-            <div className="flex flex-col items-center justify-between px-6 my-4">
-              <DualRangeSlider
-                label={(value) => value}
-                value={[
-                  (form.watch("investmentFee.$gte") as number) ?? minInvestmentFee,
-                  (form.watch("investmentFee.$lte") as number) ?? maxInvestmentFee,
-                ]}
-                onValueChange={(e) => {
-                  // @ts-ignore
-                  form.setValue("investmentFee.$gte", e[0]);
-                  // @ts-ignore
-                  form.setValue("investmentFee.$lte", e[1]);
-                }}
-                min={minInvestmentFee}
-                max={maxInvestmentFee}
-                step={500}
-              />
-              <div className="flex justify-between w-full mt-3">
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
-                <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
-                  ${formatNumberWithCommas(form.watch("investmentFee.$gte") ?? minInvestmentFee)} - $
-                  {formatNumberWithCommas(form.watch("investmentFee.$lte") ?? maxInvestmentFee)}
-                </span>
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
-              </div>
+            <div className="flex justify-between w-full mt-3">
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md translate-x-8">
+                ${formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
+              </span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
+                ${formatNumberWithCommas(startupValue)}
+              </span>
             </div>
+          </div>
 
-            <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Location
-            </h2>
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded"
+          <FilterTitle title="Funding Requirement" />
+          <HorizontalSeparator />
+
+          <div className="flex flex-col items-center justify-between  px-6 my-6">
+            <DualRangeSlider
+              label={(value) => value}
+              value={[
+                (form.watch("investmentFee.$gte") as number) ?? minInvestmentFee,
+                (form.watch("investmentFee.$lte") as number) ?? maxInvestmentFee,
+              ]}
+              onValueChange={(e) => {
+                // @ts-ignore
+                form.setValue("investmentFee.$gte", e[0]);
+                // @ts-ignore
+                form.setValue("investmentFee.$lte", e[1]);
+              }}
+              min={minInvestmentFee}
+              max={maxInvestmentFee}
+              step={500}
             />
-
-            <div className="px-6 my-4">
-              <Controller
-                name="placement.country"
-                control={form.control}
-                render={({ field }) => (
-                  <CustomReactSelect
-                    {...field}
-                    isLoading={countriesLoading}
-                    isClearable
-                    label="Country"
-                    placeholder="Select"
-                    options={countryItems.map((option) => ({
-                      value: option.name,
-                      label: option.name,
-                    }))}
-                    getOptionLabel={(option: any) => option.label}
-                    getOptionValue={(option: any) => option.value}
-                    value={countryItems.find((option) => option === field)}
-                    //value={{ label: field.value, value: field.value }}
-                    onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                  />
-                )}
-              />
+            <div className="flex justify-between w-full mt-3">
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
+              <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
+                ${formatNumberWithCommas(form.watch("investmentFee.$gte") ?? minInvestmentFee)} - $
+                {formatNumberWithCommas(form.watch("investmentFee.$lte") ?? maxInvestmentFee)}
+              </span>
+              <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
             </div>
+          </div>
 
-            <h2 className="py-4 px-6 font-medium text-launchingBlue-5 dark:text-fg-white tracking-wide text-text-md">
-              Industry
-            </h2>
-            <Separator
-              orientation="horizontal"
-              className="w-full bg-gradient-to-r
-       from-launchingBlue-5/100 to-launchingBlue-5/0 dark:from-white dark:to-launchingBlue-8 border-0 rounded mb-6"
+          <FilterTitle title="Location" />
+          <HorizontalSeparator />
+
+          <div className="px-6 my-6">
+            <Controller
+              name="placement.country"
+              control={form.control}
+              render={({ field }) => (
+                <CustomReactSelect
+                  {...field}
+                  isLoading={countriesLoading}
+                  isClearable
+                  label="Country"
+                  placeholder="Select"
+                  options={countryItems.map((option) => ({
+                    value: option.name,
+                    label: option.name,
+                  }))}
+                  getOptionLabel={(option: any) => option.label}
+                  getOptionValue={(option: any) => option.value}
+                  value={countryItems.find((option) => option === field)}
+                  //value={{ label: field.value, value: field.value }}
+                  onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                />
+              )}
             />
+          </div>
 
-            <div className="px-6 my-4">
-              <Controller
-                name="industries"
-                control={form.control}
-                render={({ field }) => (
-                  <CustomReactSelect
-                    {...field}
-                    isLoading={industriesLoading}
-                    isClearable
-                    label="Industry"
-                    placeholder="Select"
-                    options={industryItems.map((option: any) => ({
-                      value: option.name,
-                      label: option.name,
-                    }))}
-                    getOptionLabel={(option: any) => option.label}
-                    getOptionValue={(option: any) => option.value}
-                    value={countryItems.find((option) => option.value === field)}
-                    onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                  />
-                )}
-              />
-            </div>
+          <FilterTitle title="Industry" />
+          <HorizontalSeparator />
 
-            <div className="flex  space-x-2 w-full p-4">
-              <div className="w-1/5">
-                <Button
-                  className="w-full p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-                  onClick={clearFilter}
-                >
-                  Clear
-                </Button>
-              </div>
-              <div className="w-4/5">
-                <Button
-                  className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
-                  type="submit"
-                >
-                  Filter it
-                </Button>
-              </div>
-            </div>
-          </form>
-        </FormProvider>
-      </div>
-    </div>
+          <div className="px-6 my-6">
+            <Controller
+              name="industries"
+              control={form.control}
+              render={({ field }) => (
+                <CustomReactSelect
+                  {...field}
+                  isLoading={industriesLoading}
+                  isClearable
+                  label="Industry"
+                  placeholder="Select"
+                  options={industryItems.map((option: any) => ({
+                    value: option.name,
+                    label: option.name,
+                  }))}
+                  getOptionLabel={(option: any) => option.label}
+                  getOptionValue={(option: any) => option.value}
+                  value={countryItems.find((option) => option.value === field)}
+                  onChange={(selectedOption: any) => field.onChange(selectedOption?.value)}
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                />
+              )}
+            />
+          </div>
+
+          <FilterButtons clearRender={clearFilter} />
+        </form>
+      </FormProvider>
+    </Filter>
   );
 };
 

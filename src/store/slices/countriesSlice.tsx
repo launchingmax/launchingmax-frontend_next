@@ -12,7 +12,7 @@ interface DataState {
 const initialState: DataState = {
   countryItems: [],
   loading: false,
-  error: null,
+  error: "",
 };
 
 // Async thunk to fetch data
