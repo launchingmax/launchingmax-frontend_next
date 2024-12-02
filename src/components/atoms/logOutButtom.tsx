@@ -1,17 +1,13 @@
 "use client";
-import ParseBrowser from "@/configs/parse/parse-browser";
 import { useDialog } from "@/hooks/use-dialogs";
 import { useRedirectQuery } from "@/hooks/use-redirect";
 import { AppContants } from "@/lib/constants";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { deleteCookie } from "cookies-next";
-import { useTranslation } from "react-i18next";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Field } from "./Field";
 import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import MyDialog from "../molecules/MyDialog";
+import { Button } from "../ui/button";
 
 const LogOutButton = () => {
   const [redirect] = useRedirectQuery();
@@ -19,12 +15,7 @@ const LogOutButton = () => {
 
   const { t } = useTranslation("translation");
 
-  const logOut = () => {
-    ParseBrowser.User.logOut().then(() => {
-      redirect("/auth/sign-in");
-      deleteCookie(AppContants.ParseSessionCookieName);
-    });
-  };
+  const logOut = () => {};
 
   const methods = useForm();
 

@@ -3,9 +3,9 @@ export class ILink {
 }
 
 export interface IPagination<T> {
-  items: T[];
-  itemsCount?: number;
-  page?: number;
-  pages?: number;
+  items?: T[];
+  itemsCount: number;
+  page: number;
+  pages: number;
   total: number;
 }

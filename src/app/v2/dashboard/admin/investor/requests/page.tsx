@@ -1,33 +1,26 @@
-import { NextFetch } from "@/configs/api/next-fetch";
+import { ErrorWrapper } from "@/components/atoms/error-wrapper";
+import { runFetch } from "@/configs/api/server-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
+import { IStartup } from "@/lib/models/startup.model";
 import ListSearch from "./listSearch";
-
-const fetchRequestData = async () => {
-  try {
-    const response = await NextFetch(
-      `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
-        { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
-      ])}`
-    );
-    if (response.ok) {
-      const data = response.json();
-      return data;
-    }
-  } catch (error) {
-    console.log("mm 3030303030303003 errr ", error);
-  }
-};
+import { IPagination } from "@/lib/types/types";
 
 export default async function AdminInvestorsRequestList() {
-  const res = await fetchRequestData();
+  const res = await runFetch<IStartup>(
+    `/v1/startup?investors.status=${RequestStatus.Requested}&status=startup&populate=${JSON.stringify([
+      { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
+    ])}`
+  );
 
-  res.items = res?.items.reduce((pre: any, cur: any) => {
+  if (res.error) return <ErrorWrapper {...res.error} />;
+
+  res.data!.items = res.data?.items?.reduce((pre: any, cur: any) => {
     const investors = cur.investors?.reduce((p: any, c: any) => {
       const d = {
         ...cur,
         investors: [c],
       };
-      if (c.status === "requested") p.push(d);
+      if (c.status === RequestStatus.Rejected) p.push(d);
       return p;
     }, []);
 
@@ -37,7 +30,7 @@ export default async function AdminInvestorsRequestList() {
 
   return (
     <>
-      <ListSearch initialData={res} />
+      <ListSearch initialData={res.data} />
     </>
   );
 }

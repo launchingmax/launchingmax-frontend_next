@@ -2,7 +2,6 @@
 import Loading from "@/components/molecules/LoadingWrapper";
 import { NextFetch } from "@/configs/api/next-fetch";
 import i18n from "@/configs/i18next/i18n";
-import "@/configs/parse/parse-browser";
 import { IUser } from "@/lib/models/user.model";
 import { DirectionProvider } from "@radix-ui/react-direction";
 import React, { createContext, Suspense, useContext, useEffect, useState } from "react";

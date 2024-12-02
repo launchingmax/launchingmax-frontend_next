@@ -51,7 +51,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       );
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
-        data.items = data.items.reduce((pre: any, cur: any) => {
+        data.items = data.items?.reduce((pre: any, cur: any) => {
           const investors = cur.investors?.reduce((p: any, c: any) => {
             const d = {
               ...cur,
@@ -153,7 +153,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         useRegex={false}
       />
 
-      {requestsData.items && (
+      {requestsData?.items && (
         <ArchiveItem
           data={requestsData.items}
           setSelectedRow={setSelectedStartup}
@@ -162,7 +162,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       )}
 
       {requestsData && (
-        <MyReactPaginate total={requestsData.total} pagination={pagination} setPagination={setPagination} />
+        <MyReactPaginate total={requestsData?.total} pagination={pagination} setPagination={setPagination} />
       )}
 
       <ConfirmDialog

@@ -198,11 +198,11 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         useRegex={false}
       />
 
-      {usersData && (
+      {usersData?.items && (
         <InvestorItems data={usersData.items} setOpenDialog={setOpenInfoDialog} setSelectedRow={setSelectedRow} />
       )}
 
-      {usersData && <MyReactPaginate total={usersData.total} pagination={pagination} setPagination={setPagination} />}
+      {usersData && <MyReactPaginate total={usersData?.total} pagination={pagination} setPagination={setPagination} />}
 
       {selectedRow && (
         <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<InvestorDetail user={selectedRow} />} />

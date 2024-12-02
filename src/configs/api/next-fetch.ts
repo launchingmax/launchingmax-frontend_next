@@ -23,8 +23,7 @@ export async function NextFetch(url: string, init?: RequestInit) {
   const options = {};
   merge(options, { headers }, init);
 
-  console.log("fetch query .....", url, options);
-  return fetch(getBaseUrl(url), options);
+  return await fetch(getBaseUrl(url), options);
 }
 
 function getBaseUrl(url: string): string {

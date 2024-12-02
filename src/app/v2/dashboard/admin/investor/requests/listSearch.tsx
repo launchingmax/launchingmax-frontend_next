@@ -20,7 +20,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { SonnerToasterWrapper, SonnerType } from "@/components/molecules/SonnerToasterWrapper";
 
 interface IProps {
-  initialData: IPagination<IStartup>;
+  initialData?: IPagination<IStartup> | null;
 }
 
 const ListSearch: React.FC<IProps> = ({ initialData }) => {
@@ -38,7 +38,12 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const [openAcceptDialog, setOpenAcceptDialog] = useState<boolean>(false);
   const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false);
   const [acceptRejectType, setAcceptRejectType] = useState<RequestStatus>();
-  const [requestsData, setRequestsData] = useState<IPagination<IStartup>>(initialData);
+  const [requestsData, setRequestsData] = useState<IPagination<IStartup> | null | undefined>(initialData);
+
+  useEffect(() => {
+    setRequestsData(initialData);
+  }, [initialData]);
+
   const filterRender = (val: any) => {
     setFilters((s) => ({ ...s, ...val, page: 1 }));
     setPagination((s) => ({ ...s, pageIndex: 1 }));
@@ -59,7 +64,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       );
       if (response.ok) {
         const data: IPagination<IStartup> = await response.json();
-        data.items = data.items.reduce((pre: any, cur: any) => {
+        data.items = data?.items?.reduce((pre: any, cur: any) => {
           const investors = cur.investors?.reduce((p: any, c: any) => {
             const d = {
               ...cur,
@@ -82,7 +87,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   });
 
   useEffect(() => {
-    data ? setRequestsData(data) : setRequestsData(initialData);
+    data ? setRequestsData(data) : setRequestsData(initialData!);
   }, [data]);
 
   // filter client side
@@ -94,7 +99,10 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         item?.investors?.[0]?.user?.lastName?.toLowerCase().includes(filters?.inputSearch)
     ) as IStartup[];
 
-    setRequestsData((s) => ({ ...s, items: filters?.inputSearch ? filteredData : data?.items ?? [] }));
+    // setRequestsData((s) =>
+    //   // @ts-ignore no need to check type.
+    //   ({ ...s, items: filters?.inputSearch ? filteredData : data?.items ?? [] })
+    // );
   }, [filters]);
 
   const mutation = useMutation({
@@ -172,7 +180,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         useRegex={false}
       />
 
-      {requestsData.items && (
+      {requestsData?.items && (
         <RequestItems
           data={requestsData.items}
           setOpenInfoDialog={setOpenInfoDialog}
@@ -184,7 +192,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       )}
 
       {requestsData && (
-        <MyReactPaginate total={requestsData.total} pagination={pagination} setPagination={setPagination} />
+        <MyReactPaginate total={requestsData?.total} pagination={pagination} setPagination={setPagination} />
       )}
 
       <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<RequestDetail data={selectedStartup} />} />

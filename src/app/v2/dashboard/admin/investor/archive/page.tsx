@@ -1,8 +1,10 @@
 import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import ListSearch from "./listSearch";
-import { Suspense } from "react";
-import Loading from "@/components/molecules/LoadingLayout";
+import { ErrorWrapper } from "@/components/atoms/error-wrapper";
+import { IPagination } from "@/lib/types/types";
+import { IStartup } from "@/lib/models/startup.model";
+import { runFetch } from "@/configs/api/server-fetch";
 
 const fetchArchiveData = async () => {
   try {
@@ -21,9 +23,15 @@ const fetchArchiveData = async () => {
 };
 
 export default async function AdminInvestorsArchiveList() {
-  const res = await fetchArchiveData();
+  const res = await runFetch<IStartup>(
+    `/v1/startup?status=startup&populate=${JSON.stringify([
+      { path: "investors.user", select: "firstName lastName avatar", populate: { path: "profile" } },
+    ])}`
+  );
 
-  res.items = res.items.reduce((pre: any, cur: any) => {
+  if (res.error) return <ErrorWrapper {...res.error} />;
+
+  res.data!.items = res.data!.items?.reduce((pre: any, cur: any) => {
     const investors = cur.investors?.reduce((p: any, c: any) => {
       const d = {
         ...cur,
@@ -39,9 +47,7 @@ export default async function AdminInvestorsArchiveList() {
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        <ListSearch initialData={res} />
-      </Suspense>
+      <ListSearch initialData={res.data!} />
     </>
   );
 }
