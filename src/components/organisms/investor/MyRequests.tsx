@@ -79,7 +79,10 @@ const MyRequests = () => {
       <div className="w-full  p-6 rounded-lg bg-black/10">
         {data.length > 0 ? (
           data.map((item: IStartup) => (
-            <div className="grid grid-cols-12 w-full bg-white dark:bg-launchingBlue-8 h-max items-center gap-x-2 rounded-md px-4 md:px-2 my-2 py-2 ">
+            <div
+              key={item._id}
+              className="grid grid-cols-12 w-full bg-white dark:bg-launchingBlue-8 h-max items-center gap-x-2 rounded-md px-4 md:px-2 my-2 py-2 "
+            >
               <div className="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 w-full h-14 flex items-center">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_ALL_API}${item?.visualBranding?.logo}`}

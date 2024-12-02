@@ -116,8 +116,11 @@ const StartupDetail = async ({ params: { id } }: any) => {
 
               <div className="w-full flex flex-wrap  justify-center 2xl:px-8 pb-12">
                 {relatedStartups?.items?.map((item: IStartup) => (
-                  <div className="w-[100%] xl:w-[45%] m-3">
-                    <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
+                  <div className="w-[100%] xl:w-[45%] m-3" key={item._id}>
+                    <Link
+                      href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}
+                      key={item._id}
+                    >
                       <StartupCard key={item._id} startup={item} />
                     </Link>
                   </div>

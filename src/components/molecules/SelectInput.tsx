@@ -1,14 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input, InputProps as InputPropsType } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { HorizontalDirection } from "@/lib/constants";
 import { SelectItemType } from "@/lib/types/ui/ui.types";
 import { CgMoon } from "react-icons/cg";
@@ -40,9 +32,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   }, [selectRef]);
 
   const inputPadding = {
-    [selectPosition == HorizontalDirection.LEFT
-      ? "paddingLeft"
-      : "paddingRight"]: selectWidth + selectNodeOffset + "px",
+    [selectPosition == HorizontalDirection.LEFT ? "paddingLeft" : "paddingRight"]:
+      selectWidth + selectNodeOffset + "px",
   };
   // integrate style with client input style.
   return (
@@ -60,7 +51,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
           selectPosition == HorizontalDirection.LEFT ? "left-0" : "right-0"
         }`}
       >
-        <CustomSelect type="InputSelect" />
+        <CustomSelect />
       </div>
     </div>
   );

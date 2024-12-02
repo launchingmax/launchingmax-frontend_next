@@ -22,6 +22,7 @@ const RequestDetail: React.FC<IProps> = ({ data }) => {
             if (item?.user?.avatar?.includes("lh3.googleusercontent.com") || item?.user?.avatar?.includes("profi"))
               return (
                 <Image
+                  key={item.user._id}
                   src={`${
                     item?.user?.avatar?.includes("lh3.googleusercontent.com")
                       ? `${item?.user?.avatar}`

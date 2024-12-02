@@ -24,7 +24,7 @@ const StartupCard: React.FC<IStartupProps> = ({ startup, renderAttr, renderAttrs
       >
         <div className="absolute bottom-[30%] mx-auto left-0 right-0 z-[1] px-20">
           <h6 className=" text-center text-launchingBlack dark:text-white text-text-xl font-bold leading-7 -tracking-tight">
-            "{startup?.brainStorming?.title}"
+            &quot;{startup?.brainStorming?.title}&quot;
           </h6>
 
           {/* <TooltipProvider>

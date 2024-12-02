@@ -67,7 +67,7 @@ export default async function InvestorPage() {
           Attend the Business Connect Summit 2023, a premier networking event for professionals, entrepreneurs, and
           executives. Gain insights from industry leaders, participate in panel discussions, and explore cutting-edge
           innovations. Network with like-minded individuals, discover potential collaborators and attend hands-on
-          workshops. Don't miss this chance to thrive in the world of business!
+          workshops. Don&apos;t miss this chance to thrive in the world of business!
         </p>
       </DashSection>
 
@@ -83,7 +83,10 @@ export default async function InvestorPage() {
           {res?.items?.map((item: IStartup) => {
             if (item.isTop)
               return (
-                <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
+                <Link
+                  href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}
+                  key={item._id}
+                >
                   <StartupCard key={item._id} startup={item} />
                 </Link>
               );

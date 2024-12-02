@@ -42,7 +42,7 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
 
       {data?.map((item: IUser, index: number) => {
         return (
-          <div className="flex gap-1 xl:gap-2 my-2 w-full">
+          <div className="flex gap-1 xl:gap-2 my-2 w-full" key={item._id}>
             <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-[#F9F5F9] dark:bg-mauve-6 rounded-md flex justify-center items-center text-text-md font-regular text-launchingGray-8 dark:text-fg-white leading-5">
               {index + 1}
             </div>
@@ -71,7 +71,11 @@ const InvestorItems: React.FC<IPorps> = ({ data, setSelectedRow, setOpenDialog }
                 </div>
                 <div className="lg:col-span-2 col-span-5 flex justify-center items-center gap-1 lg:p-0 px-3 py-[0.625rem]">
                   {["iran", "canada"].map((item: string) => (
-                    <Icon icon={`twemoji:flag-${item.toLowerCase().replaceAll(" ", "-")}`} className="h-4 w-4" />
+                    <Icon
+                      icon={`twemoji:flag-${item.toLowerCase().replaceAll(" ", "-")}`}
+                      className="h-4 w-4"
+                      key={item}
+                    />
                   ))}
                 </div>
                 <div className="lg:col-span-2 col-span-5 flex justify-center items-center px-3 lg:p-0 py-[0.625rem] text-text-sm font-regular text-launchingGray-6 dark:text-fg-white leading-5">

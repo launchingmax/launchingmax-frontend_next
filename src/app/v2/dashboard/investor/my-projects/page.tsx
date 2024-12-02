@@ -15,10 +15,10 @@ export default async function MyProjectsPage() {
     <main className="w-full">
       <DashSection className="" heading="My Project">
         <p className="text-justify md:text-center text-text-md font-regular leading-[1.4rem] tracking-[0.02rem]">
-          In the "My Projects" section, you can view all the projects you've invested in and have a direct connection
-          with them. This section allows you to manage your investments and keep track of the status of your projects.
-          You can also contact project managers from here and stay informed about any changes and updates in your
-          projects.
+          In the &quot;My Projects&quot; section, you can view all the projects you&apos;ve invested in and have a
+          direct connection with them. This section allows you to manage your investments and keep track of the status
+          of your projects. You can also contact project managers from here and stay informed about any changes and
+          updates in your projects.
         </p>
 
         <Separator orientation="horizontal" className="my-8" />

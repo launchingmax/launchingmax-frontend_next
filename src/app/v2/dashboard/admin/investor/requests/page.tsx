@@ -1,8 +1,6 @@
 import { NextFetch } from "@/configs/api/next-fetch";
 import { RequestStatus } from "@/lib/constants/request.enum";
 import ListSearch from "./listSearch";
-import { Suspense } from "react";
-import Loading from "@/components/molecules/LoadingLayout";
 
 const fetchRequestData = async () => {
   try {
@@ -23,7 +21,7 @@ const fetchRequestData = async () => {
 export default async function AdminInvestorsRequestList() {
   const res = await fetchRequestData();
 
-  res.items = res.items.reduce((pre: any, cur: any) => {
+  res.items = res?.items.reduce((pre: any, cur: any) => {
     const investors = cur.investors?.reduce((p: any, c: any) => {
       const d = {
         ...cur,

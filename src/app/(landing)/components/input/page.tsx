@@ -1,3 +1,5 @@
+"use client";
+
 import MySelect from "@/components/molecules/select/MySelect";
 import ThemeToggler from "@/components/molecules/ThemeToggler";
 import { Input } from "@/components/ui/input";
@@ -29,13 +31,7 @@ export default function InputPage() {
     <div className="flex flex-col space-y-5 p-8">
       <div className="flex flex-col w-1/5 space-y-5">
         <ThemeToggler />
-        <Input
-          inputSize={"sm"}
-          type="text"
-          placeholder="sm"
-          Trailing={<CgMoon />}
-          Leading={<CgSun />}
-        />
+        <Input inputSize={"sm"} type="text" placeholder="sm" Trailing={<CgMoon />} Leading={<CgSun />} />
         <Input
           inputSize={"sm"}
           type="text"
@@ -46,14 +42,7 @@ export default function InputPage() {
           useTrailingDivider={false}
           disabled
         />
-        <Input
-          disabled
-          inputSize={"sm"}
-          type="text"
-          placeholder="sm"
-          Trailing={<CgMoon />}
-          Leading={<CgSun />}
-        />
+        <Input disabled inputSize={"sm"} type="text" placeholder="sm" Trailing={<CgMoon />} Leading={<CgSun />} />
         <Input inputSize={"md"} type="text" placeholder="md" />
         <Input inputSize={"md"} type="text" placeholder="disabled" disabled />
         <Input
@@ -78,11 +67,9 @@ export default function InputPage() {
           useLeadingDivider={true}
           Leading={
             <MySelect
-              size="md"
               options={options}
               classes={{
-                trigger:
-                  "border-none outline-none focus:border-none focus:ring-0",
+                trigger: "border-none outline-none focus:border-none focus:ring-0",
               }}
             />
           }

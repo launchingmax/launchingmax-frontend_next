@@ -2,8 +2,6 @@
 
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignUpAPI } from "@/lib/http/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,15 +12,8 @@ import { useTranslation } from "react-i18next";
 import { toast } from "@/hooks/use-toast";
 import { Field } from "@/components/atoms/Field";
 import { useRedirectQuery } from "@/hooks/use-redirect";
-
-export const formSchema = z.object({
-  fullname: z.string(),
-  email: z.string().email("Invalid email address"),
-  username: z
-    .string()
-    .min(3, { message: "Username must be at least 3 characters" }),
-  password: z.string().min(6, "Password must be 6 characters long"),
-});
+import { formSchema } from "./_types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignUpPage() {
   const { setIsLoading } = useGlobal();
@@ -95,10 +86,7 @@ export default function SignUpPage() {
               label={t("auth.password")}
             />
 
-            <Input
-              type="submit"
-              className="w-[50%] mt-6 bg-cyan-00 hover:bg-cyan-700 cursor-pointer"
-            />
+            <Input type="submit" className="w-[50%] mt-6 bg-cyan-00 hover:bg-cyan-700 cursor-pointer" />
           </form>
         </Form>
       </div>

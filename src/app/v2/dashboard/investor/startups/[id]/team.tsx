@@ -7,7 +7,7 @@ const Team = ({ team }: { team: ITeam[] }) => {
     <DashSection heading="Team" className="z-0">
       <div className="flex flex-wrap justify-center gap-x-16 py-4 px-16 ">
         {team.map((item: ITeam) => (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center" key={item._id}>
             <Avatar className="w-[6.25rem] h-[6.25rem] mb-2">
               <AvatarImage
                 src={`${process.env.NEXT_PUBLIC_ALL_API}${item.user.avatar}`}

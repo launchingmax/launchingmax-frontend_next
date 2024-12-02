@@ -23,7 +23,7 @@ const RequestItems: React.FC<IPorps> = ({
     <div className="w-full">
       {data?.map((item: IStartup, index: number) => {
         return (
-          <div className="flex gap-1 xl:gap-2 my-2 w-full">
+          <div className="flex gap-1 xl:gap-2 my-2 w-full" key={item._id}>
             <div className="max-h-full xl:h-12 sm:min-w-12 min-w-10 bg-launchingBlue-05 dark:bg-launchingBlue-7 rounded-md flex justify-center items-center text-text-md font-regular text-launchingGray-5 dark:text-fg-white leading-5">
               {index + 1}
             </div>

@@ -42,7 +42,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
       //investmentFee: initData?.investmentFee ,
       industries: initData?.industries,
       //@ts-ignore
-      //"placement.country": { label: initData?.placement?.country, value: initData?.placement?.country },
+      "placement.country": { label: initData?.placement?.country, value: initData?.placement?.country },
     },
   });
 
@@ -86,7 +86,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             <div className="flex justify-between w-full mt-3">
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">{0}</span>
               <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md translate-x-8">
-                ${formatNumberWithCommas(form.watch("startupValue") ?? startupValue)}
+                ${formatNumberWithCommas(Number(form.watch("startupValue") ?? startupValue))}
               </span>
               <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">
                 ${formatNumberWithCommas(startupValue)}

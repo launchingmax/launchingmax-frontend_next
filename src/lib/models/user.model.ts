@@ -35,7 +35,7 @@ interface IType {
 }
 
 export interface IUser {
-  _id?: string;
+  _id: string;
 
   code?: number;
 

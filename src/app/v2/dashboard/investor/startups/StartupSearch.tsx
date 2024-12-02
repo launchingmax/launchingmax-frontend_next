@@ -158,7 +158,7 @@ const StartupSearch = () => {
         {!isLoading ? (
           <div className="w-full grid grid-cols-2 gap-6">
             {filteredStartup?.items?.map((item: IStartup) => (
-              <div className="w-[100%] ">
+              <div className="w-[100%] " key={item._id}>
                 <Link href={`${"/" + trimStart(`/v2/dashboard/investor/startups/${item._id}/#Overview`, "/")}`}>
                   <StartupCard key={item._id} startup={item} />
                 </Link>

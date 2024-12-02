@@ -34,7 +34,7 @@ export interface BaseIdea {
 }
 
 export interface IStartup extends BaseIdea {
-  _id?: string;
+  _id: string;
 
   idea: IIdea;
 

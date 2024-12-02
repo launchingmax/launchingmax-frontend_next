@@ -17,11 +17,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast as soonerToast } from "sonner";
 import { z } from "zod";
-
-export const formSchema = z.object({
-  username: z.string(),
-  password: z.string(),
-});
+import { formSchema } from "./_types/types";
 
 export default function SignInPage() {
   const { t } = useTranslation("translation");

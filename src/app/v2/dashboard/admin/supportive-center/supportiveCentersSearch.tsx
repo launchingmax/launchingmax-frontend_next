@@ -276,18 +276,17 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         initData={filters}
         Filter={SupportiveCentersFilter}
         menuItems={menuItems}
-        children={
-          <Icon
-            icon="solar:add-circle-bold-duotone"
-            className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
-            onClick={() => {
-              setAddOrEditType("add");
-              setSelectedRowState({});
-              setOpenAddEditDialog(true);
-            }}
-          />
-        }
-      />
+      >
+        <Icon
+          icon="solar:add-circle-bold-duotone"
+          className="text-3xl text-launchingBlue-5 dark:text-launchingBlue-1 cursor-pointer bg-launchingBlue-1 dark:bg-launchingBlue-6 p-1 rounded-md"
+          onClick={() => {
+            setAddOrEditType("add");
+            setSelectedRowState({});
+            setOpenAddEditDialog(true);
+          }}
+        />
+      </Search>
 
       <div className="hidden md:block">
         {!isLoading ? (
@@ -308,6 +307,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         {supportiveCentersData?.items.length > 0 ? (
           supportiveCentersData?.items.map((item: ISupportiveCenter) => (
             <SupportiveCenterCard
+              key={item._id}
               item={item}
               setSelectedRowState={setSelectedRowState}
               setOpenAddEditDialog={setOpenAddEditDialog}
