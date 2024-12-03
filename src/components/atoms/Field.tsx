@@ -10,6 +10,7 @@ type IFieldProps<D extends keyof JSX.IntrinsicElements> = JSX.IntrinsicElements[
   InputProps?: any;
   name: string;
   renderInput?: (field: ControllerRenderProps<FieldValues, string>) => React.ReactNode;
+  aaa?: string;
 };
 export function Field<D extends keyof JSX.IntrinsicElements>(props: IFieldProps<D>) {
   return (
@@ -25,7 +26,7 @@ export function Field<D extends keyof JSX.IntrinsicElements>(props: IFieldProps<
               : props.Input && <props.Input {...field} {...(props.InputProps || {})} />}
           </FormControl>
           <FormDescription />
-          <FormMessage>{props.message}</FormMessage>
+          <FormMessage>{props?.InputProps?.message}</FormMessage>
         </FormItem>
       )}
     />

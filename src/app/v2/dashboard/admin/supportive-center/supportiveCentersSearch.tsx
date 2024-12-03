@@ -23,6 +23,8 @@ import SupportiveCenterCard from "./supportiveCenterCard";
 import ReactPaginate from "react-paginate";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
 import _ from "lodash";
+import { z } from "zod";
+import { formSchema } from "./_types/types";
 
 interface IProps {
   initialData?: any; //IPagination<ISupportiveCenter>;
@@ -32,6 +34,11 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   const [filters, setFilters] = useState<Record<string, unknown>>({});
   const [activeSortItems, setActiveSortItems] = useState({ items: "", createdAt: -1 });
   const [addOrEditType, setAddOrEditType] = useState<"add" | "edit">("add");
+
+  const [selectedRowState, setSelectedRowState] = useState<any>({});
+  const [openAddEditDialog, setOpenAddEditDialog] = useState<boolean>(false);
+  const [openDetailDialog, setOpenDetailDialog] = useState<boolean>(false);
+
   const menuItems = {
     options: {
       items: [
@@ -85,7 +92,7 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
       try {
         const response =
           addOrEditType == "edit"
-            ? await NextFetch(`/v1/supportive-center/${values._id}`, {
+            ? await NextFetch(`/v1/supportive-center/${selectedRowState._id}`, {
                 method: "PUT",
                 body: JSON.stringify(values),
               })
@@ -126,10 +133,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   };
 
   // **************  TABLE  ****************
-
-  const [selectedRowState, setSelectedRowState] = useState<any>({});
-  const [openAddEditDialog, setOpenAddEditDialog] = useState<boolean>(false);
-  const [openDetailDialog, setOpenDetailDialog] = useState<boolean>(false);
 
   const columns: ColumnDef<ISupportiveCenter>[] = [
     {
@@ -243,7 +246,8 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
     },
   ];
 
-  const handleSubmit = async (values: ISupportiveCenter) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(" mm 3030 -- -   ", values);
     mutation.mutate(values);
   };
 
@@ -325,7 +329,14 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
         open={openAddEditDialog}
         setOpen={setOpenAddEditDialog}
         className={{ dialogContent: "" }}
-        body={<AddEditSupportiveCenters editRow={selectedRowState} addEditRender={handleSubmit} type={addOrEditType} />}
+        body={
+          <AddEditSupportiveCenters
+            editRow={selectedRowState}
+            addEditRender={handleSubmit}
+            type={addOrEditType}
+            loading={mutation.status}
+          />
+        }
       />
 
       <MyDialog
