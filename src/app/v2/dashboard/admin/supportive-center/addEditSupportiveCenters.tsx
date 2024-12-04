@@ -178,6 +178,9 @@ const AddEditSupportiveCenters: React.FC<IProps> = ({ editRow, addEditRender, ty
                     type: "text",
                     label: "Phone Number",
                     placeholder: "For example (+1)408 875 3000",
+                    // onChange: (e: InputEvent) => {
+                    //   form.setValue("tel.0", e.target.value);
+                    // },
                   }}
                 />
 

@@ -133,7 +133,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   };
 
   // **************  TABLE  ****************
-
   const columns: ColumnDef<ISupportiveCenter>[] = [
     {
       accessorKey: "name",
@@ -247,7 +246,6 @@ const SupportiveCentersSearch: React.FC<IProps> = ({ initialData }) => {
   ];
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(" mm 3030 -- -   ", values);
     mutation.mutate(values);
   };
 
