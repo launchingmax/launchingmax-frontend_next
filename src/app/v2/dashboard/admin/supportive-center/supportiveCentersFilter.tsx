@@ -81,7 +81,7 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
     <Filter className="w-[24.9rem]">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
-          <div className="flex flex-col mt-2 my-auto">
+          <div className="flex flex-col my-auto">
             <div className="flex flex-row justify-around">
               <FilterTitle title="Type" />
 

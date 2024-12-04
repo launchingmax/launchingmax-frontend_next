@@ -111,10 +111,20 @@ const RequestButton = ({ investors }: { investors: any[] }) => {
       ) : (
         <div className="flex justify-center">
           <Button
-            className="flex py-3 min-w-[16vw] min-h-[6vh] bg-launchingGray-6 text-fg-white !cursor-not-allowed"
+            className={`flex py-3 min-w-[16vw] min-h-[6vh] ${
+              foundItem?.status == RequestStatus.Rejected
+                ? "!bg-salmon-1 dark:!bg-salmon-7 dark:text-launchingGray-2"
+                : foundItem?.status == RequestStatus.Accepted
+                ? "!bg-teal-1 dark:!bg-teal-8 dark:text-launchingGray-2"
+                : "bg-launchingGray-6"
+            }  !cursor-not-allowed`}
             disabled
           >
-            {foundItem?.status == RequestStatus.Rejected ? "Your request has been rejected" : "You have requested"}
+            {foundItem?.status == RequestStatus.Rejected
+              ? "Your request has been rejected"
+              : foundItem?.status == RequestStatus.Accepted
+              ? "Your request has been accepted"
+              : "You have requested"}
           </Button>
         </div>
       )}

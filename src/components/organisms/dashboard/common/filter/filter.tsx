@@ -15,9 +15,7 @@ const Filter: React.FC<IProps> = ({ filterTitle = "Filters", children, className
   return (
     <div className=" w-max h-max max-h-screen overflow-y-auto">
       <SectionTitle title={filterTitle} />
-      <div className={cn("overflow-hidden h-full", className)}>
-        <div className="my-4 space-y-6 overflow-y-auto">{children}</div>
-      </div>
+      <div className={cn("overflow-hidden h-full", className)}>{children}</div>
     </div>
   );
 };

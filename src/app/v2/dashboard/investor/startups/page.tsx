@@ -5,9 +5,9 @@ import Link from "next/link";
 import StartupSearch from "./StartupSearch";
 import MyDialog from "@/components/molecules/MyDialog";
 import { Button } from "@/components/ui/button";
-import MyRequests from "@/components/organisms/investor/MyRequests";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { trimStart } from "lodash-es";
+import MyRequests from "./MyRequests";
 
 async function fetchData() {
   try {

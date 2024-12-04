@@ -66,7 +66,7 @@ const StartupDetail = async ({ params: { id } }: any) => {
 
   return (
     <main className="w-full">
-      <div className="flex flex-col bg-white dark:bg-launchingBlue-8.5">
+      <div className="flex flex-col bg-white dark:bg-launchingBlue-8">
         <ScrollTab tabs={tabs} backUrl="/v2/dashboard/investor/startups" />
         {/* Content of the page with sections */}
         <div className="py-4 b-0 scroll-cubic ">
