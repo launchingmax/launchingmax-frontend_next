@@ -33,164 +33,209 @@ interface IProps {
   initData?: Record<string, unknown>;
 }
 
-const minInvRange = 0;
-const maxInvRange = 1000000;
-
 const InvestorFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }) => {
   const form = useForm();
 
   const dispatch = useAppDispatch();
 
-  const [selectedCountryID, setSelectedCourtyID] = useState<string>("");
-  const [cityItems, setCityItems] = useState([]);
-
+  const {
+    industryItems,
+    loading: industriesLoading,
+    error: industriesErr,
+  } = useAppSelector((state) => state.industries);
   const { countryItems, loading: countriesLoading, error: countriesErr } = useAppSelector((state) => state.countries);
 
   useEffect(() => {
+    industryItems?.length == 0 && dispatch(fetchIndustriesData());
     countryItems?.length == 0 && dispatch(fetchCountriesData());
   }, []);
 
   useEffect(() => {
-    countryItems.find((item) => {
-      if (item.name === initData?.country) setSelectedCourtyID(item._id);
-    });
     if (initData) {
       form.reset(initData);
     }
   }, [initData]);
 
-  const fetchCitiesData = async (countryID: string) => {
-    try {
-      const response = await NextFetch(`/v1/city?page=0&country=${countryID}`, { method: "GET" });
-      if (response.ok) {
-        const res = await response.json();
-        setCityItems(res);
-        return res;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    selectedCountryID.length > 0 && fetchCitiesData(selectedCountryID);
-  }, [selectedCountryID]);
-
   return (
-    <Filter className="w-[24.9rem]">
+    <Filter className="lg:w-[50.875rem] w-max " filterTitle="Investor Filter">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(filterRender as any)}>
-          <div className="flex flex-col">
-            <FilterTitle title="Location" />
-            <HorizontalSeparator />
+          <div className="flex lg:flex-row flex-col gap-6">
+            <div className="flex flex-col  lg:w-1/2">
+              <FilterTitle title="Investment Term" />
 
-            <div className="px-6 my-6">
-              <Controller
-                name="countries"
-                control={form.control}
-                render={({ field }) => (
-                  <CustomReactSelect
-                    {...field}
-                    isLoading={countriesLoading}
-                    isClearable
-                    label="Country"
-                    placeholder="all"
-                    isMulti
-                    options={countryItems}
-                    getOptionLabel={(option: any) => (typeof option === "string" ? option : option.name)}
-                    getOptionValue={(option: any) => (typeof option === "string" ? option : option.name)}
-                    value={field?.value}
-                    onChange={(selectedOption: any) => {
-                      form.setValue(
-                        field.name,
-                        selectedOption?.map((a: any) => (typeof a === "string" ? a : a.name))
+              <HorizontalSeparator />
+              <div className="flex flex-row px-6 my-1 ">
+                <div className="flex my-2 w-1/2 flex-col">
+                  {AppContants.investmentTerm.map((item, index) => (
+                    <FormField
+                      key={`${item.value}-${index}`}
+                      control={form.control}
+                      name="invTerm"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.value}
+                            className="flex flex-row items-center space-y-0 mb-1 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.value)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...(field.value ?? []), item.value])
+                                    : field.onChange(field.value?.filter((value: string) => value !== item.value));
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">{item.label}</FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <FilterTitle title="Investment Experience" />
+              <HorizontalSeparator />
+              <div className="px-6 my-4">
+                <Field
+                  name="aaa"
+                  Input={CustomReactSelect}
+                  InputProps={{
+                    label: "Year",
+                  }}
+                />
+              </div>
+
+              <FilterTitle title="Investment Experience In Foreign Countries" />
+              <HorizontalSeparator />
+              <div className="px-6 my-4 flex flex-row gap-6">
+                {AppContants.yesNoOption.map((item, index) => (
+                  <FormField
+                    key={`${item.value}-${index}`}
+                    control={form.control}
+                    name="bbb"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.value}
+                          className="flex flex-row items-center space-y-0 mb-1 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value === item.value}
+                              onCheckedChange={(checked) => {
+                                field.onChange(checked ? item.value : null); // Set the value or reset to null
+                              }}
+                              // checked={field.value?.includes(item.value)}
+                              // onCheckedChange={(checked) => {
+                              //   return checked
+                              //     ? field.onChange([...(field.value ?? []), item.value])
+                              //     : field.onChange(field.value?.filter((value: string) => value !== item.value));
+                              // }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">{item.label}</FormLabel>
+                        </FormItem>
                       );
                     }}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
                   />
-                )}
-              />
-            </div>
+                ))}
+              </div>
 
-            <FilterTitle title="Investment Range" />
-            <HorizontalSeparator />
-
-            <div className="flex flex-col items-center justify-between px-6 my-6">
-              <DualRangeSlider
-                label={(value) => value}
-                value={[
-                  (form.watch("invRange.$gte") as number) ?? minInvRange,
-                  (form.watch("invRange.$lte") as number) ?? maxInvRange,
-                ]}
-                onValueChange={(e) => {
-                  // @ts-ignore
-                  form.setValue("invRange.$gte", e[0]);
-                  // @ts-ignore
-                  form.setValue("invRange.$lte", e[1]);
-                }}
-                min={minInvRange}
-                max={maxInvRange}
-                step={500}
-              />
-              <div className="flex justify-between w-full mt-3">
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
-                <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
-                  ${formatNumberWithCommas(form.watch("invRange.$gte") ?? minInvRange)} - $
-                  {formatNumberWithCommas(form.watch("invRange.$lte") ?? maxInvRange)}
-                </span>
-                <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
+              <FilterTitle title="Investment Range" />
+              <HorizontalSeparator />
+              <div className="flex flex-col items-center justify-between px-6 my-6">
+                <DualRangeSlider
+                  label={(value) => value}
+                  value={[
+                    (form.watch("invRange.$gte") as number) ?? AppContants.investmentRange.minInvRange,
+                    (form.watch("invRange.$lte") as number) ?? AppContants.investmentRange.maxInvRange,
+                  ]}
+                  onValueChange={(e) => {
+                    // @ts-ignore
+                    form.setValue("invRange.$gte", e[0]);
+                    // @ts-ignore
+                    form.setValue("invRange.$lte", e[1]);
+                  }}
+                  min={AppContants.investmentRange.minInvRange}
+                  max={AppContants.investmentRange.maxInvRange}
+                  step={500}
+                />
+                <div className="flex justify-between w-full mt-3">
+                  <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Min</span>
+                  <span className="text-launchingBlue-6 dark:text-launchingBlue-2 font-bold text-text-md">
+                    ${formatNumberWithCommas(form.watch("invRange.$gte") ?? AppContants.investmentRange.minInvRange)} -
+                    ${formatNumberWithCommas(form.watch("invRange.$lte") ?? AppContants.investmentRange.maxInvRange)}
+                  </span>
+                  <span className="text-launchingBlack dark:text-fg-white text-sm font-regular">Max</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-row">
-              <FilterTitle title="Investment Term" />
-            </div>
-
-            <HorizontalSeparator />
-
-            <div className="flex flex-row px-6 my-4 ">
-              <div className="flex justify-between my-2 flex-col">
-                <FormField
+            <div className="flex flex-col lg:w-1/2">
+              <FilterTitle title="Location" />
+              <HorizontalSeparator />
+              <div className="px-6 my-4">
+                <Field
+                  name="country"
                   control={form.control}
-                  name="invTerm"
-                  render={() => (
-                    <FormItem>
-                      {AppContants.investmentTerm.map((item, index) => (
-                        <FormField
-                          key={`${item.value}-${index}`}
-                          control={form.control}
-                          name="invTerm"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item.value}
-                                className="flex flex-row items-center space-y-0 mb-1 text-text-sm font-regular leading-5 text-launchingGray-6 dark:text-fg-white"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item.value)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...(field.value ?? []), item.value])
-                                        : field.onChange(field.value?.filter((value: string) => value !== item.value));
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="font-normal">{item.label}</FormLabel>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                    </FormItem>
-                  )}
+                  Input={CustomReactSelect}
+                  InputProps={{
+                    label: "Country",
+                    isLoading: countriesLoading,
+                    isClearable: true,
+                    isMulti: true,
+                    placeholder: "Select",
+                    options: countryItems,
+                    getOptionLabel: (option: any) => (typeof option === "string" ? option : option.name),
+                    getOptionValue: (option: any) => (typeof option === "string" ? option : option.name),
+                    onChange: (selectedOption: any) => {
+                      form.setValue(
+                        "country",
+                        selectedOption?.map((a: any) => (typeof a === "string" ? a : a.name))
+                      );
+                    },
+                    closeMenuOnSelect: false,
+                    hideSelectedOptions: false,
+                  }}
+                />
+              </div>
+              <FilterTitle title="Industry" />
+              <HorizontalSeparator />
+              <div className="px-6 my-4">
+                <Field
+                  name="industries"
+                  control={form.control}
+                  Input={CustomReactSelect}
+                  InputProps={{
+                    isLoading: industriesLoading,
+                    isClearable: true,
+                    label: "Industry",
+                    placeholder: "Select",
+                    isMulti: true,
+                    options: industryItems,
+                    getOptionLabel: (option: any) => (typeof option === "string" ? option : option.name),
+                    getOptionValue: (option: any) => (typeof option === "string" ? option : option.name),
+
+                    onChange: (selectedOption: any) => {
+                      console.log("-----", selectedOption);
+                      form.setValue(
+                        "industries",
+                        selectedOption?.map((a: any) => (typeof a === "string" ? a : a.name))
+                      );
+                    },
+                    closeMenuOnSelect: false,
+                    hideSelectedOptions: false,
+                  }}
                 />
               </div>
             </div>
           </div>
 
-          <FilterButtons clearRender={clearFilter} />
+          <FilterButtons leftButtonRender={clearFilter} />
         </form>
       </FormProvider>
     </Filter>

@@ -38,4 +38,14 @@ export class AppContants {
     { label: "Mid-term", value: "Mid-term" },
     { label: "Short-term", value: "Short-term" },
   ];
+
+  public static investmentRange = {
+    minInvRange: 0,
+    maxInvRange: 1000000,
+  };
+
+  public static yesNoOption = [
+    { label: "Yes", value: "yes" },
+    { label: "No", value: "no" },
+  ];
 }

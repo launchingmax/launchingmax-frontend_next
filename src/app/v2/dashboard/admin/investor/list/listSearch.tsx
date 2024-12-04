@@ -47,6 +47,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   const [selectedRow, setSelectedRow] = useState<IUser>();
 
   const filterRender = (val: any) => {
+    console.log("filter val   ", val);
     setFilters((s) => ({ ...s, ...val, page: 1 }));
     setPagination((s) => ({ ...s, pageIndex: 1 }));
   };
@@ -84,6 +85,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
     }
 
     query["types.type"] = UserType.Investor; // Always include this
+    console.log("filter val  ", query);
 
     return query;
   };
@@ -172,7 +174,6 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
   return (
     <div>
       <DashSection heading="Investor List" />
-
       <Search
         searchInputName="inputSearch"
         Filter={InvestorFilter}
@@ -197,13 +198,10 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
         }}
         useRegex={false}
       />
-
       {usersData?.items && (
         <InvestorItems data={usersData.items} setOpenDialog={setOpenInfoDialog} setSelectedRow={setSelectedRow} />
       )}
-
       {usersData && <MyReactPaginate total={usersData?.total} pagination={pagination} setPagination={setPagination} />}
-
       {selectedRow && (
         <MyDialog open={openInfoDialog} setOpen={setOpenInfoDialog} body={<InvestorDetail user={selectedRow} />} />
       )}

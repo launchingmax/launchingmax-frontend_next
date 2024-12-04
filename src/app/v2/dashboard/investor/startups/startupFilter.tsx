@@ -183,7 +183,7 @@ const StartupFilter: React.FC<IProps> = ({ filterRender, clearFilter, initData }
             />
           </div>
 
-          <FilterButtons clearRender={clearFilter} />
+          <FilterButtons leftButtonRender={clearFilter} />
         </form>
       </FormProvider>
     </Filter>

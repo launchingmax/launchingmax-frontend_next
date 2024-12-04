@@ -266,7 +266,7 @@ const SupportiveCentersFilter: React.FC<IProps> = ({ filterRender, clearFilter, 
             />
           </div>
 
-          <FilterButtons clearRender={clearFilter} />
+          <FilterButtons leftButtonRender={clearFilter} />
         </form>
       </FormProvider>
     </Filter>

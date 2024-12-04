@@ -1,18 +1,24 @@
 import { Button } from "@/components/ui/button";
 
 interface IProps {
-  clearRender: () => void;
+  leftButtonRender: () => void;
+  leftButtonTitle?: string;
+  rightButtonTitle?: string;
 }
 
-const FilterButtons: React.FC<IProps> = ({ clearRender }) => {
+const FilterButtons: React.FC<IProps> = ({
+  leftButtonRender,
+  leftButtonTitle = "Clear",
+  rightButtonTitle = "Filter it",
+}) => {
   return (
-    <div className="flex  space-x-2 w-full p-4">
+    <div className="flex space-x-2 w-full p-4 pb-0">
       <div className="w-1/5">
         <Button
           className="w-full p-4 rounded-md bg-launchingBlue-1 dark:bg-launchingBlue-7 dark:text-fg-white hover:bg-launchingBlue-2 dark:hover:bg-launchingBlue-3 shadow-none font-regular text-text-md text-launchingBlue-8 cursor-pointer"
-          onClick={clearRender}
+          onClick={leftButtonRender}
         >
-          Clear
+          {leftButtonTitle}
         </Button>
       </div>
       <div className="w-4/5">
@@ -20,7 +26,7 @@ const FilterButtons: React.FC<IProps> = ({ clearRender }) => {
           className="w-full p-4 rounded-md bg-launchingBlue-4 font-regular text-text-md text-fg-white cursor-pointer text-center"
           type="submit"
         >
-          Filter it
+          {rightButtonTitle}
         </Button>
       </div>
     </div>
