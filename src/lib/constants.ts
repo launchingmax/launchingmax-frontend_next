@@ -44,8 +44,25 @@ export class AppContants {
     maxInvRange: 1000000,
   };
 
+  public static investmentExp = [
+    { label: "aa", value: "aa" },
+    { label: "dd", value: "dd" },
+    { label: "ff", value: "ff" },
+    { label: "gg", value: "gg" },
+  ];
+
   public static yesNoOption = [
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
+  ];
+
+  public static haveOrHaveNotOption = [
+    { label: "I have", value: "i haveee" },
+    { label: "I don't have", value: "i dont haveee" },
+  ];
+
+  public static genderOption = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
   ];
 }

@@ -18,6 +18,7 @@ import { UserType } from "@/lib/constants/user.const";
 import { isObject } from "lodash-es";
 import MyDialog from "@/components/molecules/MyDialog";
 import InvestorDetail from "./investorDetail";
+import InvestorInfo from "@/components/organisms/dashboard/common/investorInfo/investorInfo";
 
 interface IProps {
   initialData: IPagination<IUser>;
@@ -176,7 +177,7 @@ const ListSearch: React.FC<IProps> = ({ initialData }) => {
       <DashSection heading="Investor List" />
       <Search
         searchInputName="inputSearch"
-        Filter={InvestorFilter}
+        Filter={InvestorInfo} //InvestorFilter
         initData={filters}
         filterRender={filterRender}
         sortRender={sortRender}

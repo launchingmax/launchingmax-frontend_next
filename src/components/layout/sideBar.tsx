@@ -18,8 +18,8 @@ const Sidebar = () => {
   ];
 
   const menuItemsAccount = [
-    { title: "Account", link: "#", icon: "solar:user-rounded-bold-duotone" },
-    { title: "Logout", link: "#", icon: "solar:exit-bold-duotone" },
+    { title: "Account", href: "/v2/dashboard/account", icon: "solar:user-rounded-bold-duotone" },
+    { title: "Logout", href: "#", icon: "solar:exit-bold-duotone" },
   ];
 
   return (

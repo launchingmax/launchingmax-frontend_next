@@ -20,7 +20,7 @@ type FileUploadProps = {
     value: any;
     onChange: (value: any) => void;
   };
-  name: string;
+  name?: string;
   logo?: string;
 };
 
