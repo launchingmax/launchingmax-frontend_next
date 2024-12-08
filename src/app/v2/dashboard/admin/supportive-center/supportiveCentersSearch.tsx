@@ -22,7 +22,7 @@ import { isNil, omitBy } from "lodash-es";
 import SupportiveCenterCard from "./supportiveCenterCard";
 import ReactPaginate from "react-paginate";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
-import _ from "lodash";
+import _ from "lodash-es";
 import { z } from "zod";
 import { formSchema } from "./_types/types";
 

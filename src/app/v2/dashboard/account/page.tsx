@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { NextFetch } from "@/configs/api/next-fetch";
 import { Suspense } from "react";
 
-export default function account() {
+export default function Account() {
   const { userDetail } = useGlobal();
 
   const { data, isError } = useQuery({

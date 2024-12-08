@@ -57,8 +57,9 @@ const UserProfileCard: React.FC<IProps> = ({ userData }) => {
         </div>
 
         <p className="mt-2 text-launchingGray-6 dark:text-launchingGray-05 text-text-sm font-regular">
-          Started with front-end development and React, but now I'm a UX enthusiast who is passionate about improving
-          user experience and loves collaborating. I am creative, flexible, and hardworking. Let's work together.
+          {
+            "Started with front-end development and React, but now I'm a UX enthusiast who is passionate about improving user experience and loves collaborating. I am creative, flexible, and hardworking. Let's work together."
+          }
         </p>
 
         <button className="mt-2 flex items-center text-blue-500 text-sm space-x-1">

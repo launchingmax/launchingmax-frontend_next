@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import _ from "lodash";
+import _ from "lodash-es";
 import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 
 const MyRequests = () => {

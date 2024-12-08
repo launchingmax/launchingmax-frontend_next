@@ -15,7 +15,7 @@ import { IStartup } from "@/lib/models/startup.model";
 import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
 import RequestDetail from "./requestDetail";
 import { RequestStatus } from "@/lib/constants/request.enum";
-import _ from "lodash";
+import _ from "lodash-es";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SonnerToasterWrapper, SonnerType } from "@/components/molecules/SonnerToasterWrapper";
 
