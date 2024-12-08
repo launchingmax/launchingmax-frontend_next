@@ -7,7 +7,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from "next/navigation";
-import _ from "lodash";
+import _ from "lodash-es";
 
 const MenuItem = ({
   items,

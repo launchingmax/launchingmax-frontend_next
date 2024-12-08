@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import ArchiveItem from "./archiveItem";
 import MyReactPaginate from "@/components/molecules/MyReactPaginate";
 import ConfirmDialog, { ConfirmDialogType } from "@/components/organisms/dashboard/common/ConfirmDialog";
-import _ from "lodash";
+import _ from "lodash-es";
 import { SonnerToasterWrapper, SonnerType } from "@/components/molecules/SonnerToasterWrapper";
 
 interface IProps {
